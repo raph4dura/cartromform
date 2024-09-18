@@ -148,8 +148,8 @@
     </form>
 
     <script>
-      // Função para formatar a data como 'YYYY-MM-DD'
-      function formatDate(date) {
+        // Função para formatar a data como 'YYYY-MM-DD'
+        function formatDate(date) {
             let year = date.getFullYear();
             let month = String(date.getMonth() + 1).padStart(2, '0');
             let day = String(date.getDate()).padStart(2, '0');
@@ -175,7 +175,7 @@
 
             // Se o usuário não respondeu hoje, prossegue com o envio
             let formData = {};
-            for (let i = 1; i <= 10; i++) {
+            for (let i = 1; i <= 4; i++) {
                 let rating = document.getElementById(`rating${i}`);
                 let comment = document.getElementById(`comment${i}`);
 
@@ -187,19 +187,28 @@
                 }
             }
 
-            // Salva as respostas no LocalStorage
-            let storedResponses = JSON.parse(localStorage.getItem('userResponses')) || [];
-            storedResponses.push(formData);
-            localStorage.setItem('userResponses', JSON.stringify(storedResponses));
-
-            // Armazena a data de hoje como a última resposta
-            const today = formatDate(new Date());
-            localStorage.setItem('lastResponseDate', today);
-
-            console.log(formData); // Verifique as respostas no console
-            alert('Respostas enviadas e armazenadas! Caso queira mudar alguma resposta, chamar o supervisor.');
+            // Envia as respostas para o endpoint
+            fetch('https://cartromform.vercel.app/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Sucesso:', data);
+                alert('Respostas enviadas com sucesso!');
+                
+                // Armazena a data de hoje como a última resposta
+                const today = formatDate(new Date());
+                localStorage.setItem('lastResponseDate', today);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao enviar as respostas.');
+            });
         });
     </script>
-
 </body>
 </html>
