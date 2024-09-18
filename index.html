@@ -148,7 +148,6 @@
         function hasAnsweredToday() {
             const lastResponseDate = localStorage.getItem('lastResponseDate');
             const today = formatDate(new Date());
-
             return lastResponseDate === today; // Retorna true se as datas coincidirem
         }
 
@@ -174,6 +173,9 @@
                     };
                 }
             }
+
+            // Adiciona logs detalhados para depuração
+            console.log('Enviando dados:', formData);
 
             // Envia as respostas para o endpoint
             fetch('https://cartromresp.vercel.app/', {
