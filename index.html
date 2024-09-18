@@ -197,7 +197,11 @@
 })
 .then(response => {
     console.log('Status da resposta:', response.status);
-    return response.json();
+    return response.text(); // Use text() para ver o corpo da resposta
+})
+.then(text => {
+    console.log('Texto da resposta:', text);
+    return JSON.parse(text); // Tente converter o texto para JSON se necessário
 })
 .then(data => {
     console.log('Dados da resposta:', data);
