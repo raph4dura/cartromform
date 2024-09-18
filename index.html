@@ -10,35 +10,26 @@
             color: white;
             padding: 20px;
         }
-
         h1 {
             text-align: center;
             color: white;
         }
-
-        .question-container {
-            margin-bottom: 20px;
-        }
-
         table {
             width: 100%;
             background-color: #333;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-
         td {
             padding: 10px;
             border: 1px solid #555;
         }
-
         label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
             color: white;
         }
-
         select, textarea {
             width: 100%;
             padding: 8px;
@@ -47,12 +38,10 @@
             color: white;
             border: 1px solid #777;
         }
-
         textarea {
             resize: vertical;
             min-height: 80px;
         }
-
         button {
             display: block;
             width: 100%;
@@ -63,7 +52,6 @@
             cursor: pointer;
             font-size: 16px;
         }
-
         button:hover {
             background-color: #0056b3;
         }
@@ -179,41 +167,39 @@
                 let rating = document.getElementById(`rating${i}`);
                 let comment = document.getElementById(`comment${i}`);
 
-                if (rating) {
+                if (rating && rating.value) {
                     formData[`Pergunta ${i}`] = {
-                        nota: rating.value,
-                        comentario: comment.value || 'Nenhum comentário'
+                        rating: rating.value,
+                        comment: comment.value || 'Nenhum comentário'
                     };
                 }
             }
 
             // Envia as respostas para o endpoint
             fetch('https://cartromresp.vercel.app/', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(formData)
-})
-.then(response => {
-    console.log('Status da resposta:', response.status);
-    return response.text(); // Use text() para ver o corpo da resposta
-})
-.then(text => {
-    console.log('Texto da resposta:', text);
-    return JSON.parse(text); // Tente converter o texto para JSON se necessário
-})
-.then(data => {
-    console.log('Dados da resposta:', data);
-    alert('Respostas enviadas com sucesso!');
-
-    // Armazena a data de hoje como a última resposta
-    const today = formatDate(new Date());
-    localStorage.setItem('lastResponseDate', today);
-})
-.catch(error => {
-    console.error('Erro:', error);
-    alert('Ocorreu um erro ao enviar as respostas.');
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(`Erro ${response.status}: ${text}`); });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Sucesso:', data);
+                alert('Respostas enviadas com sucesso!');
+                
+                // Armazena a data de hoje como a última resposta
+                const today = formatDate(new Date());
+                localStorage.setItem('lastResponseDate', today);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao enviar as respostas.');
             });
         });
     </script>
