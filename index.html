@@ -178,22 +178,20 @@
             console.log('Enviando dados:', formData);
 
             // Envia as respostas para o endpoint
-            fetch('https://cartromresp.vercel.app/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => { throw new Error(`Erro ${response.status}: ${text}`); });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Sucesso:', data);
-                alert('Respostas enviadas com sucesso!');
+           
+
+fetch('https://cartromresp.vercel.app/')
+.then(response => response.json())
+.then(data => {
+    // Exibir as respostas recebidas no corpo da tabela
+})
+.catch(error => console.error('Erro ao carregar respostas:', error));
+
+
+
+
+
+ 
                 
                 // Armazena a data de hoje como a última resposta
                 const today = formatDate(new Date());
