@@ -13,14 +13,17 @@ document.getElementById('questionForm').addEventListener('submit', function(e) {
         body: JSON.stringify({ question, rating, comment })
     })
     .then(response => {
-        if (response.ok) {
-            alert('Formulário enviado com sucesso!');
-            document.getElementById('questionForm').reset();
-        } else {
-            alert('Erro ao enviar o formulário.');
+        if (!response.ok) {
+            throw new Error('Erro na requisição');
         }
+        return response.json();
+    })
+    .then(data => {
+        alert('Formulário enviado com sucesso!');
+        document.getElementById('questionForm').reset();
     })
     .catch(error => {
         console.error('Erro:', error);
+        alert('Erro ao enviar o formulário. Verifique o console para mais detalhes.');
     });
 });
