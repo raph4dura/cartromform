@@ -2,81 +2,26 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Questionário</title>
-    <style>
-        /* Estilos permanecem os mesmos */
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Responda às perguntas abaixo</h1>
-    <form id="questionnaire-form">
-        <!-- Perguntas -->
-        <table>
-            <!-- Estrutura de perguntas -->
-        </table>
-        <button type="submit">Enviar Respostas</button>
-    </form>
+    <div class="container">
+        <h1>Formulário de Perguntas</h1>
+        <form id="questionForm">
+            <label for="question">Pergunta:</label>
+            <input type="text" id="question" required>
 
-    <script>
-        // Funções para formato de data e armazenamento local
-        function formatDate(date) {
-            let year = date.getFullYear();
-            let month = String(date.getMonth() + 1).padStart(2, '0');
-            let day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
+            <label for="rating">Avaliação (1-5):</label>
+            <input type="number" id="rating" min="1" max="5" required>
 
-        function hasAnsweredToday() {
-            const lastResponseDate = localStorage.getItem('lastResponseDate');
-            const today = formatDate(new Date());
-            return lastResponseDate === today;
-        }
+            <label for="comment">Comentário:</label>
+            <textarea id="comment"></textarea>
 
-        document.getElementById('questionnaire-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            if (hasAnsweredToday()) {
-                alert("Você já respondeu o questionário hoje.");
-                return;
-            }
-
-            let formData = {};
-            for (let i = 1; i <= 4; i++) {
-                let rating = document.getElementById(`rating${i}`);
-                let comment = document.getElementById(`comment${i}`);
-
-                if (rating && rating.value) {
-                    formData[`Pergunta ${i}`] = {
-                        rating: rating.value,
-                        comment: comment.value || 'Nenhum comentário'
-                    };
-                }
-            }
-
-            console.log('Enviando dados:', formData);
-
-            fetch('https://cartromresp.vercel.app', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Erro ${response.status}: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Respostas enviadas com sucesso:', data);
-                alert('Respostas enviadas com sucesso!');
-                const today = formatDate(new Date());
-                localStorage.setItem('lastResponseDate', today);
-            })
-            .catch(error => {
-                console.error('Erro ao enviar as respostas:', error);
-                alert('Ocorreu um erro ao enviar as respostas: ' + error.message);
-            });
-        });
-    </script>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
