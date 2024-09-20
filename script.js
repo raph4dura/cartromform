@@ -5,7 +5,7 @@ document.getElementById('questionForm').addEventListener('submit', function(e) {
     const rating = document.getElementById('rating').value;
     const comment = document.getElementById('comment').value;
 
-    fetch('https://cartromresp.vercel.app/api/responses', {
+    fetch('https://cartromresp.vercel.app', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
