@@ -180,12 +180,12 @@
             // Envia as respostas para o endpoint
            
 
-fetch('https://cartromresp.vercel.app/')
-.then(response => response.json())
-.then(data => {
-    // Exibir as respostas recebidas no corpo da tabela
+fetch('https://cartromresp.vercel.app/', {
+    method: 'POST', // Método de envio correto
+    headers: { 'Content-Type': 'application/json' }, // Tipo de conteúdo
+    body: JSON.stringify(formData) // Corpo com os dados
 })
-.catch(error => console.error('Erro ao carregar respostas:', error));
+
 
 
 
