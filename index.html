@@ -12,7 +12,6 @@
         }
         h1 {
             text-align: center;
-            color: white;
         }
         table {
             width: 100%;
@@ -28,7 +27,6 @@
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
-            color: white;
         }
         select, textarea {
             width: 100%;
@@ -60,7 +58,7 @@
 <body>
     <h1>Responda às perguntas abaixo</h1>
     <form id="questionnaire-form">
-        <!-- Pergunta 1 -->
+        <!-- Perguntas -->
         <table>
             <tr>
                 <td>
@@ -76,10 +74,7 @@
                     <textarea id="comment1" name="comment1" placeholder="Escreva um comentário (opcional)"></textarea>
                 </td>
             </tr>
-        </table>
-
-        <!-- Pergunta 2 -->
-        <table>
+            <!-- Repita para as demais perguntas -->
             <tr>
                 <td>
                     <label for="rating2">2. Qual é a sua opinião sobre nossos produtos?</label>
@@ -94,10 +89,6 @@
                     <textarea id="comment2" name="comment2" placeholder="Escreva um comentário (opcional)"></textarea>
                 </td>
             </tr>
-        </table>
-
-        <!-- Pergunta 3 -->
-        <table>
             <tr>
                 <td>
                     <label for="rating3">3. Você recomendaria nosso serviço para amigos?</label>
@@ -112,10 +103,6 @@
                     <textarea id="comment3" name="comment3" placeholder="Escreva um comentário (opcional)"></textarea>
                 </td>
             </tr>
-        </table>
-
-        <!-- Pergunta 4 -->
-        <table>
             <tr>
                 <td>
                     <label for="rating4">4. Qual foi a sua experiência com o suporte ao cliente?</label>
@@ -136,7 +123,6 @@
     </form>
 
     <script>
-        // Função para formatar a data como 'YYYY-MM-DD'
         function formatDate(date) {
             let year = date.getFullYear();
             let month = String(date.getMonth() + 1).padStart(2, '0');
@@ -144,23 +130,20 @@
             return `${year}-${month}-${day}`;
         }
 
-        // Função para verificar se o usuário já respondeu hoje
         function hasAnsweredToday() {
             const lastResponseDate = localStorage.getItem('lastResponseDate');
             const today = formatDate(new Date());
-            return lastResponseDate === today; // Retorna true se as datas coincidirem
+            return lastResponseDate === today;
         }
 
         document.getElementById('questionnaire-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Evita o envio padrão do formulário
+            event.preventDefault();
 
-            // Verifica se o usuário já respondeu hoje
             if (hasAnsweredToday()) {
                 alert("Você já respondeu o questionário hoje.");
-                return; // Impede o envio
+                return;
             }
 
-            // Se o usuário não respondeu hoje, prossegue com o envio
             let formData = {};
             for (let i = 1; i <= 4; i++) {
                 let rating = document.getElementById(`rating${i}`);
@@ -174,11 +157,9 @@
                 }
             }
 
-            // Adiciona logs detalhados para depuração
             console.log('Enviando dados:', formData);
 
-            // Envia as respostas para o site cartromresp.vercel.app
-            fetch('https://cartromresp.vercel.app/', {
+            fetch('https://cartromresp.vercel.app/api/endpoint', { // Atualize para o endpoint correto
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
@@ -192,7 +173,6 @@
             .then(data => {
                 console.log('Respostas enviadas com sucesso:', data);
                 alert('Respostas enviadas com sucesso!');
-                // Armazena a data de hoje como a última resposta
                 const today = formatDate(new Date());
                 localStorage.setItem('lastResponseDate', today);
             })
@@ -204,4 +184,5 @@
     </script>
 </body>
 </html>
+
 
