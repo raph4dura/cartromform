@@ -11,7 +11,7 @@ document.getElementById('questionForm').addEventListener('submit', function(e) {
     body: JSON.stringify(data),
     headers: {
         'Content-Type': 'application/json'
-    }
+    
 });
 
         body: JSON.stringify({ question, rating, comment })
