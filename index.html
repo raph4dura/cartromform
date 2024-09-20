@@ -1,27 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de Perguntas</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Formulário de Perguntas</h1>
-        <form id="questionForm">
-            <label for="question">Pergunta:</label>
-            <input type="text" id="question" required>
+  <h1>Responda às Perguntas</h1>
+  <form id="formQuestions">
+    <label for="question1">Qual é a sua cor favorita?</label>
+    <input type="text" id="question1" name="question1" required><br><br>
 
-            <label for="rating">Avaliação (1-5):</label>
-            <input type="number" id="rating" min="1" max="5" required>
+    <label for="question2">Qual é o seu animal favorito?</label>
+    <input type="text" id="question2" name="question2" required><br><br>
 
-            <label for="comment">Comentário:</label>
-            <textarea id="comment"></textarea>
+    <button type="submit">Enviar Respostas</button>
+  </form>
 
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
-    <script src="script.js"></script>
+  <script>
+    document.getElementById('formQuestions').addEventListener('submit', function (event) {
+      event.preventDefault();
+      
+      const data = {
+        question1: document.getElementById('question1').value,
+        question2: document.getElementById('question2').value
+      };
+
+      fetch('https://seusite-de-resposta.vercel.app/respostas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Respostas enviadas com sucesso!');
+      })
+      .catch(error => {
+        console.error('Erro ao enviar as respostas:', error);
+      });
+    });
+  </script>
 </body>
 </html>
