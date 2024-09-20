@@ -177,22 +177,21 @@
             // Adiciona logs detalhados para depuração
             console.log('Enviando dados:', formData);
 
-            // Envia as respostas para o endpoint
-           
-
-fetch('https://cartromresp.vercel.app/', {
-    method: 'POST', // Método de envio correto
-    headers: { 'Content-Type': 'application/json' }, // Tipo de conteúdo
-    body: JSON.stringify(formData) // Corpo com os dados
-})
-
-
-
-
-
-
- 
-                
+            // Envia as respostas para o site cartromresp.vercel.app
+            fetch('https://cartromresp.vercel.app/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar as respostas');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Respostas enviadas com sucesso:', data);
+                alert('Respostas enviadas com sucesso!');
                 // Armazena a data de hoje como a última resposta
                 const today = formatDate(new Date());
                 localStorage.setItem('lastResponseDate', today);
@@ -205,3 +204,4 @@ fetch('https://cartromresp.vercel.app/', {
     </script>
 </body>
 </html>
+
