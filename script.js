@@ -5,11 +5,15 @@ document.getElementById('questionForm').addEventListener('submit', function(e) {
     const rating = document.getElementById('rating').value;
     const comment = document.getElementById('comment').value;
 
-    fetch('https://cartromresp.vercel.app', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+ fetch('https://cartromresp.vercel.app/', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
+
         body: JSON.stringify({ question, rating, comment })
     })
     .then(response => {
