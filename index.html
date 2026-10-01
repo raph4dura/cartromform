@@ -913,6 +913,7 @@ addBtn.disabled = false;
    REGISTRAR SAÍDA
    ===================================================== */
 
+```javascript
 async function registrarSaida(id){
 
 const rolo =
@@ -920,39 +921,38 @@ rolos.find(
 r => String(r.id) === String(id)
 );
 
-
 if(!rolo)
 return;
-
 
 const confirmar =
 confirm(
 `Registrar saída do rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`
 );
 
-
 if(!confirmar)
 return;
-
 
 if(salvando)
 return;
 
-
 salvando = true;
-
 
 try{
 
 setStatus(
-"🔄 Registrando saída..."
+"🔄 Registrando saída no Supabase..."
 );
-
 
 const saidaEm =
 new Date().toISOString();
 
 
+/*
+Atualiza diretamente o registro
+no banco de dados.
+*/
+
+const resultado =
 await supabaseRequest(
 `${tabelaUrl()}?id=eq.${encodeURIComponent(id)}`,
 {
@@ -960,15 +960,13 @@ await supabaseRequest(
 method:"PATCH",
 
 headers:{
-"Prefer":
-"return=representation"
+"Prefer":"return=representation"
 },
 
 body:
 JSON.stringify({
 
-saida_em:
-saidaEm
+saida_em: saidaEm
 
 })
 
@@ -977,42 +975,34 @@ saidaEm
 
 
 /*
-Atualiza a lista local.
+Confirma se o Supabase realmente
+alterou o registro.
 */
 
-rolos =
-rolos.map(
-r => {
-
 if(
-String(r.id) ===
-String(id)
+!Array.isArray(resultado) ||
+resultado.length === 0
 ){
 
-return {
-
-...r,
-
-saida_em:
-saidaEm
-
-};
-
-}
-
-return r;
-
-}
+throw new Error(
+"O Supabase não encontrou o rolo para atualizar."
 );
+
+}
+
+
+/*
+Agora buscamos novamente todos
+os registros diretamente do banco.
+*/
+
+await carregarRolos();
 
 
 setStatus(
 "✅ Saída registrada com sucesso.",
 "ok"
 );
-
-
-render();
 
 
 }catch(error){
@@ -1037,7 +1027,7 @@ salvando = false;
 }
 
 }
-
+```
 
 /* =====================================================
    FORMATAÇÃO
