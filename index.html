@@ -413,12 +413,28 @@ const resumoTipos =
   document.getElementById("resumoTipos");
 
 
-function salvar(){
+async function carregarRolos(){
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(rolos)
-  );
+  const { data, error } = await supabase
+    .from("rolos")
+    .select("*")
+    .order("metragem", { ascending: true });
+
+
+  if(error){
+
+    console.error(error);
+
+    alert("Erro ao carregar os rolos.");
+
+    return;
+
+  }
+
+
+  rolos = data;
+
+  render();
 
 }
 
