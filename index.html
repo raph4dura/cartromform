@@ -1,37 +1,42 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Estoque de Rolos</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:#f4f6f8;
-  color:#1f2937
+  color:#1f2937;
 }
 
 .container{
   max-width:900px;
   margin:auto;
-  padding:20px
+  padding:20px;
 }
 
 h1{
-  margin:0 0 6px
+  margin:0 0 6px;
 }
 
 h2{
-  margin-top:0
+  margin-top:0;
 }
 
 .subtitle{
   margin:0 0 20px;
-  color:#6b7280
+  color:#6b7280;
 }
 
 .card{
@@ -39,20 +44,20 @@ h2{
   border-radius:14px;
   padding:18px;
   margin-bottom:16px;
-  box-shadow:0 3px 12px #0001
+  box-shadow:0 3px 12px #0001;
 }
 
 .form{
   display:grid;
   grid-template-columns:1fr 1fr auto;
-  gap:10px
+  gap:10px;
 }
 
 label{
   font-size:13px;
   font-weight:bold;
   display:block;
-  margin-bottom:6px
+  margin-bottom:6px;
 }
 
 input,
@@ -62,7 +67,7 @@ button{
   padding:12px;
   border:1px solid #d1d5db;
   border-radius:9px;
-  font-size:16px
+  font-size:16px;
 }
 
 button{
@@ -70,54 +75,54 @@ button{
   background:#2563eb;
   color:#fff;
   font-weight:bold;
-  cursor:pointer
+  cursor:pointer;
 }
 
 button:disabled{
   opacity:.6;
-  cursor:wait
+  cursor:wait;
 }
 
 .stats{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
-  margin-bottom:16px
+  margin-bottom:16px;
 }
 
 .stat{
   background:#eef2ff;
   border-radius:12px;
-  padding:16px
+  padding:16px;
 }
 
 .stat strong{
   display:block;
   font-size:28px;
-  margin-top:4px
+  margin-top:4px;
 }
 
 .filters{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px
+  gap:10px;
 }
 
 .tabs{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
-  margin-bottom:16px
+  margin-bottom:16px;
 }
 
 .tab{
   background:#e5e7eb;
-  color:#374151
+  color:#374151;
 }
 
 .tab.active{
   background:#2563eb;
-  color:#fff
+  color:#fff;
 }
 
 .roll{
@@ -126,18 +131,18 @@ button:disabled{
   justify-content:space-between;
   gap:12px;
   padding:14px 0;
-  border-bottom:1px solid #e5e7eb
+  border-bottom:1px solid #e5e7eb;
 }
 
 .roll:last-child{
-  border-bottom:0
+  border-bottom:0;
 }
 
 .roll-info{
   display:flex;
   align-items:center;
   gap:12px;
-  min-width:0
+  min-width:0;
 }
 
 .dot{
@@ -145,83 +150,83 @@ button:disabled{
   height:18px;
   border-radius:50%;
   border:1px solid #aaa;
-  flex:none
+  flex:none;
 }
 
 .name{
-  font-weight:bold
+  font-weight:bold;
 }
 
 .meters{
   font-size:20px;
   font-weight:bold;
-  white-space:nowrap
+  white-space:nowrap;
 }
 
 .delete{
   width:auto;
   padding:9px 12px;
   background:#dc2626;
-  font-size:14px
+  font-size:14px;
 }
 
 .empty{
   text-align:center;
   color:#6b7280;
-  padding:25px
+  padding:25px;
 }
 
 .count{
   color:#6b7280;
   font-size:14px;
-  margin-top:8px
+  margin-top:8px;
 }
 
 .date{
   color:#6b7280;
   font-size:13px;
-  margin-top:4px
+  margin-top:4px;
 }
 
 .saida-date{
   color:#dc2626;
   font-size:13px;
-  margin-top:4px
+  margin-top:4px;
 }
 
 .resumo-tabela{
   width:100%;
   border-collapse:collapse;
-  margin-top:12px
+  margin-top:12px;
 }
 
 .resumo-tabela th,
 .resumo-tabela td{
   padding:12px 8px;
   text-align:left;
-  border-bottom:1px solid #e5e7eb
+  border-bottom:1px solid #e5e7eb;
 }
 
 .resumo-tabela th{
   font-size:14px;
-  color:#6b7280
+  color:#6b7280;
 }
 
 .tipo-resumo{
   display:flex;
   align-items:center;
   gap:8px;
-  font-weight:bold
+  font-weight:bold;
 }
 
 .tipo-resumo .dot{
   width:14px;
-  height:14px
+  height:14px;
 }
 
 .total-tipo{
   font-weight:bold;
-  white-space:nowrap
+  white-space:nowrap;
 }
 
 .status{
@@ -230,58 +235,61 @@ button:disabled{
   padding:10px;
   border-radius:8px;
   background:#f3f4f6;
-  color:#4b5563
+  color:#4b5563;
 }
 
 .status.ok{
   background:#ecfdf5;
-  color:#047857
+  color:#047857;
 }
 
 .status.erro{
   background:#fef2f2;
-  color:#b91c1c
+  color:#b91c1c;
 }
 
 .small{
   font-size:12px;
   color:#6b7280;
   margin-top:8px;
-  line-height:1.4
+  line-height:1.4;
 }
 
 @media(max-width:650px){
 
   .form,
   .filters{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 
   .roll{
     align-items:flex-start;
-    flex-direction:column
+    flex-direction:column;
   }
 
   .roll-action{
-    width:100%
+    width:100%;
   }
 
   .roll-action button{
-    width:100%
+    width:100%;
   }
 
   .resumo-tabela th,
   .resumo-tabela td{
     padding:10px 5px;
-    font-size:14px
+    font-size:14px;
   }
+
 }
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
 
 <!-- CABEÇALHO -->
 
@@ -294,6 +302,7 @@ Controle suas metragens, cores, entradas e saídas.
 </p>
 
 <div class="form">
+
 
 <div>
 
@@ -315,6 +324,7 @@ Tipo / Cor
 
 </div>
 
+
 <div>
 
 <label for="metragem">
@@ -331,6 +341,7 @@ placeholder="Ex.: 530"
 
 </div>
 
+
 <div style="align-self:end">
 
 <button id="add">
@@ -338,6 +349,7 @@ placeholder="Ex.: 530"
 </button>
 
 </div>
+
 
 </div>
 
@@ -347,6 +359,7 @@ placeholder="Ex.: 530"
 <!-- ESTATÍSTICAS -->
 
 <div class="stats">
+
 
 <div class="stat">
 
@@ -358,6 +371,7 @@ placeholder="Ex.: 530"
 
 </div>
 
+
 <div class="stat">
 
 📏 Metros no estoque
@@ -367,6 +381,7 @@ placeholder="Ex.: 530"
 </strong>
 
 </div>
+
 
 </div>
 
@@ -381,6 +396,7 @@ class="tab active"
 >
 📥 Entrada
 </button>
+
 
 <button
 id="btnSaida"
@@ -400,7 +416,9 @@ class="tab"
 🔎 Buscar
 </h2>
 
+
 <div class="filters">
+
 
 <input
 id="buscaMetragem"
@@ -409,6 +427,7 @@ min="0"
 step="0.01"
 placeholder="Buscar por metragem..."
 >
+
 
 <select id="filtroTipo">
 
@@ -426,6 +445,7 @@ Todas as cores
 
 </select>
 
+
 </div>
 
 </div>
@@ -439,12 +459,15 @@ Todas as cores
 📥 Rolos no estoque
 </h2>
 
+
 <div id="lista"></div>
+
 
 <div
 class="count"
 id="count">
 </div>
+
 
 </div>
 
@@ -456,6 +479,7 @@ id="count">
 <h2>
 📊 Resumo por tipo
 </h2>
+
 
 <table class="resumo-tabela">
 
@@ -479,8 +503,9 @@ Metragem total
 
 </thead>
 
-<tbody id="resumoTipos">
-</tbody>
+
+<tbody id="resumoTipos"></tbody>
+
 
 </table>
 
@@ -495,15 +520,18 @@ Metragem total
 ☁️ Estoque compartilhado
 </h2>
 
+
 <button id="recarregar">
 🔄 Recarregar do Supabase
 </button>
+
 
 <div
 id="status"
 class="status">
 Conectando ao estoque...
 </div>
+
 
 <div class="small">
 
@@ -512,7 +540,9 @@ Os dados são salvos no banco de dados
 
 </div>
 
+
 </div>
+
 
 </div>
 
@@ -612,12 +642,18 @@ document.getElementById("status");
 const addBtn =
 document.getElementById("add");
 
+const btnEntrada =
+document.getElementById("btnEntrada");
+
+const btnSaida =
+document.getElementById("btnSaida");
+
 
 /* =====================================================
    STATUS
    ===================================================== */
 
-function setStatus(texto, classe=""){
+function setStatus(texto, classe = ""){
 
 statusEl.textContent = texto;
 
@@ -628,7 +664,7 @@ statusEl.className =
 
 
 /* =====================================================
-   CABEÇALHOS SUPABASE
+   CABEÇALHOS DO SUPABASE
    ===================================================== */
 
 function supabaseHeaders(){
@@ -653,18 +689,19 @@ SUPABASE_KEY,
 
 
 /* =====================================================
-   REQUISIÇÃO SUPABASE
+   REQUISIÇÃO AO SUPABASE
    ===================================================== */
 
 async function supabaseRequest(
 url,
-options={}
+options = {}
 ){
 
 const response =
 await fetch(
 url,
 {
+
 ...options,
 
 headers:{
@@ -678,21 +715,29 @@ headers:{
 
 let data = null;
 
+
 try{
 
 data =
 await response.json();
 
-}catch(e){}
+}
+catch(error){
+
+data = null;
+
+}
 
 
 if(!response.ok){
 
 throw new Error(
+
 data?.message ||
 data?.error_description ||
 data?.hint ||
 `Erro HTTP ${response.status}`
+
 );
 
 }
@@ -709,7 +754,11 @@ return data;
 
 function tabelaUrl(){
 
-return `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`;
+return (
+
+`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`
+
+);
 
 }
 
@@ -729,10 +778,13 @@ setStatus(
 
 const dados =
 await supabaseRequest(
+
 `${tabelaUrl()}?select=*`,
+
 {
 method:"GET"
 }
+
 );
 
 
@@ -743,22 +795,30 @@ Array.isArray(dados)
 
 
 setStatus(
+
 `✅ Estoque atualizado. ${rolos.length} registro(s) carregado(s).`,
+
 "ok"
+
 );
 
 
 render();
 
 
-}catch(error){
+}
+catch(error){
 
 console.error(error);
 
+
 setStatus(
+
 "❌ Erro ao carregar: " +
 error.message,
+
 "erro"
+
 );
 
 }
@@ -779,8 +839,10 @@ metragem.value
 
 
 if(
+
 !Number.isFinite(valor) ||
 valor <= 0
+
 ){
 
 alert(
@@ -811,7 +873,7 @@ setStatus(
 
 
 /*
-O banco gera o ID automaticamente.
+O ID será criado pelo banco.
 */
 
 const novo = {
@@ -833,7 +895,9 @@ null
 
 const dados =
 await supabaseRequest(
+
 tabelaUrl(),
+
 {
 
 method:"POST",
@@ -847,12 +911,15 @@ body:
 JSON.stringify(novo)
 
 }
+
 );
 
 
 if(
+
 Array.isArray(dados) &&
-dados.length
+dados.length > 0
+
 ){
 
 rolos.unshift(
@@ -860,7 +927,6 @@ dados[0]
 );
 
 }
-
 else{
 
 await carregarRolos();
@@ -868,8 +934,7 @@ await carregarRolos();
 }
 
 
-metragem.value =
-"";
+metragem.value = "";
 
 metragem.focus();
 
@@ -883,22 +948,31 @@ setStatus(
 render();
 
 
-}catch(error){
+}
+catch(error){
 
 console.error(error);
 
+
 setStatus(
+
 "❌ Erro ao adicionar: " +
 error.message,
+
 "erro"
+
 );
+
 
 alert(
+
 "Não foi possível adicionar o rolo.\n\n" +
 error.message
+
 );
 
-}finally{
+}
+finally{
 
 salvando = false;
 
@@ -917,24 +991,36 @@ async function registrarSaida(id){
 
 const rolo =
 rolos.find(
-r => String(r.id) === String(id)
+
+r =>
+String(r.id) ===
+String(id)
+
 );
+
 
 if(!rolo)
 return;
 
+
 const confirmar =
 confirm(
+
 `Registrar saída do rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`
+
 );
+
 
 if(!confirmar)
 return;
 
+
 if(salvando)
 return;
 
+
 salvando = true;
+
 
 try{
 
@@ -942,60 +1028,82 @@ setStatus(
 "🔄 Registrando saída no Supabase..."
 );
 
+
 const saidaEm =
 new Date().toISOString();
 
 
 /*
-Atualiza diretamente o registro
-no banco de dados.
+Atualiza o registro no banco.
 */
 
 const resultado =
 await supabaseRequest(
+
 `${tabelaUrl()}?id=eq.${encodeURIComponent(id)}`,
+
 {
 
 method:"PATCH",
 
 headers:{
-"Prefer":"return=representation"
+
+"Prefer":
+"return=representation"
+
 },
 
 body:
 JSON.stringify({
 
-saida_em: saidaEm
+saida_em:
+saidaEm
 
 })
 
 }
+
 );
 
 
 /*
-Confirma se o Supabase realmente
-alterou o registro.
+Confirma que o banco encontrou
+e atualizou o registro.
 */
 
 if(
+
 !Array.isArray(resultado) ||
 resultado.length === 0
+
 ){
 
 throw new Error(
-"O Supabase não encontrou o rolo para atualizar."
+
+"O Supabase não encontrou esse rolo para atualizar."
+
 );
 
 }
 
 
 /*
-Agora buscamos novamente todos
-os registros diretamente do banco.
+Depois da alteração, buscamos novamente
+os dados diretamente do Supabase.
+
+Isso garante que o estado local
+seja exatamente igual ao banco.
 */
 
 await carregarRolos();
+
+
+/*
+Volta automaticamente para a aba
+de entrada para mostrar o estoque atual.
+*/
+
+mostrarEntrada();
 
 
 setStatus(
@@ -1004,49 +1112,67 @@ setStatus(
 );
 
 
-}catch(error){
+}
+catch(error){
 
 console.error(error);
 
+
 setStatus(
+
 "❌ Erro ao registrar saída: " +
 error.message,
+
 "erro"
+
 );
+
 
 alert(
+
 "Não foi possível registrar a saída.\n\n" +
 error.message
+
 );
 
-}finally{
+}
+finally{
 
 salvando = false;
 
 }
 
 }
-```
+
 
 /* =====================================================
-   FORMATAÇÃO
+   FORMATAÇÃO DE NÚMEROS
    ===================================================== */
 
 function formatarNumero(numero){
 
-return Number.isInteger(Number(numero))
+return Number.isInteger(
+Number(numero)
+)
 
 ? String(numero)
 
 : Number(numero).toLocaleString(
+
 "pt-BR",
+
 {
 maximumFractionDigits:2
 }
+
 );
 
 }
 
+
+/* =====================================================
+   FORMATAÇÃO DE DATA
+   ===================================================== */
 
 function formatarData(data){
 
@@ -1058,19 +1184,26 @@ const d =
 new Date(data);
 
 
-if(isNaN(d.getTime()))
+if(
+isNaN(d.getTime())
+)
 return "—";
 
 
 return d.toLocaleString(
+
 "pt-BR",
+
 {
+
 day:"2-digit",
 month:"2-digit",
 year:"numeric",
 hour:"2-digit",
 minute:"2-digit"
+
 }
+
 );
 
 }
@@ -1084,18 +1217,26 @@ function renderResumo(){
 
 const estoque =
 rolos.filter(
-r => !r.saida_em
+
+r =>
+!r.saida_em
+
 );
 
 
 resumoTipos.innerHTML =
 
 tipos.map(
+
 tipoAtual => {
+
 
 const rolosTipo =
 estoque.filter(
-r => r.tipo === tipoAtual
+
+r =>
+r.tipo === tipoAtual
+
 );
 
 
@@ -1105,9 +1246,12 @@ rolosTipo.length;
 
 const metragemTotal =
 rolosTipo.reduce(
+
 (s,r) =>
 s + Number(r.metragem),
+
 0
+
 );
 
 
@@ -1143,6 +1287,7 @@ ${formatarNumero(metragemTotal)} m
 `;
 
 }
+
 ).join("");
 
 }
@@ -1164,7 +1309,9 @@ filtroTipo.value;
 
 let filtrados =
 rolos.filter(
+
 r => {
+
 
 const pertenceAba =
 
@@ -1195,41 +1342,52 @@ r.tipo === tipoFiltro;
 
 
 return (
+
 bateMetragem &&
 bateTipo
+
 );
 
 }
+
 );
 
 
 /*
-Ordena pelos registros mais recentes.
+Ordenação:
+mais recente primeiro.
 */
 
 filtrados.sort(
+
 (a,b) => {
 
+
 const dataA =
+
 abaAtual === "entrada"
 
 ? b.entrada_em
-
 : b.saida_em;
 
 
 const dataB =
+
 abaAtual === "entrada"
 
 ? a.entrada_em
-
 : a.saida_em;
 
 
-return new Date(dataA) -
-new Date(dataB);
+return (
+
+new Date(dataA) -
+new Date(dataB)
+
+);
 
 }
+
 );
 
 
@@ -1239,7 +1397,10 @@ Estatísticas do estoque atual.
 
 const estoque =
 rolos.filter(
-r => !r.saida_em
+
+r =>
+!r.saida_em
+
 );
 
 
@@ -1254,11 +1415,16 @@ document.getElementById(
 ).textContent =
 
 formatarNumero(
+
 estoque.reduce(
+
 (s,r) =>
 s + Number(r.metragem),
+
 0
+
 )
+
 ) + " m";
 
 
@@ -1287,19 +1453,31 @@ lista.innerHTML =
 
 abaAtual === "entrada"
 
-? `<div class="empty">
-Nenhum rolo no estoque.
-</div>`
+? `
 
-: `<div class="empty">
+<div class="empty">
+
+Nenhum rolo no estoque.
+
+</div>
+
+`
+
+: `
+
+<div class="empty">
+
 Nenhum rolo com saída registrada.
-</div>`;
+
+</div>
+
+`;
 
 }
 
 
 /*
-Lista com registros.
+Lista dos rolos.
 */
 
 else{
@@ -1307,44 +1485,65 @@ else{
 lista.innerHTML =
 
 filtrados.map(
+
 r => `
 
 <div class="roll">
 
+
 <div class="roll-info">
+
 
 <span
 class="dot"
 style="background:${cores[r.tipo] || "#999"}">
 </span>
 
+
 <div>
+
 
 <div class="name">
 ${r.tipo}
 </div>
 
+
 <div class="count">
 Rolo individual
 </div>
+
 
 <div class="date">
 📥 Entrada:
 ${formatarData(r.entrada_em)}
 </div>
 
+
 ${
 r.saida_em
 
-? `<div class="saida-date">
+?
+
+`
+
+<div class="saida-date">
+
 📤 Saída:
 ${formatarData(r.saida_em)}
-</div>`
-
-: ""
-}
 
 </div>
+
+`
+
+:
+
+""
+
+}
+
+
+</div>
+
 
 </div>
 
@@ -1357,6 +1556,7 @@ align-items:center;
 gap:10px;
 ">
 
+
 <span class="meters">
 
 ${formatarNumero(r.metragem)} m
@@ -1367,22 +1567,35 @@ ${formatarNumero(r.metragem)} m
 ${
 abaAtual === "entrada"
 
-? `<button
-class="delete"
-onclick="registrarSaida(${r.id})"
->
-📤 Saída
-</button>`
+?
 
-: ""
+`
+
+<button
+class="delete"
+onclick="registrarSaida('${r.id}')"
+>
+
+📤 Saída
+
+</button>
+
+`
+
+:
+
+""
 
 }
 
+
 </div>
+
 
 </div>
 
 `
+
 ).join("");
 
 }
@@ -1394,7 +1607,7 @@ renderResumo();
 
 
 /* =====================================================
-   ABAS
+   MOSTRAR ENTRADA
    ===================================================== */
 
 function mostrarEntrada(){
@@ -1423,6 +1636,10 @@ render();
 
 }
 
+
+/* =====================================================
+   MOSTRAR SAÍDA
+   ===================================================== */
 
 function mostrarSaida(){
 
@@ -1458,58 +1675,77 @@ render();
 document.getElementById(
 "add"
 ).addEventListener(
+
 "click",
+
 adicionar
+
 );
 
 
 metragem.addEventListener(
+
 "keydown",
+
 event => {
 
-if(event.key === "Enter"){
+if(
+event.key === "Enter"
+){
 
 adicionar();
 
 }
 
 }
+
 );
 
 
 buscaMetragem.addEventListener(
+
 "input",
+
 render
+
 );
 
 
 filtroTipo.addEventListener(
+
 "change",
+
 render
+
 );
 
 
-document.getElementById(
-"btnEntrada"
-).addEventListener(
+btnEntrada.addEventListener(
+
 "click",
+
 mostrarEntrada
+
 );
 
 
-document.getElementById(
-"btnSaida"
-).addEventListener(
+btnSaida.addEventListener(
+
 "click",
+
 mostrarSaida
+
 );
 
 
 document.getElementById(
 "recarregar"
 ).addEventListener(
+
 "click",
+
 carregarRolos
+
 );
 
 
