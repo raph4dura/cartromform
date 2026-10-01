@@ -1,143 +1,254 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#0f172a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Estoque de Rolos</title>
 
 <style>
-
 *{
   box-sizing:border-box;
 }
 
+:root{
+  --primary:#2563eb;
+  --primary-dark:#1d4ed8;
+  --dark:#0f172a;
+  --text:#1e293b;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --success:#059669;
+  --danger:#dc2626;
+}
+
 body{
   margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f4f6f8;
-  color:#1f2937;
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  background:
+    linear-gradient(180deg,#eaf1ff 0,#f8fafc 280px,#f1f5f9 100%);
+  color:var(--text);
+  min-height:100vh;
 }
 
 .container{
-  max-width:900px;
+  width:100%;
+  max-width:1000px;
   margin:auto;
-  padding:20px;
+  padding:24px 18px 50px;
 }
 
-h1{
-  margin:0 0 6px;
+/* CABEÇALHO */
+
+.hero{
+  background:linear-gradient(135deg,#0f172a,#1e3a8a);
+  color:white;
+  border-radius:22px;
+  padding:28px;
+  margin-bottom:18px;
+  box-shadow:0 12px 30px rgba(15,23,42,.18);
+  position:relative;
+  overflow:hidden;
 }
 
-h2{
-  margin-top:0;
+.hero::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:rgba(255,255,255,.07);
+  right:-50px;
+  top:-70px;
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+}
+
+.hero h1{
+  margin:0;
+  font-size:30px;
+  letter-spacing:-.5px;
 }
 
 .subtitle{
-  margin:0 0 20px;
-  color:#6b7280;
+  margin:8px 0 0;
+  color:#cbd5e1;
+  font-size:14px;
 }
 
+/* CARDS */
+
 .card{
-  background:#fff;
-  border-radius:14px;
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 3px 12px #0001;
+  background:var(--card);
+  border:1px solid rgba(226,232,240,.9);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px rgba(15,23,42,.06);
 }
+
+.card h2{
+  margin:0 0 18px;
+  font-size:19px;
+  color:#0f172a;
+}
+
+/* FORMULÁRIO */
 
 .form{
   display:grid;
   grid-template-columns:1fr 1fr auto;
-  gap:10px;
+  gap:12px;
 }
 
 label{
-  font-size:13px;
-  font-weight:bold;
+  font-size:12px;
+  font-weight:800;
   display:block;
-  margin-bottom:6px;
+  margin-bottom:7px;
+  color:#475569;
+  text-transform:uppercase;
+  letter-spacing:.3px;
 }
 
 input,
 select,
 button{
   width:100%;
-  padding:12px;
-  border:1px solid #d1d5db;
-  border-radius:9px;
-  font-size:16px;
+  min-height:48px;
+  padding:12px 14px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  font-size:15px;
+  font-family:inherit;
+  outline:none;
+  transition:.2s ease;
+}
+
+input,
+select{
+  background:#f8fafc;
+  color:var(--text);
+}
+
+input:focus,
+select:focus{
+  border-color:#60a5fa;
+  background:white;
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);
 }
 
 button{
   border:0;
-  background:#2563eb;
+  background:var(--primary);
   color:#fff;
-  font-weight:bold;
+  font-weight:800;
   cursor:pointer;
+  box-shadow:0 3px 8px rgba(37,99,235,.2);
+}
+
+button:hover{
+  background:var(--primary-dark);
+  transform:translateY(-1px);
+}
+
+button:active{
+  transform:translateY(0);
 }
 
 button:disabled{
   opacity:.6;
   cursor:wait;
+  transform:none;
 }
+
+/* ESTATÍSTICAS */
 
 .stats{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-bottom:16px;
+  gap:14px;
+  margin-bottom:18px;
 }
 
 .stat{
-  background:#eef2ff;
-  border-radius:12px;
-  padding:16px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 5px 18px rgba(15,23,42,.05);
+  color:#64748b;
+  font-size:14px;
+  font-weight:700;
 }
 
 .stat strong{
   display:block;
-  font-size:28px;
-  margin-top:4px;
+  font-size:31px;
+  line-height:1;
+  margin-top:10px;
+  color:#0f172a;
 }
 
-.filters{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
+/* ABAS */
 
 .tabs{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:16px;
+  gap:8px;
+  background:#e2e8f0;
+  padding:5px;
+  border-radius:14px;
+  margin-bottom:18px;
 }
 
 .tab{
-  background:#e5e7eb;
-  color:#374151;
+  background:transparent;
+  color:#475569;
+  box-shadow:none;
+  min-height:45px;
+}
+
+.tab:hover{
+  background:#cbd5e1;
+  color:#0f172a;
+  transform:none;
 }
 
 .tab.active{
-  background:#2563eb;
-  color:#fff;
+  background:white;
+  color:var(--primary);
+  box-shadow:0 2px 8px rgba(15,23,42,.1);
 }
+
+/* FILTROS */
+
+.filters{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+/* LISTA */
 
 .roll{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
-  padding:14px 0;
-  border-bottom:1px solid #e5e7eb;
+  gap:16px;
+  padding:16px 4px;
+  border-bottom:1px solid #edf2f7;
 }
 
 .roll:last-child{
@@ -146,8 +257,8 @@ button:disabled{
 
 .roll-info{
   display:flex;
-  align-items:center;
-  gap:12px;
+  align-items:flex-start;
+  gap:13px;
   min-width:0;
 }
 
@@ -155,140 +266,238 @@ button:disabled{
   width:18px;
   height:18px;
   border-radius:50%;
-  border:1px solid #aaa;
+  border:2px solid rgba(15,23,42,.12);
   flex:none;
+  margin-top:3px;
+  box-shadow:0 1px 3px rgba(0,0,0,.15);
 }
 
 .name{
-  font-weight:bold;
+  font-weight:800;
+  color:#1e293b;
+  font-size:15px;
 }
 
 .meters{
   font-size:20px;
-  font-weight:bold;
+  font-weight:900;
+  color:#0f172a;
   white-space:nowrap;
+}
+
+.roll-action{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
 .delete{
   width:auto;
-  padding:9px 12px;
-  background:#dc2626;
-  font-size:14px;
+  min-height:40px;
+  padding:9px 13px;
+  background:#fee2e2;
+  color:#b91c1c;
+  box-shadow:none;
+  font-size:13px;
 }
 
-.empty{
-  text-align:center;
-  color:#6b7280;
-  padding:25px;
+.delete:hover{
+  background:#fecaca;
+  color:#991b1b;
 }
 
 .count{
-  color:#6b7280;
-  font-size:14px;
-  margin-top:8px;
+  color:#64748b;
+  font-size:13px;
+  margin-top:6px;
 }
 
 .date{
-  color:#6b7280;
-  font-size:13px;
-  margin-top:4px;
+  color:#64748b;
+  font-size:12px;
+  margin-top:5px;
 }
 
 .saida-date{
   color:#dc2626;
-  font-size:13px;
-  margin-top:4px;
+  font-size:12px;
+  margin-top:5px;
 }
+
+.empty{
+  text-align:center;
+  color:#94a3b8;
+  padding:38px 20px;
+  font-size:14px;
+}
+
+/* RESUMO */
 
 .resumo-tabela{
   width:100%;
-  border-collapse:collapse;
-  margin-top:12px;
+  border-collapse:separate;
+  border-spacing:0;
+  margin-top:4px;
+  overflow:hidden;
 }
 
 .resumo-tabela th,
 .resumo-tabela td{
-  padding:12px 8px;
+  padding:13px 10px;
   text-align:left;
-  border-bottom:1px solid #e5e7eb;
+  border-bottom:1px solid #edf2f7;
 }
 
 .resumo-tabela th{
-  font-size:14px;
-  color:#6b7280;
+  font-size:11px;
+  color:#64748b;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+.resumo-tabela tr:last-child td{
+  border-bottom:0;
 }
 
 .tipo-resumo{
   display:flex;
   align-items:center;
-  gap:8px;
-  font-weight:bold;
+  gap:9px;
+  font-weight:800;
 }
 
 .tipo-resumo .dot{
   width:14px;
   height:14px;
+  margin:0;
 }
 
 .total-tipo{
-  font-weight:bold;
+  font-weight:900;
   white-space:nowrap;
+  color:#0f172a;
 }
+
+/* STATUS */
 
 .status{
   font-size:13px;
-  margin-top:12px;
-  padding:10px;
-  border-radius:8px;
-  background:#f3f4f6;
-  color:#4b5563;
+  margin-top:14px;
+  padding:12px 14px;
+  border-radius:11px;
+  background:#f1f5f9;
+  color:#475569;
+  border:1px solid #e2e8f0;
 }
 
 .status.ok{
   background:#ecfdf5;
   color:#047857;
+  border-color:#a7f3d0;
 }
 
 .status.erro{
   background:#fef2f2;
   color:#b91c1c;
+  border-color:#fecaca;
 }
 
 .small{
   font-size:12px;
-  color:#6b7280;
-  margin-top:8px;
-  line-height:1.4;
+  color:#64748b;
+  margin-top:10px;
+  line-height:1.5;
 }
 
+/* RESPONSIVO */
+
 @media(max-width:650px){
+
+  .container{
+    padding:14px 12px 35px;
+  }
+
+  .hero{
+    padding:23px 20px;
+    border-radius:18px;
+  }
+
+  .hero h1{
+    font-size:25px;
+  }
 
   .form,
   .filters{
     grid-template-columns:1fr;
   }
 
+  .form button{
+    min-height:50px;
+  }
+
+  .stats{
+    gap:10px;
+  }
+
+  .stat{
+    padding:16px 14px;
+  }
+
+  .stat strong{
+    font-size:25px;
+  }
+
+  .card{
+    padding:17px 15px;
+    border-radius:16px;
+  }
+
   .roll{
     align-items:flex-start;
     flex-direction:column;
+    padding:16px 2px;
+  }
+
+  .roll-info{
+    width:100%;
   }
 
   .roll-action{
     width:100%;
+    justify-content:space-between;
   }
 
   .roll-action button{
-    width:100%;
+    width:auto;
+  }
+
+  .meters{
+    font-size:19px;
   }
 
   .resumo-tabela th,
   .resumo-tabela td{
-    padding:10px 5px;
-    font-size:14px;
+    padding:11px 5px;
+    font-size:13px;
+  }
+
+  .resumo-tabela th{
+    font-size:10px;
   }
 
 }
 
+@media(max-width:380px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .tabs{
+    grid-template-columns:1fr;
+  }
+
+}
 </style>
 </head>
 
@@ -296,69 +505,59 @@ button:disabled{
 
 <div class="container">
 
-
 <!-- CABEÇALHO -->
+
+<div class="hero">
+  <div class="hero-content">
+    <h1>📦 Estoque de Rolos</h1>
+    <p class="subtitle">
+      Controle de metragens, cores, entradas e saídas.
+    </p>
+  </div>
+</div>
+
+
+<!-- ADICIONAR ROLO -->
 
 <div class="card">
 
-<h1>📦 Estoque de Rolos</h1>
+  <h2>➕ Adicionar novo rolo</h2>
 
-<p class="subtitle">
-Controle suas metragens, cores, entradas e saídas.
-</p>
+  <div class="form">
 
-<div class="form">
+    <div>
+      <label for="tipo">Tipo / Cor</label>
 
+      <select id="tipo">
+        <option>Preto liso</option>
+        <option>Preto texturado</option>
+        <option>Golden</option>
+        <option>Nogueira</option>
+        <option>Bronze</option>
+        <option>Pirita</option>
+        <option>Grafite</option>
+      </select>
+    </div>
 
-<div>
+    <div>
+      <label for="metragem">Metragem (m)</label>
 
-<label for="tipo">
-Tipo / Cor
-</label>
+      <input
+        id="metragem"
+        type="number"
+        min="0"
+        step="0.01"
+        placeholder="Ex.: 530"
+      >
+    </div>
 
-<select id="tipo">
+    <div style="align-self:end">
+      <button id="add">
+        ➕ Adicionar rolo
+      </button>
+    </div>
 
-<option>Preto liso</option>
-<option>Preto texturado</option>
-<option>Golden</option>
-<option>Nogueira</option>
-<option>Bronze</option>
-<option>Pirita</option>
-<option>Grafite</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label for="metragem">
-Metragem (m)
-</label>
-
-<input
-id="metragem"
-type="number"
-min="0"
-step="0.01"
-placeholder="Ex.: 530"
->
-
-</div>
-
-
-<div style="align-self:end">
-
-<button id="add">
-➕ Adicionar rolo
-</button>
-
-</div>
-
-
-</div>
-
+  </div>
 </div>
 
 
@@ -366,28 +565,15 @@ placeholder="Ex.: 530"
 
 <div class="stats">
 
+  <div class="stat">
+    📦 Rolos no estoque
+    <strong id="totalRolos">0</strong>
+  </div>
 
-<div class="stat">
-
-📦 Rolos no estoque
-
-<strong id="totalRolos">
-0
-</strong>
-
-</div>
-
-
-<div class="stat">
-
-📏 Metros no estoque
-
-<strong id="totalMetros">
-0 m
-</strong>
-
-</div>
-
+  <div class="stat">
+    📏 Metros no estoque
+    <strong id="totalMetros">0 m</strong>
+  </div>
 
 </div>
 
@@ -396,20 +582,19 @@ placeholder="Ex.: 530"
 
 <div class="tabs">
 
-<button
-id="btnEntrada"
-class="tab active"
->
-📥 Entrada
-</button>
+  <button
+    id="btnEntrada"
+    class="tab active"
+  >
+    📥 Entrada
+  </button>
 
-
-<button
-id="btnSaida"
-class="tab"
->
-📤 Saída
-</button>
+  <button
+    id="btnSaida"
+    class="tab"
+  >
+    📤 Saída
+  </button>
 
 </div>
 
@@ -418,41 +603,35 @@ class="tab"
 
 <div class="card">
 
-<h2>
-🔎 Buscar
-</h2>
+  <h2>🔎 Buscar no estoque</h2>
 
+  <div class="filters">
 
-<div class="filters">
+    <input
+      id="buscaMetragem"
+      type="number"
+      min="0"
+      step="0.01"
+      placeholder="🔎 Buscar por metragem..."
+    >
 
+    <select id="filtroTipo">
 
-<input
-id="buscaMetragem"
-type="number"
-min="0"
-step="0.01"
-placeholder="Buscar por metragem..."
->
+      <option value="">
+        Todas as cores
+      </option>
 
+      <option>Preto liso</option>
+      <option>Preto texturado</option>
+      <option>Golden</option>
+      <option>Nogueira</option>
+      <option>Bronze</option>
+      <option>Pirita</option>
+      <option>Grafite</option>
 
-<select id="filtroTipo">
+    </select>
 
-<option value="">
-Todas as cores
-</option>
-
-<option>Preto liso</option>
-<option>Preto texturado</option>
-<option>Golden</option>
-<option>Nogueira</option>
-<option>Bronze</option>
-<option>Pirita</option>
-<option>Grafite</option>
-
-</select>
-
-
-</div>
+  </div>
 
 </div>
 
@@ -461,19 +640,16 @@ Todas as cores
 
 <div class="card">
 
-<h2 id="tituloLista">
-📥 Rolos no estoque
-</h2>
+  <h2 id="tituloLista">
+    📥 Rolos no estoque
+  </h2>
 
+  <div id="lista"></div>
 
-<div id="lista"></div>
-
-
-<div
-class="count"
-id="count">
-</div>
-
+  <div
+    class="count"
+    id="count">
+  </div>
 
 </div>
 
@@ -482,38 +658,21 @@ id="count">
 
 <div class="card">
 
-<h2>
-📊 Resumo por tipo
-</h2>
+  <h2>📊 Resumo por tipo</h2>
 
+  <table class="resumo-tabela">
 
-<table class="resumo-tabela">
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Rolos</th>
+        <th>Metragem total</th>
+      </tr>
+    </thead>
 
-<thead>
+    <tbody id="resumoTipos"></tbody>
 
-<tr>
-
-<th>
-Tipo
-</th>
-
-<th>
-Rolos
-</th>
-
-<th>
-Metragem total
-</th>
-
-</tr>
-
-</thead>
-
-
-<tbody id="resumoTipos"></tbody>
-
-
-</table>
+  </table>
 
 </div>
 
@@ -522,33 +681,24 @@ Metragem total
 
 <div class="card">
 
-<h2>
-☁️ Estoque compartilhado
-</h2>
+  <h2>☁️ Estoque compartilhado</h2>
 
+  <button id="recarregar">
+    🔄 Recarregar do Supabase
+  </button>
 
-<button id="recarregar">
-🔄 Recarregar do Supabase
-</button>
+  <div
+    id="status"
+    class="status">
+    Conectando ao estoque...
+  </div>
 
-
-<div
-id="status"
-class="status">
-Conectando ao estoque...
-</div>
-
-
-<div class="small">
-
-Os dados são salvos no banco de dados
-<strong>Supabase</strong>.
+  <div class="small">
+    Os dados são salvos no banco de dados
+    <strong>Supabase</strong>.
+  </div>
 
 </div>
-
-
-</div>
-
 
 </div>
 
@@ -878,10 +1028,6 @@ setStatus(
 );
 
 
-/*
-O ID será criado pelo banco.
-*/
-
 const novo = {
 
 tipo:
@@ -1039,10 +1185,6 @@ const saidaEm =
 new Date().toISOString();
 
 
-/*
-Atualiza o registro no banco.
-*/
-
 const resultado =
 await supabaseRequest(
 
@@ -1072,11 +1214,6 @@ saidaEm
 );
 
 
-/*
-Confirma que o banco encontrou
-e atualizou o registro.
-*/
-
 if(
 
 !Array.isArray(resultado) ||
@@ -1093,21 +1230,8 @@ throw new Error(
 }
 
 
-/*
-Depois da alteração, buscamos novamente
-os dados diretamente do Supabase.
-
-Isso garante que o estado local
-seja exatamente igual ao banco.
-*/
-
 await carregarRolos();
 
-
-/*
-Volta automaticamente para a aba
-de entrada para mostrar o estoque atual.
-*/
 
 mostrarEntrada();
 
@@ -1359,11 +1483,6 @@ bateTipo
 );
 
 
-/*
-Ordenação:
-mais recente primeiro.
-*/
-
 filtrados.sort(
 
 (a,b) => {
@@ -1396,10 +1515,6 @@ new Date(dataB)
 
 );
 
-
-/*
-Estatísticas do estoque atual.
-*/
 
 const estoque =
 rolos.filter(
@@ -1434,10 +1549,6 @@ s + Number(r.metragem),
 ) + " m";
 
 
-/*
-Contador.
-*/
-
 document.getElementById(
 "count"
 ).textContent =
@@ -1448,10 +1559,6 @@ abaAtual === "entrada"
 
 : `${filtrados.length} rolo(s) com saída`;
 
-
-/*
-Lista vazia.
-*/
 
 if(!filtrados.length){
 
@@ -1481,11 +1588,6 @@ Nenhum rolo com saída registrada.
 
 }
 
-
-/*
-Lista dos rolos.
-*/
-
 else{
 
 lista.innerHTML =
@@ -1496,34 +1598,27 @@ r => `
 
 <div class="roll">
 
-
 <div class="roll-info">
-
 
 <span
 class="dot"
 style="background:${cores[r.tipo] || "#999"}">
 </span>
 
-
 <div>
-
 
 <div class="name">
 ${r.tipo}
 </div>
 
-
 <div class="count">
 Rolo individual
 </div>
-
 
 <div class="date">
 📥 Entrada:
 ${formatarData(r.entrada_em)}
 </div>
-
 
 ${
 r.saida_em
@@ -1547,28 +1642,19 @@ ${formatarData(r.saida_em)}
 
 }
 
-
 </div>
 
-
 </div>
-
 
 <div
 class="roll-action"
-style="
-display:flex;
-align-items:center;
-gap:10px;
-">
-
+>
 
 <span class="meters">
 
 ${formatarNumero(r.metragem)} m
 
 </span>
-
 
 ${
 abaAtual === "entrada"
@@ -1594,9 +1680,7 @@ onclick="registrarSaida('${r.id}')"
 
 }
 
-
 </div>
-
 
 </div>
 
@@ -1765,4 +1849,3 @@ carregarRolos();
 
 </body>
 </html>
-```
