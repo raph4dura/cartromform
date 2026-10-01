@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -284,6 +285,7 @@ button:disabled{
 <div class="container">
 
 <!-- CABEÇALHO -->
+
 <div class="card">
 
 <h1>📦 Estoque de Rolos</h1>
@@ -486,7 +488,7 @@ Metragem total
 </div>
 
 
-<!-- GITHUB -->
+<!-- SUPABASE -->
 
 <div class="card">
 
@@ -495,7 +497,7 @@ Metragem total
 </h2>
 
 <button id="recarregar">
-🔄 Recarregar do GitHub
+🔄 Recarregar do Supabase
 </button>
 
 <div
@@ -506,9 +508,8 @@ Conectando ao estoque...
 
 <div class="small">
 
-Os dados são salvos no arquivo
-<strong>estoque.json</strong>
-do repositório GitHub.
+Os dados são salvos no banco de dados
+<strong>Supabase</strong>.
 
 </div>
 
@@ -520,31 +521,17 @@ do repositório GitHub.
 <script>
 
 /* =====================================================
-   CONFIGURAÇÃO DO GITHUB
+   CONFIGURAÇÃO DO SUPABASE
    ===================================================== */
 
-const OWNER = "raph4dura";
+const SUPABASE_URL =
+"https://pipnkvlicwfraisywrzl.supabase.co";
 
-const REPO = "cartromform";
+const SUPABASE_KEY =
+"sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";
 
-const BRANCH = "main";
-
-const FILE_PATH = "estoque.json";
-
-
-/*
-=========================================================
-COLE SEU TOKEN DO GITHUB ABAIXO
-
-Exemplo:
-
-const GITHUB_TOKEN = "github_pat_XXXXXXXXXXXXXXXX";
-
-=========================================================
-*/
-
-const GITHUB_TOKEN =
-"COLE_SEU_TOKEN_AQUI";
+const SUPABASE_TABLE =
+"rolos";
 
 
 /* =====================================================
@@ -642,172 +629,53 @@ statusEl.className =
 
 
 /* =====================================================
-   TOKEN
+   CABEÇALHOS SUPABASE
    ===================================================== */
 
-function tokenConfigurado(){
+function supabaseHeaders(){
 
-return (
+return {
 
-GITHUB_TOKEN &&
+"apikey":
+SUPABASE_KEY,
 
-GITHUB_TOKEN !==
-"COLE_SEU_TOKEN_AQUI"
+"Authorization":
+"Bearer " + SUPABASE_KEY,
 
-);
+"Content-Type":
+"application/json",
+
+"Accept":
+"application/json"
+
+};
 
 }
 
 
 /* =====================================================
-   FORMATAÇÃO
+   REQUISIÇÃO SUPABASE
    ===================================================== */
 
-function formatarNumero(numero){
-
-return Number.isInteger(Number(numero))
-
-? String(numero)
-
-: Number(numero).toLocaleString(
-"pt-BR",
-{
-maximumFractionDigits:2
-}
-);
-
-}
-
-
-function formatarData(data){
-
-if(!data)
-return "—";
-
-const d =
-new Date(data);
-
-if(isNaN(d.getTime()))
-return "—";
-
-return d.toLocaleString(
-"pt-BR",
-{
-day:"2-digit",
-month:"2-digit",
-year:"numeric",
-hour:"2-digit",
-minute:"2-digit"
-}
-);
-
-}
-
-
-/* =====================================================
-   ID
-   ===================================================== */
-
-function gerarId(){
-
-return Date.now() +
-Math.floor(Math.random()*1000);
-
-}
-
-
-/* =====================================================
-   BASE64
-   ===================================================== */
-
-function base64DecodeUnicode(base64){
-
-const binary =
-atob(
-base64.replace(/\n/g,"")
-);
-
-const bytes =
-Uint8Array.from(
-binary,
-c => c.charCodeAt(0)
-);
-
-return new TextDecoder()
-.decode(bytes);
-
-}
-
-
-function base64EncodeUnicode(text){
-
-const bytes =
-new TextEncoder()
-.encode(text);
-
-let binary = "";
-
-for(
-let i=0;
-i<bytes.length;
-i+=32768
-){
-
-binary +=
-String.fromCharCode(
-...bytes.subarray(
-i,
-i+32768
-)
-);
-
-}
-
-return btoa(binary);
-
-}
-
-
-/* =====================================================
-   REQUISIÇÃO GITHUB
-   ===================================================== */
-
-async function githubRequest(
+async function supabaseRequest(
 url,
 options={}
 ){
-
-if(!tokenConfigurado()){
-
-throw new Error(
-"TOKEN_AUSENTE"
-);
-
-}
-
-const headers = {
-
-"Accept":
-"application/vnd.github+json",
-
-"X-GitHub-Api-Version":
-"2022-11-28",
-
-"Authorization":
-"Bearer " + GITHUB_TOKEN,
-
-...(options.headers || {})
-
-};
 
 const response =
 await fetch(
 url,
 {
 ...options,
-headers
+
+headers:{
+...supabaseHeaders(),
+...(options.headers || {})
+}
+
 }
 );
+
 
 let data = null;
 
@@ -818,14 +686,18 @@ await response.json();
 
 }catch(e){}
 
+
 if(!response.ok){
 
 throw new Error(
 data?.message ||
+data?.error_description ||
+data?.hint ||
 `Erro HTTP ${response.status}`
 );
 
 }
+
 
 return data;
 
@@ -833,100 +705,42 @@ return data;
 
 
 /* =====================================================
-   OBTER ESTOQUE.JSON
+   URL DA TABELA
    ===================================================== */
 
-async function obterArquivo(){
+function tabelaUrl(){
 
-const url =
-
-`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}?ref=${encodeURIComponent(BRANCH)}`;
-
-return githubRequest(
-url,
-{
-method:"GET"
-}
-);
+return `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`;
 
 }
 
 
 /* =====================================================
-   CARREGAR ESTOQUE
+   CARREGAR ROLOS
    ===================================================== */
 
 async function carregarRolos(){
 
-if(!tokenConfigurado()){
-
-setStatus(
-"⚠️ Coloque seu token no código antes de usar.",
-"erro"
-);
-
-render();
-
-return;
-
-}
-
 try{
 
 setStatus(
-"🔄 Carregando estoque do GitHub..."
-);
-
-
-const arquivo =
-await obterArquivo();
-
-
-const texto =
-base64DecodeUnicode(
-arquivo.content || ""
+"🔄 Carregando estoque do Supabase..."
 );
 
 
 const dados =
-JSON.parse(texto);
-
-
-/*
-Aceita tanto:
-
-[]
-como:
-
+await supabaseRequest(
+`${tabelaUrl()}?select=*`,
 {
-  "rolos":[]
+method:"GET"
 }
-*/
-
-if(
-Array.isArray(dados)
-){
-
-rolos = dados;
-
-}
-
-else if(
-Array.isArray(dados.rolos)
-){
-
-rolos =
-dados.rolos;
-
-}
-
-else{
-
-throw new Error(
-"O estoque.json não contém uma lista válida."
 );
 
-}
+
+rolos =
+Array.isArray(dados)
+? dados
+: [];
 
 
 setStatus(
@@ -942,230 +756,11 @@ render();
 
 console.error(error);
 
-
-if(
-error.message ===
-"TOKEN_AUSENTE"
-){
-
-setStatus(
-"Token não configurado.",
-"erro"
-);
-
-}
-
-else if(
-error.message.includes(
-"Not Found"
-)
-){
-
-setStatus(
-"❌ Não encontrei o estoque.json no repositório.",
-"erro"
-);
-
-}
-
-else if(
-error.message.includes(
-"Bad credentials"
-)
-){
-
-setStatus(
-"❌ Token inválido ou expirado.",
-"erro"
-);
-
-}
-
-else{
-
 setStatus(
 "❌ Erro ao carregar: " +
 error.message,
 "erro"
 );
-
-}
-
-}
-
-}
-
-
-/* =====================================================
-   SALVAR ESTOQUE
-   ===================================================== */
-
-async function salvarRolos(
-mensagem="Atualizar estoque"
-){
-
-if(salvando)
-return false;
-
-
-if(!tokenConfigurado()){
-
-alert(
-"Configure o token do GitHub no código."
-);
-
-return false;
-
-}
-
-
-salvando = true;
-
-addBtn.disabled = true;
-
-
-try{
-
-
-/*
-Busca novamente o arquivo antes de salvar.
-
-Isso pega o SHA mais recente.
-*/
-
-const arquivoAtual =
-await obterArquivo();
-
-
-const sha =
-arquivoAtual.sha;
-
-
-const conteudo =
-JSON.stringify(
-{
-rolos:rolos
-},
-null,
-2
-);
-
-
-const url =
-
-`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`;
-
-
-await githubRequest(
-url,
-{
-
-method:"PUT",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-body:
-JSON.stringify({
-
-message:
-mensagem,
-
-content:
-base64EncodeUnicode(
-conteudo
-),
-
-sha:
-sha,
-
-branch:
-BRANCH
-
-})
-
-}
-);
-
-
-setStatus(
-"✅ Estoque salvo no GitHub.",
-"ok"
-);
-
-
-return true;
-
-
-}catch(error){
-
-console.error(error);
-
-
-if(
-error.message.includes(
-"does not match"
-)
-){
-
-setStatus(
-"⚠️ O estoque foi alterado por outra pessoa.",
-"erro"
-);
-
-alert(
-"Outra pessoa alterou o estoque. Clique em 'Recarregar do GitHub' e tente novamente."
-);
-
-}
-
-else if(
-error.message.includes(
-"Bad credentials"
-)
-){
-
-setStatus(
-"❌ Token inválido ou expirado.",
-"erro"
-);
-
-}
-
-else if(
-error.message.includes(
-"Resource not accessible"
-)
-){
-
-setStatus(
-"❌ O token não tem permissão de escrita no repositório.",
-"erro"
-);
-
-}
-
-else{
-
-setStatus(
-"❌ Erro ao salvar: " +
-error.message,
-"erro"
-);
-
-}
-
-
-return false;
-
-
-}finally{
-
-salvando = false;
-
-addBtn.disabled = false;
 
 }
 
@@ -1200,44 +795,27 @@ return;
 }
 
 
-/*
-Atualiza antes de adicionar.
-*/
+if(salvando)
+return;
+
+
+salvando = true;
+
+addBtn.disabled = true;
+
 
 try{
 
-const arquivo =
-await obterArquivo();
-
-const dados =
-JSON.parse(
-base64DecodeUnicode(
-arquivo.content || ""
-)
+setStatus(
+"🔄 Salvando entrada no Supabase..."
 );
 
 
-rolos =
-Array.isArray(dados)
-? dados
-: dados.rolos;
-
-
-}catch(error){
-
-alert(
-"Não foi possível atualizar o estoque antes de adicionar o rolo."
-);
-
-return;
-
-}
-
+/*
+O banco gera o ID automaticamente.
+*/
 
 const novo = {
-
-id:
-gerarId(),
 
 tipo:
 tipo.value,
@@ -1254,37 +832,78 @@ null
 };
 
 
+const dados =
+await supabaseRequest(
+tabelaUrl(),
+{
+
+method:"POST",
+
+headers:{
+"Prefer":
+"return=representation"
+},
+
+body:
+JSON.stringify(novo)
+
+}
+);
+
+
+if(
+Array.isArray(dados) &&
+dados.length
+){
+
 rolos.unshift(
-novo
+dados[0]
 );
 
+}
 
-render();
+else{
 
+await carregarRolos();
 
-const sucesso =
-await salvarRolos(
-`Entrada de ${valor} m - ${tipo.value}`
-);
+}
 
-
-if(sucesso){
 
 metragem.value =
 "";
 
 metragem.focus();
 
-}
 
-else{
-
-rolos =
-rolos.filter(
-r => r.id !== novo.id
+setStatus(
+"✅ Rolo adicionado ao estoque.",
+"ok"
 );
 
+
 render();
+
+
+}catch(error){
+
+console.error(error);
+
+setStatus(
+"❌ Erro ao adicionar: " +
+error.message,
+"erro"
+);
+
+alert(
+"Não foi possível adicionar o rolo.\n\n" +
+error.message
+);
+
+}finally{
+
+salvando = false;
+
+addBtn.disabled = false;
 
 }
 
@@ -1299,7 +918,7 @@ async function registrarSaida(id){
 
 const rolo =
 rolos.find(
-r => r.id === id
+r => String(r.id) === String(id)
 );
 
 
@@ -1317,85 +936,154 @@ if(!confirmar)
 return;
 
 
-/*
-Atualiza o estoque antes da alteração.
-*/
+if(salvando)
+return;
+
+
+salvando = true;
+
 
 try{
 
-const arquivo =
-await obterArquivo();
-
-
-const dados =
-JSON.parse(
-base64DecodeUnicode(
-arquivo.content || ""
-)
+setStatus(
+"🔄 Registrando saída..."
 );
 
 
-const atualizados =
-Array.isArray(dados)
-? dados
-: dados.rolos;
-
-
-const roloAtual =
-atualizados.find(
-r => r.id === id
-);
-
-
-if(!roloAtual){
-
-rolos =
-atualizados || [];
-
-render();
-
-alert(
-"Esse rolo não existe mais no estoque."
-);
-
-return;
-
-}
-
-
-roloAtual.saida_em =
+const saidaEm =
 new Date().toISOString();
 
 
+await supabaseRequest(
+`${tabelaUrl()}?id=eq.${encodeURIComponent(id)}`,
+{
+
+method:"PATCH",
+
+headers:{
+"Prefer":
+"return=representation"
+},
+
+body:
+JSON.stringify({
+
+saida_em:
+saidaEm
+
+})
+
+}
+);
+
+
+/*
+Atualiza a lista local.
+*/
+
 rolos =
-atualizados;
+rolos.map(
+r => {
+
+if(
+String(r.id) ===
+String(id)
+){
+
+return {
+
+...r,
+
+saida_em:
+saidaEm
+
+};
+
+}
+
+return r;
+
+}
+);
+
+
+setStatus(
+"✅ Saída registrada com sucesso.",
+"ok"
+);
+
+
+render();
 
 
 }catch(error){
 
+console.error(error);
+
+setStatus(
+"❌ Erro ao registrar saída: " +
+error.message,
+"erro"
+);
+
 alert(
-"Não foi possível atualizar o estoque antes de registrar a saída."
+"Não foi possível registrar a saída.\n\n" +
+error.message
 );
 
-return;
+}finally{
+
+salvando = false;
+
+}
 
 }
 
 
-render();
+/* =====================================================
+   FORMATAÇÃO
+   ===================================================== */
 
+function formatarNumero(numero){
 
-const sucesso =
-await salvarRolos(
-`Saída de ${rolo.metragem} m - ${rolo.tipo}`
+return Number.isInteger(Number(numero))
+
+? String(numero)
+
+: Number(numero).toLocaleString(
+"pt-BR",
+{
+maximumFractionDigits:2
+}
 );
 
-
-if(!sucesso){
-
-await carregarRolos();
-
 }
+
+
+function formatarData(data){
+
+if(!data)
+return "—";
+
+
+const d =
+new Date(data);
+
+
+if(isNaN(d.getTime()))
+return "—";
+
+
+return d.toLocaleString(
+"pt-BR",
+{
+day:"2-digit",
+month:"2-digit",
+year:"numeric",
+hour:"2-digit",
+minute:"2-digit"
+}
+);
 
 }
 
@@ -1527,6 +1215,10 @@ bateTipo
 );
 
 
+/*
+Ordena pelos registros mais recentes.
+*/
+
 filtrados.sort(
 (a,b) => {
 
@@ -1553,6 +1245,10 @@ new Date(dataB);
 );
 
 
+/*
+Estatísticas do estoque atual.
+*/
+
 const estoque =
 rolos.filter(
 r => !r.saida_em
@@ -1578,6 +1274,10 @@ s + Number(r.metragem),
 ) + " m";
 
 
+/*
+Contador.
+*/
+
 document.getElementById(
 "count"
 ).textContent =
@@ -1588,6 +1288,10 @@ abaAtual === "entrada"
 
 : `${filtrados.length} rolo(s) com saída`;
 
+
+/*
+Lista vazia.
+*/
 
 if(!filtrados.length){
 
@@ -1604,6 +1308,11 @@ Nenhum rolo com saída registrada.
 </div>`;
 
 }
+
+
+/*
+Lista com registros.
+*/
 
 else{
 
@@ -1826,3 +1535,4 @@ carregarRolos();
 
 </body>
 </html>
+```
