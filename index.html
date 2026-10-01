@@ -355,29 +355,36 @@
 
 
 
+
+  
+    
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
-const STORAGE_KEY = "estoqueRolos_v1";
+const SUPABASE_URL = "https://pipnkvlicwfraisywrzl.supabase.co";
 
-let rolos = JSON.parse(
-  localStorage.getItem(STORAGE_KEY) || "[]"
+const SUPABASE_KEY = "sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
+
+
+let rolos = [];
 
 
 const cores = {
 
   "Preto liso":"#111111",
-
   "Preto texturado":"#333333",
-
   "Golden":"#d4af37",
-
   "Nogueira":"#6b4226",
-
   "Bronze":"#cd7f32",
-
   "Pirita":"#8b8b83",
-
   "Grafite":"#555555"
 
 };
@@ -413,6 +420,10 @@ const resumoTipos =
   document.getElementById("resumoTipos");
 
 
+/* ==========================
+   CARREGAR DO SUPABASE
+========================== */
+
 async function carregarRolos(){
 
   const { data, error } = await supabase
@@ -432,18 +443,22 @@ async function carregarRolos(){
   }
 
 
-  rolos = data;
+  rolos = data || [];
 
   render();
 
 }
 
 
+/* ==========================
+   FORMATAR NÚMERO
+========================== */
+
 function formatarNumero(n){
 
-  return Number.isInteger(n)
+  return Number.isInteger(Number(n))
     ? String(n)
-    : n.toLocaleString(
+    : Number(n).toLocaleString(
         "pt-BR",
         {
           maximumFractionDigits:2
@@ -453,9 +468,14 @@ function formatarNumero(n){
 }
 
 
+/* ==========================
+   ADICIONAR ROLO
+========================== */
+
 async function adicionar(){
 
   const valor = Number(metragem.value);
+
 
   if(!Number.isFinite(valor) || valor <= 0){
 
@@ -468,15 +488,14 @@ async function adicionar(){
   }
 
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("rolos")
     .insert([
       {
         tipo: tipo.value,
         metragem: valor
       }
-    ])
-    .select();
+    ]);
 
 
   if(error){
@@ -494,15 +513,21 @@ async function adicionar(){
 
   metragem.focus();
 
+
   await carregarRolos();
 
 }
 
 
-function excluir(id){
+/* ==========================
+   EXCLUIR / USAR ROLO
+========================== */
+
+async function excluir(id){
 
   const rolo =
     rolos.find(r => r.id === id);
+
 
   if(!rolo) return;
 
@@ -513,12 +538,24 @@ function excluir(id){
     )
   ){
 
-    rolos =
-      rolos.filter(r => r.id !== id);
+    const { error } = await supabase
+      .from("rolos")
+      .delete()
+      .eq("id", id);
 
-    salvar();
 
-    render();
+    if(error){
+
+      console.error(error);
+
+      alert("Erro ao remover o rolo.");
+
+      return;
+
+    }
+
+
+    await carregarRolos();
 
   }
 
@@ -536,12 +573,14 @@ function renderResumo(){
     const rolosTipo =
       rolos.filter(r => r.tipo === tipoAtual);
 
+
     const quantidade =
       rolosTipo.length;
 
+
     const metragemTotal =
       rolosTipo.reduce(
-        (s,r) => s + r.metragem,
+        (s,r) => s + Number(r.metragem),
         0
       );
 
@@ -591,6 +630,7 @@ function render(){
   const busca =
     buscaMetragem.value.trim();
 
+
   const tipoFiltro =
     filtroTipo.value;
 
@@ -602,9 +642,11 @@ function render(){
         !busca ||
         String(r.metragem).startsWith(busca);
 
+
       const bateTipo =
         !tipoFiltro ||
         r.tipo === tipoFiltro;
+
 
       return bateMetragem && bateTipo;
 
@@ -612,7 +654,7 @@ function render(){
 
 
   filtrados.sort(
-    (a,b) => a.metragem - b.metragem
+    (a,b) => Number(a.metragem) - Number(b.metragem)
   );
 
 
@@ -624,7 +666,7 @@ function render(){
     .textContent =
       formatarNumero(
         rolos.reduce(
-          (s,r) => s + r.metragem,
+          (s,r) => s + Number(r.metragem),
           0
         )
       ) + " m";
@@ -697,11 +739,14 @@ function render(){
   }
 
 
-  // Atualiza o resumo por tipo
   renderResumo();
 
 }
 
+
+/* ==========================
+   EVENTOS
+========================== */
 
 document
   .getElementById("add")
@@ -716,7 +761,9 @@ metragem.addEventListener(
   e => {
 
     if(e.key === "Enter"){
+
       adicionar();
+
     }
 
   }
@@ -735,24 +782,26 @@ filtroTipo.addEventListener(
 );
 
 
+/* ==========================
+   INICIAR
+========================== */
+
 carregarRolos();
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase-js@2"></script>
 
-<script>
 
-const SUPABASE_URL = "https://pipnkvlicwfraisywrzl.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";
 
-const supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
 
-</script>
+
+
+
+
+
+
+
 
 </body>
 </html>
