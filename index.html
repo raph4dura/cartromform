@@ -1,470 +1,174 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estoque de Rolos</title><style>
-  *{box-sizing:border-box}
+<title>Estoque de Rolos</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;color:#1f2937}
+.container{max-width:900px;margin:auto;padding:20px}
+h1{margin:0 0 6px;font-size:28px}
+.subtitle{margin:0 0 20px;color:#6b7280}
+.card{background:white;border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #00000012}
+.form{display:grid;grid-template-columns:1fr 1fr auto;gap:10px}
+label{font-size:13px;font-weight:bold;display:block;margin-bottom:6px}
+input,select,button{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:9px;font-size:16px}
+button{border:0;background:#2563eb;color:white;font-weight:bold;cursor:pointer}
+button:hover{filter:brightness(.95)}
+button:disabled{opacity:.6;cursor:wait}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.stat{background:#eef2ff;border-radius:12px;padding:16px}
+.stat strong{display:block;font-size:28px;margin-top:4px}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.tab{background:#e5e7eb;color:#374151}
+.tab.active{background:#2563eb;color:white}
+.roll{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #e5e7eb}
+.roll:last-child{border-bottom:0}
+.roll-info{display:flex;align-items:center;gap:12px;min-width:0}
+.dot{width:18px;height:18px;border-radius:50%;border:1px solid #aaa;flex:none}
+.name{font-weight:bold}
+.meters{font-size:20px;font-weight:bold;white-space:nowrap}
+.delete{width:auto;padding:9px 12px;background:#dc2626;font-size:14px}
+.empty{text-align:center;color:#6b7280;padding:25px}
+.count{color:#6b7280;font-size:14px;margin-top:8px}
+.date{color:#6b7280;font-size:13px;margin-top:4px}
+.saida-date{color:#dc2626;font-size:13px;margin-top:4px}
+.resumo-tabela{width:100%;border-collapse:collapse;margin-top:12px}
+.resumo-tabela th,.resumo-tabela td{padding:12px 8px;text-align:left;border-bottom:1px solid #e5e7eb}
+.resumo-tabela th{font-size:14px;color:#6b7280;font-weight:bold}
+.resumo-tabela td{font-size:15px}
+.resumo-tabela tr:last-child td{border-bottom:0}
+.tipo-resumo{display:flex;align-items:center;gap:8px;font-weight:bold}
+.tipo-resumo .dot{width:14px;height:14px}
+.total-tipo{font-weight:bold;white-space:nowrap}
+.status{font-size:13px;margin-top:12px;padding:10px;border-radius:8px;background:#f3f4f6;color:#4b5563}
+.status.ok{background:#ecfdf5;color:#047857}
+.status.erro{background:#fef2f2;color:#b91c1c}
+.config{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.config button{margin-top:0}
+.small{font-size:12px;color:#6b7280;margin-top:8px;line-height:1.4}
+@media(max-width:650px){
+.form,.filters,.config{grid-template-columns:1fr}
+.form button{width:100%}
+.roll{align-items:flex-start;flex-direction:column}
+.meters{font-size:18px}
+.roll-action{width:100%}
+.roll-action button{width:100%}
+.resumo-tabela th,.resumo-tabela td{padding:10px 5px;font-size:14px}
+}
+</style>
+</head>
+<body>
+<div class="container">
 
-  body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f6f8;
-    color:#1f2937
-  }
-
-  .container{
-    max-width:900px;
-    margin:auto;
-    padding:20px
-  }
-
-  h1{
-    margin:0 0 6px;
-    font-size:28px
-  }
-
-  .subtitle{
-    margin:0 0 20px;
-    color:#6b7280
-  }
-
-  .card{
-    background:white;
-    border-radius:14px;
-    padding:18px;
-    margin-bottom:16px;
-    box-shadow:0 3px 12px #00000012
-  }
-
-  .form{
-    display:grid;
-    grid-template-columns:1fr 1fr auto;
-    gap:10px
-  }
-
-  label{
-    font-size:13px;
-    font-weight:bold;
-    display:block;
-    margin-bottom:6px
-  }
-
-  input,select,button{
-    width:100%;
-    padding:12px;
-    border:1px solid #d1d5db;
-    border-radius:9px;
-    font-size:16px
-  }
-
-  button{
-    border:0;
-    background:#2563eb;
-    color:white;
-    font-weight:bold;
-    cursor:pointer
-  }
-
-  button:hover{
-    filter:brightness(.95)
-  }
-
-  .stats{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-bottom:16px
-  }
-
-  .stat{
-    background:#eef2ff;
-    border-radius:12px;
-    padding:16px
-  }
-
-  .stat strong{
-    display:block;
-    font-size:28px;
-    margin-top:4px
-  }
-
-  .filters{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px
-  }
-
-  /* ABAS */
-
-  .tabs{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-bottom:16px
-  }
-
-  .tab{
-    background:#e5e7eb;
-    color:#374151;
-  }
-
-  .tab.active{
-    background:#2563eb;
-    color:white;
-  }
-
-  .roll{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    padding:14px 0;
-    border-bottom:1px solid #e5e7eb
-  }
-
-  .roll:last-child{
-    border-bottom:0
-  }
-
-  .roll-info{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    min-width:0
-  }
-
-  .dot{
-    width:18px;
-    height:18px;
-    border-radius:50%;
-    border:1px solid #aaa;
-    flex:none
-  }
-
-  .name{
-    font-weight:bold
-  }
-
-  .meters{
-    font-size:20px;
-    font-weight:bold;
-    white-space:nowrap
-  }
-
-  .delete{
-    width:auto;
-    padding:9px 12px;
-    background:#dc2626;
-    font-size:14px
-  }
-
-  .empty{
-    text-align:center;
-    color:#6b7280;
-    padding:25px
-  }
-
-  .count{
-    color:#6b7280;
-    font-size:14px;
-    margin-top:8px
-  }
-
-  .date{
-    color:#6b7280;
-    font-size:13px;
-    margin-top:4px
-  }
-
-  .saida-date{
-    color:#dc2626;
-    font-size:13px;
-    margin-top:4px
-  }
-
-  /* Resumo por tipo */
-
-  .resumo-tabela{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:12px
-  }
-
-  .resumo-tabela th,
-  .resumo-tabela td{
-    padding:12px 8px;
-    text-align:left;
-    border-bottom:1px solid #e5e7eb
-  }
-
-  .resumo-tabela th{
-    font-size:14px;
-    color:#6b7280;
-    font-weight:bold
-  }
-
-  .resumo-tabela td{
-    font-size:15px
-  }
-
-  .resumo-tabela tr:last-child td{
-    border-bottom:0
-  }
-
-  .tipo-resumo{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-weight:bold
-  }
-
-  .tipo-resumo .dot{
-    width:14px;
-    height:14px
-  }
-
-  .total-tipo{
-    font-weight:bold;
-    white-space:nowrap
-  }
-
-  @media(max-width:650px){
-
-    .form,.filters{
-      grid-template-columns:1fr
-    }
-
-    .form button{
-      width:100%
-    }
-
-    .roll{
-      align-items:flex-start;
-      flex-direction:column
-    }
-
-    .meters{
-      font-size:18px
-    }
-
-    .roll-action{
-      width:100%
-    }
-
-    .roll-action button{
-      width:100%
-    }
-
-    .resumo-tabela th,
-    .resumo-tabela td{
-      padding:10px 5px;
-      font-size:14px
-    }
-
-  }
-</style></head><body><div class="container">  <!-- CABEÇALHO -->  <div class="card"><h1>📦 Estoque de Rolos</h1>
-
-<p class="subtitle">
-  Controle suas metragens, cores, entradas e saídas.
-</p>
+<div class="card">
+<h1>📦 Estoque de Rolos</h1>
+<p class="subtitle">Controle suas metragens, cores, entradas e saídas.</p>
 
 <div class="form">
-
-  <div>
-
-    <label for="tipo">
-      Tipo / Cor
-    </label>
-
-    <select id="tipo">
-
-      <option>Preto liso</option>
-      <option>Preto texturado</option>
-      <option>Golden</option>
-      <option>Nogueira</option>
-      <option>Bronze</option>
-      <option>Pirita</option>
-      <option>Grafite</option>
-
-    </select>
-
-  </div>
-
-
-  <div>
-
-    <label for="metragem">
-      Metragem (m)
-    </label>
-
-    <input
-      id="metragem"
-      type="number"
-      min="0"
-      step="0.01"
-      placeholder="Ex.: 530"
-    >
-
-  </div>
-
-
-  <div style="align-self:end">
-
-    <button id="add">
-      ➕ Entrada
-    </button>
-
-  </div>
-
+<div>
+<label for="tipo">Tipo / Cor</label>
+<select id="tipo">
+<option>Preto liso</option>
+<option>Preto texturado</option>
+<option>Golden</option>
+<option>Nogueira</option>
+<option>Bronze</option>
+<option>Pirita</option>
+<option>Grafite</option>
+</select>
 </div>
 
-  </div>  <!-- ESTATÍSTICAS -->  <div class="stats"><div class="stat">
-
-  📦 Rolos no estoque
-
-  <strong id="totalRolos">
-    0
-  </strong>
-
+<div>
+<label for="metragem">Metragem (m)</label>
+<input id="metragem" type="number" min="0" step="0.01" placeholder="Ex.: 530">
 </div>
 
-
-<div class="stat">
-
-  📏 Metros no estoque
-
-  <strong id="totalMetros">
-    0 m
-  </strong>
-
+<div style="align-self:end">
+<button id="add">➕ Entrada</button>
+</div>
+</div>
 </div>
 
-  </div>  <!-- ABAS -->  <div class="tabs"><button
-  id="btnEntrada"
-  class="tab active"
->
-  📥 Entrada
-</button>
+<div class="stats">
+<div class="stat">📦 Rolos no estoque<strong id="totalRolos">0</strong></div>
+<div class="stat">📏 Metros no estoque<strong id="totalMetros">0 m</strong></div>
+</div>
 
+<div class="tabs">
+<button id="btnEntrada" class="tab active">📥 Entrada</button>
+<button id="btnSaida" class="tab">📤 Saída</button>
+</div>
 
-<button
-  id="btnSaida"
-  class="tab"
->
-  📤 Saída
-</button>
-
-  </div>  <!-- BUSCA -->  <div class="card"><h2>
-  🔎 Buscar
-</h2>
-
+<div class="card">
+<h2>🔎 Buscar</h2>
 <div class="filters">
+<input id="buscaMetragem" type="number" min="0" step="0.01" placeholder="Buscar por metragem...">
+<select id="filtroTipo">
+<option value="">Todas as cores</option>
+<option>Preto liso</option>
+<option>Preto texturado</option>
+<option>Golden</option>
+<option>Nogueira</option>
+<option>Bronze</option>
+<option>Pirita</option>
+<option>Grafite</option>
+</select>
+</div>
+</div>
 
-  <input
-    id="buscaMetragem"
-    type="number"
-    min="0"
-    step="0.01"
-    placeholder="Buscar por metragem..."
-  >
+<div class="card">
+<h2 id="tituloLista">📥 Rolos no estoque</h2>
+<div id="lista"></div>
+<div class="count" id="count"></div>
+</div>
 
+<div class="card">
+<h2>📊 Resumo por tipo</h2>
+<table class="resumo-tabela">
+<thead><tr><th>Tipo</th><th>Rolos</th><th>Metragem total</th></tr></thead>
+<tbody id="resumoTipos"></tbody>
+</table>
+</div>
 
-  <select id="filtroTipo">
-
-    <option value="">
-      Todas as cores
-    </option>
-
-    <option>Preto liso</option>
-    <option>Preto texturado</option>
-    <option>Golden</option>
-    <option>Nogueira</option>
-    <option>Bronze</option>
-    <option>Pirita</option>
-    <option>Grafite</option>
-
-  </select>
+<div class="card">
+<h2>⚙️ GitHub</h2>
+<div class="config">
+<button id="configurar">🔐 Configurar acesso</button>
+<button id="recarregar">🔄 Recarregar do GitHub</button>
+</div>
+<div class="small">
+O token fica salvo somente neste navegador. Não coloque seu token no código do site.
+</div>
+<div id="status" class="status">Aguardando conexão com o GitHub...</div>
+</div>
 
 </div>
 
-  </div>  <!-- LISTA -->  <div class="card"><h2 id="tituloLista">
-  📥 Rolos no estoque
-</h2>
-
-<div id="lista"></div>
-
-<div
-  class="count"
-  id="count"
-></div>
-
-  </div>  <!-- RESUMO -->  <div class="card"><h2>
-  📊 Resumo por tipo
-</h2>
-
-<table class="resumo-tabela">
-
-  <thead>
-
-    <tr>
-      <th>Tipo</th>
-      <th>Rolos</th>
-      <th>Metragem total</th>
-    </tr>
-
-  </thead>
-
-  <tbody id="resumoTipos"></tbody>
-
-</table>
-
-  </div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-
-const SUPABASE_URL =
-  "https://pipnkvlicwfraisywrzl.supabase.co";
-
-
-const SUPABASE_KEY =
-  "sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";
-
-
-const supabase =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
-let rolos = [];
-
-let abaAtual = "entrada";
-
-
-/* ==========================
-   CORES
-========================== */
+<script>
+/*
+  CONFIGURAÇÃO
+  O repositório usado é o cartromform do usuário raph4dura.
+  Se você mudar o repositório, altere OWNER e REPO.
+*/
+const OWNER = "raph4dura";
+const REPO = "cartromform";
+const BRANCH = "main";
+const FILE_PATH = "estoque.json";
 
 const cores = {
-
   "Preto liso":"#111111",
-
   "Preto texturado":"#333333",
-
   "Golden":"#d4af37",
-
   "Nogueira":"#6b4226",
-
   "Bronze":"#cd7f32",
-
   "Pirita":"#8b8b83",
-
   "Grafite":"#555555"
-
 };
 
-
 const tipos = [
-
   "Preto liso",
   "Preto texturado",
   "Golden",
@@ -472,715 +176,393 @@ const tipos = [
   "Bronze",
   "Pirita",
   "Grafite"
-
 ];
 
+let rolos = [];
+let abaAtual = "entrada";
+let arquivoSha = null;
+let salvando = false;
 
-/* ==========================
-   ELEMENTOS
-========================== */
+const tipo = document.getElementById("tipo");
+const metragem = document.getElementById("metragem");
+const buscaMetragem = document.getElementById("buscaMetragem");
+const filtroTipo = document.getElementById("filtroTipo");
+const lista = document.getElementById("lista");
+const resumoTipos = document.getElementById("resumoTipos");
+const btnEntrada = document.getElementById("btnEntrada");
+const btnSaida = document.getElementById("btnSaida");
+const statusEl = document.getElementById("status");
+const addBtn = document.getElementById("add");
 
-const tipo =
-  document.getElementById("tipo");
+function setStatus(texto, classe=""){
+  statusEl.textContent = texto;
+  statusEl.className = "status " + classe;
+}
 
+function tokenAtual(){
+  return localStorage.getItem("github_token") || "";
+}
 
-const metragem =
-  document.getElementById("metragem");
+function configurarToken(){
+  const atual = tokenAtual();
+  const token = prompt(
+    "Cole seu Fine-grained Personal Access Token do GitHub.\n\n" +
+    "Ele será guardado somente neste navegador."
+    + (atual ? "\n\nJá existe um token salvo. Cole outro para substituir ou cancele para manter o atual." : ""),
+    ""
+  );
 
+  if(token === null) return;
+  if(!token.trim()){
+    alert("Nenhum token foi informado.");
+    return;
+  }
 
-const buscaMetragem =
-  document.getElementById("buscaMetragem");
-
-
-const filtroTipo =
-  document.getElementById("filtroTipo");
-
-
-const lista =
-  document.getElementById("lista");
-
-
-const resumoTipos =
-  document.getElementById("resumoTipos");
-
-
-const btnEntrada =
-  document.getElementById("btnEntrada");
-
-
-const btnSaida =
-  document.getElementById("btnSaida");
-
-
-/* ==========================
-   FORMATAR NÚMERO
-========================== */
+  localStorage.setItem("github_token", token.trim());
+  setStatus("Token salvo neste navegador. Carregando estoque...", "ok");
+  carregarRolos();
+}
 
 function formatarNumero(n){
-
   return Number.isInteger(Number(n))
-
     ? String(n)
-
-    : Number(n).toLocaleString(
-        "pt-BR",
-        {
-          maximumFractionDigits:2
-        }
-      );
-
+    : Number(n).toLocaleString("pt-BR",{maximumFractionDigits:2});
 }
-
-
-/* ==========================
-   FORMATAR DATA/HORA
-========================== */
 
 function formatarData(data){
-
-  if(!data){
-    return "—";
-  }
-
-
+  if(!data) return "—";
   const d = new Date(data);
-
-
-  if(isNaN(d.getTime())){
-    return "—";
-  }
-
-
-  return d.toLocaleString(
-    "pt-BR",
-    {
-      day:"2-digit",
-      month:"2-digit",
-      year:"numeric",
-      hour:"2-digit",
-      minute:"2-digit"
-    }
-  );
-
+  if(isNaN(d.getTime())) return "—";
+  return d.toLocaleString("pt-BR",{
+    day:"2-digit",month:"2-digit",year:"numeric",
+    hour:"2-digit",minute:"2-digit"
+  });
 }
 
+function gerarId(){
+  return Date.now() + Math.floor(Math.random()*1000);
+}
 
-/* ==========================
-   CARREGAR DO SUPABASE
-========================== */
+function base64DecodeUnicode(base64){
+  const binary = atob(base64.replace(/\n/g,""));
+  const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+  return new TextDecoder("utf-8").decode(bytes);
+}
+
+function base64EncodeUnicode(text){
+  const bytes = new TextEncoder().encode(text);
+  let binary = "";
+  const tamanho = 0x8000;
+  for(let i=0;i<bytes.length;i+=tamanho){
+    binary += String.fromCharCode(...bytes.subarray(i,i+tamanho));
+  }
+  return btoa(binary);
+}
+
+async function githubRequest(url, options={}){
+  const token = tokenAtual();
+  if(!token){
+    throw new Error("TOKEN_AUSENTE");
+  }
+
+  const headers = {
+    "Accept":"application/vnd.github+json",
+    "X-GitHub-Api-Version":"2022-11-28",
+    ...options.headers,
+    "Authorization":"Bearer " + token
+  };
+
+  const response = await fetch(url,{...options,headers});
+  let data = null;
+  try{ data = await response.json(); }catch(e){}
+
+  if(!response.ok){
+    const msg = data?.message || `Erro HTTP ${response.status}`;
+    throw new Error(msg);
+  }
+
+  return data;
+}
+
+async function obterArquivo(){
+  const url =
+    `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}?ref=${encodeURIComponent(BRANCH)}`;
+
+  return githubRequest(url,{method:"GET"});
+}
 
 async function carregarRolos(){
+  if(!tokenAtual()){
+    setStatus("Configure seu acesso ao GitHub para carregar o estoque.");
+    render();
+    return;
+  }
 
-  const { data, error } =
-    await supabase
-      .from("rolos")
-      .select("*")
-      .order(
-        "entrada_em",
-        {
-          ascending:false
-        }
-      );
+  try{
+    setStatus("🔄 Carregando estoque do GitHub...");
+    const arquivo = await obterArquivo();
+    arquivoSha = arquivo.sha;
 
+    const texto = base64DecodeUnicode(arquivo.content || "");
+    const dados = JSON.parse(texto);
 
-  if(error){
+    if(Array.isArray(dados)){
+      rolos = dados;
+    }else if(Array.isArray(dados.rolos)){
+      rolos = dados.rolos;
+    }else{
+      throw new Error("O estoque.json não contém uma lista válida.");
+    }
 
+    setStatus(`✅ Estoque atualizado. ${rolos.length} registro(s) carregado(s).`,"ok");
+    render();
+  }catch(error){
     console.error(error);
 
-    alert(
-      "Erro ao carregar os rolos."
-    );
-
-    return;
-
+    if(error.message === "TOKEN_AUSENTE"){
+      setStatus("Configure seu token do GitHub para começar.");
+    }else if(error.message.includes("Not Found")){
+      setStatus("Não encontrei estoque.json no repositório. Crie o arquivo primeiro.");
+    }else if(error.message.includes("Bad credentials")){
+      setStatus("Token inválido ou expirado. Configure o acesso novamente.","erro");
+    }else{
+      setStatus("Erro ao carregar: " + error.message,"erro");
+    }
   }
-
-
-  rolos = data || [];
-
-
-  render();
-
 }
 
+async function salvarRolos(mensagem="Atualizar estoque"){
+  if(salvando) return false;
 
-/* ==========================
-   ADICIONAR ENTRADA
-========================== */
-
-async function adicionar(){
-
-  const valor =
-    Number(metragem.value);
-
-
-  if(
-    !Number.isFinite(valor) ||
-    valor <= 0
-  ){
-
-    alert(
-      "Digite uma metragem válida."
-    );
-
-    metragem.focus();
-
-    return;
-
+  const token = tokenAtual();
+  if(!token){
+    alert("Configure seu acesso ao GitHub primeiro.");
+    return false;
   }
 
-
-  const { error } =
-    await supabase
-      .from("rolos")
-      .insert([
-
-        {
-
-          tipo:tipo.value,
-
-          metragem:valor,
-
-          entrada_em:new Date().toISOString(),
-
-          saida_em:null
-
-        }
-
-      ]);
-
-
-  if(error){
-
-    console.error(error);
-
-    alert(
-      "Erro ao registrar a entrada."
-    );
-
-    return;
-
-  }
-
-
-  metragem.value = "";
-
-  metragem.focus();
-
-
-  await carregarRolos();
-
-}
-
-
-/* ==========================
-   REGISTRAR SAÍDA
-========================== */
-
-async function registrarSaida(id){
-
-  const rolo =
-    rolos.find(
-      r => r.id === id
-    );
-
-
-  if(!rolo) return;
-
-
-  const confirmar =
-    confirm(
-
-      `Registrar saída do rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`
-
-    );
-
-
-  if(!confirmar){
-    return;
-  }
-
-
-  const { error } =
-    await supabase
-      .from("rolos")
-      .update({
-
-        saida_em:
-          new Date().toISOString()
-
-      })
-      .eq(
-        "id",
-        id
-      );
-
-
-  if(error){
-
-    console.error(error);
-
-    alert(
-      "Erro ao registrar a saída."
-    );
-
-    return;
-
-  }
-
-
-  await carregarRolos();
-
-}
-
-
-/* ==========================
-   RESUMO POR TIPO
-========================== */
-
-function renderResumo(){
-
-  /*
-    O resumo mostra somente
-    aquilo que ainda está
-    no estoque.
-  */
-
-  const estoque =
-    rolos.filter(
-      r => !r.saida_em
-    );
-
-
-  resumoTipos.innerHTML =
-    tipos.map(tipoAtual => {
-
-      const rolosTipo =
-        estoque.filter(
-          r => r.tipo === tipoAtual
-        );
-
-
-      const quantidade =
-        rolosTipo.length;
-
-
-      const metragemTotal =
-        rolosTipo.reduce(
-
-          (s,r) =>
-            s + Number(r.metragem),
-
-          0
-
-        );
-
-
-      return `
-
-        <tr>
-
-          <td>
-
-            <div class="tipo-resumo">
-
-              <span
-                class="dot"
-                style="background:${cores[tipoAtual] || "#999"}"
-              ></span>
-
-              ${tipoAtual}
-
-            </div>
-
-          </td>
-
-
-          <td>
-            ${quantidade}
-          </td>
-
-
-          <td class="total-tipo">
-            ${formatarNumero(metragemTotal)} m
-          </td>
-
-        </tr>
-
-      `;
-
-    }).join("");
-
-}
-
-
-/* ==========================
-   RENDERIZAR LISTA
-========================== */
-
-function render(){
-
-  const busca =
-    buscaMetragem.value.trim();
-
-
-  const tipoFiltro =
-    filtroTipo.value;
-
-
-  /*
-    Define se estamos
-    mostrando entrada
-    ou saída.
-  */
-
-  let filtrados =
-    rolos.filter(r => {
-
-      const estaNaEntrada =
-        !r.saida_em;
-
-
-      const estaNaSaida =
-        !!r.saida_em;
-
-
-      const pertenceAba =
-        abaAtual === "entrada"
-          ? estaNaEntrada
-          : estaNaSaida;
-
-
-      if(!pertenceAba){
-        return false;
-      }
-
-
-      const bateMetragem =
-        !busca ||
-        String(r.metragem)
-          .startsWith(busca);
-
-
-      const bateTipo =
-        !tipoFiltro ||
-        r.tipo === tipoFiltro;
-
-
-      return (
-        bateMetragem &&
-        bateTipo
-      );
-
+  salvando = true;
+  addBtn.disabled = true;
+
+  try{
+    /*
+      Busca o SHA imediatamente antes de salvar.
+      Isso reduz o risco de sobrescrever uma alteração feita pela outra pessoa.
+    */
+    const arquivoAtual = await obterArquivo();
+    arquivoSha = arquivoAtual.sha;
+
+    const conteudo = JSON.stringify(rolos,null,2);
+    const body = {
+      message: mensagem,
+      content: base64EncodeUnicode(conteudo),
+      sha: arquivoSha,
+      branch: BRANCH
+    };
+
+    const url =
+      `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`;
+
+    const resposta = await githubRequest(url,{
+      method:"PUT",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(body)
     });
 
+    arquivoSha = resposta.content?.sha || arquivoSha;
+    setStatus("✅ Salvo no GitHub com sucesso.","ok");
+    return true;
+  }catch(error){
+    console.error(error);
 
-  /*
-    Entrada:
-    mais recentes primeiro.
-
-    Saída:
-    saídas mais recentes primeiro.
-  */
-
-  filtrados.sort(
-    (a,b) => {
-
-      if(abaAtual === "entrada"){
-
-        return new Date(b.entrada_em)
-          - new Date(a.entrada_em);
-
-      }
-
-
-      return new Date(b.saida_em)
-        - new Date(a.saida_em);
-
+    if(error.message.includes("does not match")){
+      setStatus("Outra pessoa alterou o estoque. Recarregue antes de tentar novamente.","erro");
+      alert("O estoque foi alterado por outra pessoa. Clique em 'Recarregar do GitHub' e tente novamente.");
+    }else if(error.message.includes("Bad credentials")){
+      setStatus("Token inválido ou expirado.","erro");
+    }else{
+      setStatus("Erro ao salvar: " + error.message,"erro");
     }
+
+    return false;
+  }finally{
+    salvando = false;
+    addBtn.disabled = false;
+  }
+}
+
+async function adicionar(){
+  const valor = Number(metragem.value);
+
+  if(!Number.isFinite(valor) || valor <= 0){
+    alert("Digite uma metragem válida.");
+    metragem.focus();
+    return;
+  }
+
+  const novo = {
+    id: gerarId(),
+    tipo: tipo.value,
+    metragem: valor,
+    entrada_em: new Date().toISOString(),
+    saida_em: null
+  };
+
+  rolos.unshift(novo);
+  render();
+
+  const ok = await salvarRolos(`Entrada de ${valor} m - ${tipo.value}`);
+
+  if(!ok){
+    rolos = rolos.filter(r => r.id !== novo.id);
+    render();
+    return;
+  }
+
+  metragem.value = "";
+  metragem.focus();
+}
+
+async function registrarSaida(id){
+  const rolo = rolos.find(r => r.id === id);
+  if(!rolo) return;
+
+  const confirmar = confirm(
+    `Registrar saída do rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`
   );
 
+  if(!confirmar) return;
 
-  /*
-    Estatísticas do estoque atual.
-  */
+  const antigo = rolo.saida_em;
+  rolo.saida_em = new Date().toISOString();
+  render();
 
-  const estoque =
-    rolos.filter(
-      r => !r.saida_em
-    );
+  const ok = await salvarRolos(`Saída de ${rolo.metragem} m - ${rolo.tipo}`);
 
+  if(!ok){
+    rolo.saida_em = antigo;
+    render();
+  }
+}
 
-  document
-    .getElementById("totalRolos")
-    .textContent =
-      estoque.length;
+function renderResumo(){
+  const estoque = rolos.filter(r => !r.saida_em);
 
+  resumoTipos.innerHTML = tipos.map(tipoAtual => {
+    const rolosTipo = estoque.filter(r => r.tipo === tipoAtual);
+    const quantidade = rolosTipo.length;
+    const metragemTotal = rolosTipo.reduce((s,r)=>s+Number(r.metragem),0);
 
-  document
-    .getElementById("totalMetros")
-    .textContent =
+    return `
+      <tr>
+        <td>
+          <div class="tipo-resumo">
+            <span class="dot" style="background:${cores[tipoAtual] || "#999"}"></span>
+            ${tipoAtual}
+          </div>
+        </td>
+        <td>${quantidade}</td>
+        <td class="total-tipo">${formatarNumero(metragemTotal)} m</td>
+      </tr>
+    `;
+  }).join("");
+}
 
-      formatarNumero(
+function render(){
+  const busca = buscaMetragem.value.trim();
+  const tipoFiltro = filtroTipo.value;
 
-        estoque.reduce(
-          (s,r) =>
-            s + Number(r.metragem),
+  let filtrados = rolos.filter(r => {
+    const pertenceAba = abaAtual === "entrada" ? !r.saida_em : !!r.saida_em;
+    if(!pertenceAba) return false;
 
-          0
-        )
+    const bateMetragem =
+      !busca || String(r.metragem).startsWith(busca);
 
-      ) + " m";
+    const bateTipo =
+      !tipoFiltro || r.tipo === tipoFiltro;
 
+    return bateMetragem && bateTipo;
+  });
 
-  /*
-    Contador da aba.
-  */
+  filtrados.sort((a,b) => {
+    if(abaAtual === "entrada"){
+      return new Date(b.entrada_em) - new Date(a.entrada_em);
+    }
+    return new Date(b.saida_em) - new Date(a.saida_em);
+  });
 
-  document
-    .getElementById("count")
-    .textContent =
+  const estoque = rolos.filter(r => !r.saida_em);
 
-      abaAtual === "entrada"
+  document.getElementById("totalRolos").textContent = estoque.length;
+  document.getElementById("totalMetros").textContent =
+    formatarNumero(estoque.reduce((s,r)=>s+Number(r.metragem),0)) + " m";
 
-        ? `${filtrados.length} rolo(s) no estoque`
-
-        : `${filtrados.length} rolo(s) com saída`;
-
-
-  /*
-    Lista vazia.
-  */
+  document.getElementById("count").textContent =
+    abaAtual === "entrada"
+      ? `${filtrados.length} rolo(s) no estoque`
+      : `${filtrados.length} rolo(s) com saída`;
 
   if(!filtrados.length){
-
     lista.innerHTML =
-
       abaAtual === "entrada"
-
         ? '<div class="empty">Nenhum rolo no estoque.</div>'
-
         : '<div class="empty">Nenhum rolo com saída registrada.</div>';
-
-  }
-
-
-  else {
-
-    lista.innerHTML =
-
-      filtrados.map(r => `
-
-        <div class="roll">
-
-          <div class="roll-info">
-
-            <span
-              class="dot"
-              style="background:${cores[r.tipo] || "#999"}"
-            ></span>
-
-
-            <div>
-
-              <div class="name">
-                ${r.tipo}
-              </div>
-
-
-              <div class="count">
-                Rolo individual
-              </div>
-
-
-              <div class="date">
-                📥 Entrada:
-                ${formatarData(r.entrada_em)}
-              </div>
-
-
-              ${
-                r.saida_em
-
-                  ? `
-
-                    <div class="saida-date">
-                      📤 Saída:
-                      ${formatarData(r.saida_em)}
-                    </div>
-
-                  `
-
-                  : ""
-
-              }
-
-            </div>
-
+  }else{
+    lista.innerHTML = filtrados.map(r => `
+      <div class="roll">
+        <div class="roll-info">
+          <span class="dot" style="background:${cores[r.tipo] || "#999"}"></span>
+          <div>
+            <div class="name">${r.tipo}</div>
+            <div class="count">Rolo individual</div>
+            <div class="date">📥 Entrada: ${formatarData(r.entrada_em)}</div>
+            ${r.saida_em ? `<div class="saida-date">📤 Saída: ${formatarData(r.saida_em)}</div>` : ""}
           </div>
-
-
-          <div
-            class="roll-action"
-            style="
-              display:flex;
-              align-items:center;
-              gap:10px
-            "
-          >
-
-            <span class="meters">
-              ${formatarNumero(r.metragem)} m
-            </span>
-
-
-            ${
-              abaAtual === "entrada"
-
-                ? `
-
-                  <button
-                    class="delete"
-                    onclick="registrarSaida(${r.id})"
-                  >
-                    📤 Saída
-                  </button>
-
-                `
-
-                : ""
-
-            }
-
-          </div>
-
         </div>
 
-      `).join("");
-
+        <div class="roll-action" style="display:flex;align-items:center;gap:10px">
+          <span class="meters">${formatarNumero(r.metragem)} m</span>
+          ${abaAtual === "entrada" ? `
+            <button class="delete" onclick="registrarSaida(${r.id})">📤 Saída</button>
+          ` : ""}
+        </div>
+      </div>
+    `).join("");
   }
-
 
   renderResumo();
-
 }
-
-
-/* ==========================
-   TROCAR PARA ENTRADA
-========================== */
 
 function mostrarEntrada(){
-
   abaAtual = "entrada";
-
-
-  btnEntrada.classList.add(
-    "active"
-  );
-
-
-  btnSaida.classList.remove(
-    "active"
-  );
-
-
-  document
-    .getElementById("tituloLista")
-    .textContent =
-      "📥 Rolos no estoque";
-
-
+  btnEntrada.classList.add("active");
+  btnSaida.classList.remove("active");
+  document.getElementById("tituloLista").textContent = "📥 Rolos no estoque";
   render();
-
 }
-
-
-/* ==========================
-   TROCAR PARA SAÍDA
-========================== */
 
 function mostrarSaida(){
-
   abaAtual = "saida";
-
-
-  btnSaida.classList.add(
-    "active"
-  );
-
-
-  btnEntrada.classList.remove(
-    "active"
-  );
-
-
-  document
-    .getElementById("tituloLista")
-    .textContent =
-      "📤 Rolos que saíram";
-
-
+  btnSaida.classList.add("active");
+  btnEntrada.classList.remove("active");
+  document.getElementById("tituloLista").textContent = "📤 Rolos que saíram";
   render();
-
 }
 
+document.getElementById("add").addEventListener("click",adicionar);
 
-/* ==========================
-   EVENTOS
-========================== */
+metragem.addEventListener("keydown",e=>{
+  if(e.key === "Enter") adicionar();
+});
 
-document
-  .getElementById("add")
-  .addEventListener(
-    "click",
-    adicionar
-  );
-
-
-metragem.addEventListener(
-  "keydown",
-  e => {
-
-    if(e.key === "Enter"){
-
-      adicionar();
-
-    }
-
-  }
-);
-
-
-buscaMetragem.addEventListener(
-  "input",
-  render
-);
-
-
-filtroTipo.addEventListener(
-  "change",
-  render
-);
-
-
-btnEntrada.addEventListener(
-  "click",
-  mostrarEntrada
-);
-
-
-btnSaida.addEventListener(
-  "click",
-  mostrarSaida
-);
-
-
-/* ==========================
-   INICIAR
-========================== */
+buscaMetragem.addEventListener("input",render);
+filtroTipo.addEventListener("change",render);
+btnEntrada.addEventListener("click",mostrarEntrada);
+btnSaida.addEventListener("click",mostrarSaida);
+document.getElementById("configurar").addEventListener("click",configurarToken);
+document.getElementById("recarregar").addEventListener("click",carregarRolos);
 
 carregarRolos();
-
-</script></body>
+</script>
+</body>
 </html>
