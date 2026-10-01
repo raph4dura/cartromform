@@ -437,7 +437,7 @@ function formatarNumero(n){
 }
 
 
-function adicionar(){
+async function adicionar(){
 
   const valor = Number(metragem.value);
 
@@ -452,24 +452,33 @@ function adicionar(){
   }
 
 
-  rolos.push({
+  const { data, error } = await supabase
+    .from("rolos")
+    .insert([
+      {
+        tipo: tipo.value,
+        metragem: valor
+      }
+    ])
+    .select();
 
-    id: Date.now() + Math.random(),
 
-    tipo: tipo.value,
+  if(error){
 
-    metragem: valor
+    console.error(error);
 
-  });
+    alert("Erro ao adicionar o rolo.");
 
+    return;
 
-  salvar();
+  }
+
 
   metragem.value = "";
 
   metragem.focus();
 
-  render();
+  await carregarRolos();
 
 }
 
