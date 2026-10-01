@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estoque de Rolos</title>
-
-<style>
+<title>Estoque de Rolos</title><style>
   *{box-sizing:border-box}
 
   body{
@@ -97,6 +94,25 @@
     gap:10px
   }
 
+  /* ABAS */
+
+  .tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:16px
+  }
+
+  .tab{
+    background:#e5e7eb;
+    color:#374151;
+  }
+
+  .tab.active{
+    background:#2563eb;
+    color:white;
+  }
+
   .roll{
     display:flex;
     align-items:center;
@@ -154,7 +170,20 @@
     margin-top:8px
   }
 
+  .date{
+    color:#6b7280;
+    font-size:13px;
+    margin-top:4px
+  }
+
+  .saida-date{
+    color:#dc2626;
+    font-size:13px;
+    margin-top:4px
+  }
+
   /* Resumo por tipo */
+
   .resumo-tabela{
     width:100%;
     border-collapse:collapse;
@@ -200,6 +229,7 @@
   }
 
   @media(max-width:650px){
+
     .form,.filters{
       grid-template-columns:1fr
     }
@@ -209,11 +239,20 @@
     }
 
     .roll{
-      align-items:flex-start
+      align-items:flex-start;
+      flex-direction:column
     }
 
     .meters{
       font-size:18px
+    }
+
+    .roll-action{
+      width:100%
+    }
+
+    .roll-action button{
+      width:100%
     }
 
     .resumo-tabela th,
@@ -221,170 +260,204 @@
       padding:10px 5px;
       font-size:14px
     }
+
   }
-</style>
-</head>
+</style></head><body><div class="container">  <!-- CABEÇALHO -->  <div class="card"><h1>📦 Estoque de Rolos</h1>
 
-<body>
+<p class="subtitle">
+  Controle suas metragens, cores, entradas e saídas.
+</p>
 
-<div class="container">
+<div class="form">
 
-  <div class="card">
-    <h1>📦 Estoque de Rolos</h1>
-    <p class="subtitle">Controle suas metragens e cores.</p>
+  <div>
 
-    <div class="form">
+    <label for="tipo">
+      Tipo / Cor
+    </label>
 
-      <div>
-        <label for="tipo">Tipo / Cor</label>
+    <select id="tipo">
 
-        <select id="tipo">
-          <option>Preto liso</option>
-          <option>Preto texturado</option>
-          <option>Golden</option>
-          <option>Nogueira</option>
-          <option>Bronze</option>
-          <option>Pirita</option>
-          <option>Grafite</option>
-        </select>
-      </div>
+      <option>Preto liso</option>
+      <option>Preto texturado</option>
+      <option>Golden</option>
+      <option>Nogueira</option>
+      <option>Bronze</option>
+      <option>Pirita</option>
+      <option>Grafite</option>
 
-      <div>
-        <label for="metragem">Metragem (m)</label>
-
-        <input
-          id="metragem"
-          type="number"
-          min="0"
-          step="0.01"
-          placeholder="Ex.: 530"
-        >
-      </div>
-
-      <div style="align-self:end">
-        <button id="add">➕ Adicionar</button>
-      </div>
-
-    </div>
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-      📦 Quantidade de rolos
-      <strong id="totalRolos">0</strong>
-    </div>
-
-    <div class="stat">
-      📏 Total de metros
-      <strong id="totalMetros">0 m</strong>
-    </div>
+    </select>
 
   </div>
 
 
+  <div>
 
+    <label for="metragem">
+      Metragem (m)
+    </label>
 
-  <div class="card">
-
-    <h2>🔎 Buscar no estoque</h2>
-
-    <div class="filters">
-
-      <input
-        id="buscaMetragem"
-        type="number"
-        min="0"
-        step="0.01"
-        placeholder="Buscar por metragem..."
-      >
-
-      <select id="filtroTipo">
-
-        <option value="">Todas as cores</option>
-
-        <option>Preto liso</option>
-        <option>Preto texturado</option>
-        <option>Golden</option>
-        <option>Nogueira</option>
-        <option>Bronze</option>
-        <option>Pirita</option>
-        <option>Grafite</option>
-
-      </select>
-
-    </div>
+    <input
+      id="metragem"
+      type="number"
+      min="0"
+      step="0.01"
+      placeholder="Ex.: 530"
+    >
 
   </div>
 
 
-  <div class="card">
+  <div style="align-self:end">
 
-    <h2>Rolos disponíveis</h2>
-
-    <div id="lista"></div>
-
-    <div class="count" id="count"></div>
+    <button id="add">
+      ➕ Entrada
+    </button>
 
   </div>
 
 </div>
 
-  <!-- RESUMO POR TIPO -->
+  </div>  <!-- ESTATÍSTICAS -->  <div class="stats"><div class="stat">
 
-  <div class="card">
+  📦 Rolos no estoque
 
-    <h2>📊 Resumo por tipo</h2>
+  <strong id="totalRolos">
+    0
+  </strong>
 
-    <table class="resumo-tabela">
-
-      <thead>
-        <tr>
-          <th>Tipo</th>
-          <th>Rolos</th>
-          <th>Metragem total</th>
-        </tr>
-      </thead>
-
-      <tbody id="resumoTipos"></tbody>
-
-    </table>
-
-  </div>
+</div>
 
 
+<div class="stat">
+
+  📏 Metros no estoque
+
+  <strong id="totalMetros">
+    0 m
+  </strong>
+
+</div>
+
+  </div>  <!-- ABAS -->  <div class="tabs"><button
+  id="btnEntrada"
+  class="tab active"
+>
+  📥 Entrada
+</button>
 
 
-  
-    
+<button
+  id="btnSaida"
+  class="tab"
+>
+  📤 Saída
+</button>
+
+  </div>  <!-- BUSCA -->  <div class="card"><h2>
+  🔎 Buscar
+</h2>
+
+<div class="filters">
+
+  <input
+    id="buscaMetragem"
+    type="number"
+    min="0"
+    step="0.01"
+    placeholder="Buscar por metragem..."
+  >
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <select id="filtroTipo">
 
-<script>
+    <option value="">
+      Todas as cores
+    </option>
 
-const SUPABASE_URL = "https://pipnkvlicwfraisywrzl.supabase.co";
+    <option>Preto liso</option>
+    <option>Preto texturado</option>
+    <option>Golden</option>
+    <option>Nogueira</option>
+    <option>Bronze</option>
+    <option>Pirita</option>
+    <option>Grafite</option>
 
-const SUPABASE_KEY = "sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";
+  </select>
 
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+</div>
+
+  </div>  <!-- LISTA -->  <div class="card"><h2 id="tituloLista">
+  📥 Rolos no estoque
+</h2>
+
+<div id="lista"></div>
+
+<div
+  class="count"
+  id="count"
+></div>
+
+  </div>  <!-- RESUMO -->  <div class="card"><h2>
+  📊 Resumo por tipo
+</h2>
+
+<table class="resumo-tabela">
+
+  <thead>
+
+    <tr>
+      <th>Tipo</th>
+      <th>Rolos</th>
+      <th>Metragem total</th>
+    </tr>
+
+  </thead>
+
+  <tbody id="resumoTipos"></tbody>
+
+</table>
+
+  </div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+
+const SUPABASE_URL =
+  "https://pipnkvlicwfraisywrzl.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";
+
+
+const supabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
 let rolos = [];
 
+let abaAtual = "entrada";
+
+
+/* ==========================
+   CORES
+========================== */
 
 const cores = {
 
   "Preto liso":"#111111",
+
   "Preto texturado":"#333333",
+
   "Golden":"#d4af37",
+
   "Nogueira":"#6b4226",
+
   "Bronze":"#cd7f32",
+
   "Pirita":"#8b8b83",
+
   "Grafite":"#555555"
 
 };
@@ -403,51 +476,40 @@ const tipos = [
 ];
 
 
-const tipo = document.getElementById("tipo");
+/* ==========================
+   ELEMENTOS
+========================== */
 
-const metragem = document.getElementById("metragem");
+const tipo =
+  document.getElementById("tipo");
+
+
+const metragem =
+  document.getElementById("metragem");
+
 
 const buscaMetragem =
   document.getElementById("buscaMetragem");
 
+
 const filtroTipo =
   document.getElementById("filtroTipo");
 
+
 const lista =
   document.getElementById("lista");
+
 
 const resumoTipos =
   document.getElementById("resumoTipos");
 
 
-/* ==========================
-   CARREGAR DO SUPABASE
-========================== */
-
-async function carregarRolos(){
-
-  const { data, error } = await supabase
-    .from("rolos")
-    .select("*")
-    .order("metragem", { ascending: true });
+const btnEntrada =
+  document.getElementById("btnEntrada");
 
 
-  if(error){
-
-    console.error(error);
-
-    alert("Erro ao carregar os rolos.");
-
-    return;
-
-  }
-
-
-  rolos = data || [];
-
-  render();
-
-}
+const btnSaida =
+  document.getElementById("btnSaida");
 
 
 /* ==========================
@@ -457,7 +519,9 @@ async function carregarRolos(){
 function formatarNumero(n){
 
   return Number.isInteger(Number(n))
+
     ? String(n)
+
     : Number(n).toLocaleString(
         "pt-BR",
         {
@@ -469,17 +533,95 @@ function formatarNumero(n){
 
 
 /* ==========================
-   ADICIONAR ROLO
+   FORMATAR DATA/HORA
+========================== */
+
+function formatarData(data){
+
+  if(!data){
+    return "—";
+  }
+
+
+  const d = new Date(data);
+
+
+  if(isNaN(d.getTime())){
+    return "—";
+  }
+
+
+  return d.toLocaleString(
+    "pt-BR",
+    {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+
+}
+
+
+/* ==========================
+   CARREGAR DO SUPABASE
+========================== */
+
+async function carregarRolos(){
+
+  const { data, error } =
+    await supabase
+      .from("rolos")
+      .select("*")
+      .order(
+        "entrada_em",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    console.error(error);
+
+    alert(
+      "Erro ao carregar os rolos."
+    );
+
+    return;
+
+  }
+
+
+  rolos = data || [];
+
+
+  render();
+
+}
+
+
+/* ==========================
+   ADICIONAR ENTRADA
 ========================== */
 
 async function adicionar(){
 
-  const valor = Number(metragem.value);
+  const valor =
+    Number(metragem.value);
 
 
-  if(!Number.isFinite(valor) || valor <= 0){
+  if(
+    !Number.isFinite(valor) ||
+    valor <= 0
+  ){
 
-    alert("Digite uma metragem válida.");
+    alert(
+      "Digite uma metragem válida."
+    );
 
     metragem.focus();
 
@@ -488,21 +630,33 @@ async function adicionar(){
   }
 
 
-  const { error } = await supabase
-    .from("rolos")
-    .insert([
-      {
-        tipo: tipo.value,
-        metragem: valor
-      }
-    ]);
+  const { error } =
+    await supabase
+      .from("rolos")
+      .insert([
+
+        {
+
+          tipo:tipo.value,
+
+          metragem:valor,
+
+          entrada_em:new Date().toISOString(),
+
+          saida_em:null
+
+        }
+
+      ]);
 
 
   if(error){
 
     console.error(error);
 
-    alert("Erro ao adicionar o rolo.");
+    alert(
+      "Erro ao registrar a entrada."
+    );
 
     return;
 
@@ -520,44 +674,62 @@ async function adicionar(){
 
 
 /* ==========================
-   EXCLUIR / USAR ROLO
+   REGISTRAR SAÍDA
 ========================== */
 
-async function excluir(id){
+async function registrarSaida(id){
 
   const rolo =
-    rolos.find(r => r.id === id);
+    rolos.find(
+      r => r.id === id
+    );
 
 
   if(!rolo) return;
 
 
-  if(
+  const confirmar =
     confirm(
-      `Usar/remover o rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`
-    )
-  ){
 
-    const { error } = await supabase
+      `Registrar saída do rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`
+
+    );
+
+
+  if(!confirmar){
+    return;
+  }
+
+
+  const { error } =
+    await supabase
       .from("rolos")
-      .delete()
-      .eq("id", id);
+      .update({
+
+        saida_em:
+          new Date().toISOString()
+
+      })
+      .eq(
+        "id",
+        id
+      );
 
 
-    if(error){
+  if(error){
 
-      console.error(error);
+    console.error(error);
 
-      alert("Erro ao remover o rolo.");
+    alert(
+      "Erro ao registrar a saída."
+    );
 
-      return;
-
-    }
-
-
-    await carregarRolos();
+    return;
 
   }
+
+
+  await carregarRolos();
 
 }
 
@@ -568,61 +740,82 @@ async function excluir(id){
 
 function renderResumo(){
 
-  resumoTipos.innerHTML = tipos.map(tipoAtual => {
+  /*
+    O resumo mostra somente
+    aquilo que ainda está
+    no estoque.
+  */
 
-    const rolosTipo =
-      rolos.filter(r => r.tipo === tipoAtual);
-
-
-    const quantidade =
-      rolosTipo.length;
-
-
-    const metragemTotal =
-      rolosTipo.reduce(
-        (s,r) => s + Number(r.metragem),
-        0
-      );
+  const estoque =
+    rolos.filter(
+      r => !r.saida_em
+    );
 
 
-    return `
+  resumoTipos.innerHTML =
+    tipos.map(tipoAtual => {
 
-      <tr>
+      const rolosTipo =
+        estoque.filter(
+          r => r.tipo === tipoAtual
+        );
 
-        <td>
 
-          <div class="tipo-resumo">
+      const quantidade =
+        rolosTipo.length;
 
-            <span
-              class="dot"
-              style="background:${cores[tipoAtual] || "#999"}"
-            ></span>
 
-            ${tipoAtual}
+      const metragemTotal =
+        rolosTipo.reduce(
 
-          </div>
+          (s,r) =>
+            s + Number(r.metragem),
 
-        </td>
+          0
 
-        <td>
-          ${quantidade}
-        </td>
+        );
 
-        <td class="total-tipo">
-          ${formatarNumero(metragemTotal)} m
-        </td>
 
-      </tr>
+      return `
 
-    `;
+        <tr>
 
-  }).join("");
+          <td>
+
+            <div class="tipo-resumo">
+
+              <span
+                class="dot"
+                style="background:${cores[tipoAtual] || "#999"}"
+              ></span>
+
+              ${tipoAtual}
+
+            </div>
+
+          </td>
+
+
+          <td>
+            ${quantidade}
+          </td>
+
+
+          <td class="total-tipo">
+            ${formatarNumero(metragemTotal)} m
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
 
 }
 
 
 /* ==========================
-   LISTA DE ROLOS
+   RENDERIZAR LISTA
 ========================== */
 
 function render(){
@@ -635,12 +828,38 @@ function render(){
     filtroTipo.value;
 
 
+  /*
+    Define se estamos
+    mostrando entrada
+    ou saída.
+  */
+
   let filtrados =
     rolos.filter(r => {
 
+      const estaNaEntrada =
+        !r.saida_em;
+
+
+      const estaNaSaida =
+        !!r.saida_em;
+
+
+      const pertenceAba =
+        abaAtual === "entrada"
+          ? estaNaEntrada
+          : estaNaSaida;
+
+
+      if(!pertenceAba){
+        return false;
+      }
+
+
       const bateMetragem =
         !busca ||
-        String(r.metragem).startsWith(busca);
+        String(r.metragem)
+          .startsWith(busca);
 
 
       const bateTipo =
@@ -648,43 +867,108 @@ function render(){
         r.tipo === tipoFiltro;
 
 
-      return bateMetragem && bateTipo;
+      return (
+        bateMetragem &&
+        bateTipo
+      );
 
     });
 
 
+  /*
+    Entrada:
+    mais recentes primeiro.
+
+    Saída:
+    saídas mais recentes primeiro.
+  */
+
   filtrados.sort(
-    (a,b) => Number(a.metragem) - Number(b.metragem)
+    (a,b) => {
+
+      if(abaAtual === "entrada"){
+
+        return new Date(b.entrada_em)
+          - new Date(a.entrada_em);
+
+      }
+
+
+      return new Date(b.saida_em)
+        - new Date(a.saida_em);
+
+    }
   );
 
 
-  document.getElementById("totalRolos")
-    .textContent = rolos.length;
+  /*
+    Estatísticas do estoque atual.
+  */
+
+  const estoque =
+    rolos.filter(
+      r => !r.saida_em
+    );
 
 
-  document.getElementById("totalMetros")
+  document
+    .getElementById("totalRolos")
     .textContent =
+      estoque.length;
+
+
+  document
+    .getElementById("totalMetros")
+    .textContent =
+
       formatarNumero(
-        rolos.reduce(
-          (s,r) => s + Number(r.metragem),
+
+        estoque.reduce(
+          (s,r) =>
+            s + Number(r.metragem),
+
           0
         )
+
       ) + " m";
 
 
-  document.getElementById("count")
-    .textContent =
-      `${filtrados.length} rolo(s) exibido(s)`;
+  /*
+    Contador da aba.
+  */
 
+  document
+    .getElementById("count")
+    .textContent =
+
+      abaAtual === "entrada"
+
+        ? `${filtrados.length} rolo(s) no estoque`
+
+        : `${filtrados.length} rolo(s) com saída`;
+
+
+  /*
+    Lista vazia.
+  */
 
   if(!filtrados.length){
 
     lista.innerHTML =
-      '<div class="empty">Nenhum rolo encontrado.</div>';
 
-  } else {
+      abaAtual === "entrada"
+
+        ? '<div class="empty">Nenhum rolo no estoque.</div>'
+
+        : '<div class="empty">Nenhum rolo com saída registrada.</div>';
+
+  }
+
+
+  else {
 
     lista.innerHTML =
+
       filtrados.map(r => `
 
         <div class="roll">
@@ -696,15 +980,40 @@ function render(){
               style="background:${cores[r.tipo] || "#999"}"
             ></span>
 
+
             <div>
 
               <div class="name">
                 ${r.tipo}
               </div>
 
+
               <div class="count">
                 Rolo individual
               </div>
+
+
+              <div class="date">
+                📥 Entrada:
+                ${formatarData(r.entrada_em)}
+              </div>
+
+
+              ${
+                r.saida_em
+
+                  ? `
+
+                    <div class="saida-date">
+                      📤 Saída:
+                      ${formatarData(r.saida_em)}
+                    </div>
+
+                  `
+
+                  : ""
+
+              }
 
             </div>
 
@@ -712,6 +1021,7 @@ function render(){
 
 
           <div
+            class="roll-action"
             style="
               display:flex;
               align-items:center;
@@ -723,12 +1033,24 @@ function render(){
               ${formatarNumero(r.metragem)} m
             </span>
 
-            <button
-              class="delete"
-              onclick="excluir(${r.id})"
-            >
-              🗑️ Usar
-            </button>
+
+            ${
+              abaAtual === "entrada"
+
+                ? `
+
+                  <button
+                    class="delete"
+                    onclick="registrarSaida(${r.id})"
+                  >
+                    📤 Saída
+                  </button>
+
+                `
+
+                : ""
+
+            }
 
           </div>
 
@@ -740,6 +1062,66 @@ function render(){
 
 
   renderResumo();
+
+}
+
+
+/* ==========================
+   TROCAR PARA ENTRADA
+========================== */
+
+function mostrarEntrada(){
+
+  abaAtual = "entrada";
+
+
+  btnEntrada.classList.add(
+    "active"
+  );
+
+
+  btnSaida.classList.remove(
+    "active"
+  );
+
+
+  document
+    .getElementById("tituloLista")
+    .textContent =
+      "📥 Rolos no estoque";
+
+
+  render();
+
+}
+
+
+/* ==========================
+   TROCAR PARA SAÍDA
+========================== */
+
+function mostrarSaida(){
+
+  abaAtual = "saida";
+
+
+  btnSaida.classList.add(
+    "active"
+  );
+
+
+  btnEntrada.classList.remove(
+    "active"
+  );
+
+
+  document
+    .getElementById("tituloLista")
+    .textContent =
+      "📤 Rolos que saíram";
+
+
+  render();
 
 }
 
@@ -782,26 +1164,23 @@ filtroTipo.addEventListener(
 );
 
 
+btnEntrada.addEventListener(
+  "click",
+  mostrarEntrada
+);
+
+
+btnSaida.addEventListener(
+  "click",
+  mostrarSaida
+);
+
+
 /* ==========================
    INICIAR
 ========================== */
 
 carregarRolos();
 
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</body>
+</script></body>
 </html>
