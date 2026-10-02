@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0f172a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Estoque de Rolos</title>
-
-<style>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Estoque de Rolos</title><style>
 *{
   box-sizing:border-box;
 }
@@ -331,6 +324,22 @@ button:disabled{
   font-size:14px;
 }
 
+/* BOTÕES VER MAIS / VER MENOS */
+
+.lista-controles{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:14px;
+}
+
+.lista-controles button{
+  width:auto;
+  min-height:42px;
+  padding:10px 18px;
+  font-size:13px;
+}
+
 /* RESUMO */
 
 .resumo-tabela{
@@ -498,212 +507,120 @@ button:disabled{
   }
 
 }
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<!-- CABEÇALHO -->
-
-<div class="hero">
+</style></head><body><div class="container"><!-- CABEÇALHO --><div class="hero">
   <div class="hero-content">
     <h1>📦 Estoque de Rolos</h1>
     <p class="subtitle">
       Controle de metragens, cores, entradas e saídas.
     </p>
   </div>
+</div><!-- ADICIONAR ROLO --><div class="card">  <h2>➕ Adicionar novo rolo</h2>  <div class="form"><div>
+  <label for="tipo">Tipo / Cor</label>
+
+  <select id="tipo">
+    <option>Preto liso</option>
+    <option>Preto texturado</option>
+    <option>Golden</option>
+    <option>Nogueira</option>
+    <option>Bronze</option>
+    <option>Pirita</option>
+    <option>Grafite</option>
+  </select>
 </div>
 
+<div>
+  <label for="metragem">Metragem (m)</label>
 
-<!-- ADICIONAR ROLO -->
+  <input
+    id="metragem"
+    type="number"
+    min="0"
+    step="0.01"
+    placeholder="Ex.: 530"
+  >
+</div>
 
-<div class="card">
-
-  <h2>➕ Adicionar novo rolo</h2>
-
-  <div class="form">
-
-    <div>
-      <label for="tipo">Tipo / Cor</label>
-
-      <select id="tipo">
-        <option>Preto liso</option>
-        <option>Preto texturado</option>
-        <option>Golden</option>
-        <option>Nogueira</option>
-        <option>Bronze</option>
-        <option>Pirita</option>
-        <option>Grafite</option>
-      </select>
-    </div>
-
-    <div>
-      <label for="metragem">Metragem (m)</label>
-
-      <input
-        id="metragem"
-        type="number"
-        min="0"
-        step="0.01"
-        placeholder="Ex.: 530"
-      >
-    </div>
-
-    <div style="align-self:end">
-      <button id="add">
-        ➕ Adicionar rolo
-      </button>
-    </div>
+<div style="align-self:end">
+  <button id="add">
+    ➕ Adicionar rolo
+  </button>
+</div>
 
   </div>
-</div>
-
-
-<!-- ESTATÍSTICAS -->
-
-<div class="stats">
-
-  <div class="stat">
+</div><!-- ESTATÍSTICAS --><div class="stats">  <div class="stat">
     📦 Rolos no estoque
     <strong id="totalRolos">0</strong>
-  </div>
-
-  <div class="stat">
+  </div>  <div class="stat">
     📏 Metros no estoque
     <strong id="totalMetros">0 m</strong>
-  </div>
+  </div></div><!-- ABAS --><div class="tabs"><button
+id="btnEntrada"
+class="tab active"
 
-</div>
+«»
 
+📥 Entrada
 
-<!-- ABAS -->
+  </button><button
+id="btnSaida"
+class="tab"
 
-<div class="tabs">
+«»
 
-  <button
-    id="btnEntrada"
-    class="tab active"
-  >
-    📥 Entrada
-  </button>
+📤 Saída
 
-  <button
-    id="btnSaida"
-    class="tab"
-  >
-    📤 Saída
-  </button>
+  </button></div><!-- BUSCA --><div class="card">  <h2>🔎 Buscar no estoque</h2>  <div class="filters"><input
+  id="buscaMetragem"
+  type="number"
+  min="0"
+  step="0.01"
+  placeholder="🔎 Buscar por metragem..."
+>
 
-</div>
+<select id="filtroTipo">
 
+  <option value="">
+    Todas as cores
+  </option>
 
-<!-- BUSCA -->
+  <option>Preto liso</option>
+  <option>Preto texturado</option>
+  <option>Golden</option>
+  <option>Nogueira</option>
+  <option>Bronze</option>
+  <option>Pirita</option>
+  <option>Grafite</option>
 
-<div class="card">
+</select>
 
-  <h2>🔎 Buscar no estoque</h2>
-
-  <div class="filters">
-
-    <input
-      id="buscaMetragem"
-      type="number"
-      min="0"
-      step="0.01"
-      placeholder="🔎 Buscar por metragem..."
-    >
-
-    <select id="filtroTipo">
-
-      <option value="">
-        Todas as cores
-      </option>
-
-      <option>Preto liso</option>
-      <option>Preto texturado</option>
-      <option>Golden</option>
-      <option>Nogueira</option>
-      <option>Bronze</option>
-      <option>Pirita</option>
-      <option>Grafite</option>
-
-    </select>
-
-  </div>
-
-</div>
-
-
-<!-- LISTA -->
-
-<div class="card">
-
-  <h2 id="tituloLista">
+  </div></div><!-- LISTA --><div class="card">  <h2 id="tituloLista">
     📥 Rolos no estoque
-  </h2>
-
-  <div id="lista"></div>
-
-  <div
+  </h2>  <div id="lista"></div>  <div
     class="count"
     id="count">
-  </div>
+  </div>  <div
+    class="lista-controles"
+    id="listaControles">
+  </div></div><!-- RESUMO --><div class="card">  <h2>📊 Resumo por tipo</h2>  <table class="resumo-tabela"><thead>
+  <tr>
+    <th>Tipo</th>
+    <th>Rolos</th>
+    <th>Metragem total</th>
+  </tr>
+</thead>
 
-</div>
+<tbody id="resumoTipos"></tbody>
 
-
-<!-- RESUMO -->
-
-<div class="card">
-
-  <h2>📊 Resumo por tipo</h2>
-
-  <table class="resumo-tabela">
-
-    <thead>
-      <tr>
-        <th>Tipo</th>
-        <th>Rolos</th>
-        <th>Metragem total</th>
-      </tr>
-    </thead>
-
-    <tbody id="resumoTipos"></tbody>
-
-  </table>
-
-</div>
-
-
-<!-- SUPABASE -->
-
-<div class="card">
-
-  <h2>☁️ Estoque compartilhado</h2>
-
-  <button id="recarregar">
+  </table></div><!-- SUPABASE --><div class="card">  <h2>☁️ Estoque compartilhado</h2>  <button id="recarregar">
     🔄 Recarregar do Supabase
-  </button>
-
-  <div
+  </button>  <div
     id="status"
     class="status">
     Conectando ao estoque...
-  </div>
-
-  <div class="small">
+  </div>  <div class="small">
     Os dados são salvos no banco de dados
     <strong>Supabase</strong>.
-  </div>
-
-</div>
-
-</div>
-
-
-<script>
+  </div></div></div><script>
 
 /* =====================================================
    CONFIGURAÇÃO DO SUPABASE
@@ -713,7 +630,7 @@ const SUPABASE_URL =
 "https://pipnkvlicwfraisywrzl.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";
+"sb_publishable_7v_jngycG...";
 
 const SUPABASE_TABLE =
 "rolos";
@@ -769,6 +686,9 @@ let abaAtual = "entrada";
 
 let salvando = false;
 
+/* NOVO: quantidade de rolos exibidos */
+let quantidadeVisivel = 3;
+
 
 /* =====================================================
    ELEMENTOS
@@ -803,6 +723,9 @@ document.getElementById("btnEntrada");
 
 const btnSaida =
 document.getElementById("btnSaida");
+
+const listaControles =
+document.getElementById("listaControles");
 
 
 /* =====================================================
@@ -1089,6 +1012,10 @@ await carregarRolos();
 metragem.value = "";
 
 metragem.focus();
+
+
+/* NOVO: volta a mostrar somente os 3 mais recentes */
+quantidadeVisivel = 3;
 
 
 setStatus(
@@ -1483,6 +1410,11 @@ bateTipo
 );
 
 
+/* =====================================================
+   ORDEM DECRESCENTE
+   Mais recente primeiro
+   ===================================================== */
+
 filtrados.sort(
 
 (a,b) => {
@@ -1549,18 +1481,33 @@ s + Number(r.metragem),
 ) + " m";
 
 
+/* =====================================================
+   NOVO: LIMITAR A EXIBIÇÃO
+   ===================================================== */
+
+const totalFiltrados =
+filtrados.length;
+
+
+const rolosVisiveis =
+filtrados.slice(
+0,
+quantidadeVisivel
+);
+
+
 document.getElementById(
 "count"
 ).textContent =
 
 abaAtual === "entrada"
 
-? `${filtrados.length} rolo(s) no estoque`
+? `${totalFiltrados} rolo(s) no estoque`
 
-: `${filtrados.length} rolo(s) com saída`;
+: `${totalFiltrados} rolo(s) com saída`;
 
 
-if(!filtrados.length){
+if(!rolosVisiveis.length){
 
 lista.innerHTML =
 
@@ -1592,7 +1539,7 @@ else{
 
 lista.innerHTML =
 
-filtrados.map(
+rolosVisiveis.map(
 
 r => `
 
@@ -1691,7 +1638,83 @@ onclick="registrarSaida('${r.id}')"
 }
 
 
+/* =====================================================
+   NOVO: BOTÕES VER MAIS / VER MENOS
+   ===================================================== */
+
+if(totalFiltrados > 3){
+
+let botoes = "";
+
+if(quantidadeVisivel < totalFiltrados){
+
+botoes += `
+
+<button
+onclick="verMais()"
+>
+
+⬇️ Ver mais
+
+</button>
+
+`;
+
+}
+
+if(quantidadeVisivel > 3){
+
+botoes += `
+
+<button
+onclick="verMenos()"
+>
+
+⬆️ Ver menos
+
+</button>
+
+`;
+
+}
+
+listaControles.innerHTML = botoes;
+
+}
+else{
+
+listaControles.innerHTML = "";
+
+}
+
+
 renderResumo();
+
+}
+
+
+/* =====================================================
+   NOVO: VER MAIS
+   ===================================================== */
+
+function verMais(){
+
+quantidadeVisivel += 3;
+
+render();
+
+}
+
+
+/* =====================================================
+   NOVO: VER MENOS
+   ===================================================== */
+
+function verMenos(){
+
+quantidadeVisivel = 3;
+
+render();
 
 }
 
@@ -1704,6 +1727,8 @@ function mostrarEntrada(){
 
 abaAtual =
 "entrada";
+
+quantidadeVisivel = 3;
 
 
 btnEntrada
@@ -1735,6 +1760,8 @@ function mostrarSaida(){
 
 abaAtual =
 "saida";
+
+quantidadeVisivel = 3;
 
 
 btnSaida
@@ -1796,7 +1823,13 @@ buscaMetragem.addEventListener(
 
 "input",
 
-render
+() => {
+
+quantidadeVisivel = 3;
+
+render();
+
+}
 
 );
 
@@ -1805,7 +1838,13 @@ filtroTipo.addEventListener(
 
 "change",
 
-render
+() => {
+
+quantidadeVisivel = 3;
+
+render();
+
+}
 
 );
 
@@ -1845,7 +1884,5 @@ carregarRolos
 
 carregarRolos();
 
-</script>
-
-</body>
+</script></body>
 </html>
