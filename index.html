@@ -1,1888 +1,1749 @@
-<!DOCTYPE html><html lang="pt-BR">
-<head>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default"><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Estoque de Rolos</title><style>
-*{
-  box-sizing:border-box;
-}
-
-:root{
-  --primary:#2563eb;
-  --primary-dark:#1d4ed8;
-  --dark:#0f172a;
-  --text:#1e293b;
-  --muted:#64748b;
-  --border:#e2e8f0;
-  --bg:#f1f5f9;
-  --card:#ffffff;
-  --success:#059669;
-  --danger:#dc2626;
-}
-
-body{
-  margin:0;
-  font-family:Inter,Arial,Helvetica,sans-serif;
-  background:
-    linear-gradient(180deg,#eaf1ff 0,#f8fafc 280px,#f1f5f9 100%);
-  color:var(--text);
-  min-height:100vh;
-}
-
-.container{
-  width:100%;
-  max-width:1000px;
-  margin:auto;
-  padding:24px 18px 50px;
-}
-
-/* CABEÇALHO */
-
-.hero{
-  background:linear-gradient(135deg,#0f172a,#1e3a8a);
-  color:white;
-  border-radius:22px;
-  padding:28px;
-  margin-bottom:18px;
-  box-shadow:0 12px 30px rgba(15,23,42,.18);
-  position:relative;
-  overflow:hidden;
-}
-
-.hero::after{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:rgba(255,255,255,.07);
-  right:-50px;
-  top:-70px;
-}
-
-.hero-content{
-  position:relative;
-  z-index:1;
-}
-
-.hero h1{
-  margin:0;
-  font-size:30px;
-  letter-spacing:-.5px;
-}
-
-.subtitle{
-  margin:8px 0 0;
-  color:#cbd5e1;
-  font-size:14px;
-}
-
-/* CARDS */
-
-.card{
-  background:var(--card);
-  border:1px solid rgba(226,232,240,.9);
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 5px 18px rgba(15,23,42,.06);
-}
-
-.card h2{
-  margin:0 0 18px;
-  font-size:19px;
-  color:#0f172a;
-}
-
-/* FORMULÁRIO */
-
-.form{
-  display:grid;
-  grid-template-columns:1fr 1fr auto;
-  gap:12px;
-}
-
-label{
-  font-size:12px;
-  font-weight:800;
-  display:block;
-  margin-bottom:7px;
-  color:#475569;
-  text-transform:uppercase;
-  letter-spacing:.3px;
-}
-
-input,
-select,
-button{
-  width:100%;
-  min-height:48px;
-  padding:12px 14px;
-  border:1px solid var(--border);
-  border-radius:11px;
-  font-size:15px;
-  font-family:inherit;
-  outline:none;
-  transition:.2s ease;
-}
-
-input,
-select{
-  background:#f8fafc;
-  color:var(--text);
-}
-
-input:focus,
-select:focus{
-  border-color:#60a5fa;
-  background:white;
-  box-shadow:0 0 0 3px rgba(37,99,235,.12);
-}
-
-button{
-  border:0;
-  background:var(--primary);
-  color:#fff;
-  font-weight:800;
-  cursor:pointer;
-  box-shadow:0 3px 8px rgba(37,99,235,.2);
-}
-
-button:hover{
-  background:var(--primary-dark);
-  transform:translateY(-1px);
-}
-
-button:active{
-  transform:translateY(0);
-}
-
-button:disabled{
-  opacity:.6;
-  cursor:wait;
-  transform:none;
-}
-
-/* ESTATÍSTICAS */
-
-.stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-  margin-bottom:18px;
-}
-
-.stat{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 5px 18px rgba(15,23,42,.05);
-  color:#64748b;
-  font-size:14px;
-  font-weight:700;
-}
-
-.stat strong{
-  display:block;
-  font-size:31px;
-  line-height:1;
-  margin-top:10px;
-  color:#0f172a;
-}
-
-/* ABAS */
-
-.tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  background:#e2e8f0;
-  padding:5px;
-  border-radius:14px;
-  margin-bottom:18px;
-}
-
-.tab{
-  background:transparent;
-  color:#475569;
-  box-shadow:none;
-  min-height:45px;
-}
-
-.tab:hover{
-  background:#cbd5e1;
-  color:#0f172a;
-  transform:none;
-}
-
-.tab.active{
-  background:white;
-  color:var(--primary);
-  box-shadow:0 2px 8px rgba(15,23,42,.1);
-}
-
-/* FILTROS */
-
-.filters{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-/* LISTA */
-
-.roll{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  padding:16px 4px;
-  border-bottom:1px solid #edf2f7;
-}
-
-.roll:last-child{
-  border-bottom:0;
-}
-
-.roll-info{
-  display:flex;
-  align-items:flex-start;
-  gap:13px;
-  min-width:0;
-}
-
-.dot{
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  border:2px solid rgba(15,23,42,.12);
-  flex:none;
-  margin-top:3px;
-  box-shadow:0 1px 3px rgba(0,0,0,.15);
-}
-
-.name{
-  font-weight:800;
-  color:#1e293b;
-  font-size:15px;
-}
-
-.meters{
-  font-size:20px;
-  font-weight:900;
-  color:#0f172a;
-  white-space:nowrap;
-}
-
-.roll-action{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.delete{
-  width:auto;
-  min-height:40px;
-  padding:9px 13px;
-  background:#fee2e2;
-  color:#b91c1c;
-  box-shadow:none;
-  font-size:13px;
-}
-
-.delete:hover{
-  background:#fecaca;
-  color:#991b1b;
-}
-
-.count{
-  color:#64748b;
-  font-size:13px;
-  margin-top:6px;
-}
-
-.date{
-  color:#64748b;
-  font-size:12px;
-  margin-top:5px;
-}
-
-.saida-date{
-  color:#dc2626;
-  font-size:12px;
-  margin-top:5px;
-}
-
-.empty{
-  text-align:center;
-  color:#94a3b8;
-  padding:38px 20px;
-  font-size:14px;
-}
-
-/* BOTÕES VER MAIS / VER MENOS */
-
-.lista-controles{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:14px;
-}
-
-.lista-controles button{
-  width:auto;
-  min-height:42px;
-  padding:10px 18px;
-  font-size:13px;
-}
-
-/* RESUMO */
-
-.resumo-tabela{
-  width:100%;
-  border-collapse:separate;
-  border-spacing:0;
-  margin-top:4px;
-  overflow:hidden;
-}
-
-.resumo-tabela th,
-.resumo-tabela td{
-  padding:13px 10px;
-  text-align:left;
-  border-bottom:1px solid #edf2f7;
-}
-
-.resumo-tabela th{
-  font-size:11px;
-  color:#64748b;
-  text-transform:uppercase;
-  letter-spacing:.4px;
-}
-
-.resumo-tabela tr:last-child td{
-  border-bottom:0;
-}
-
-.tipo-resumo{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  font-weight:800;
-}
-
-.tipo-resumo .dot{
-  width:14px;
-  height:14px;
-  margin:0;
-}
-
-.total-tipo{
-  font-weight:900;
-  white-space:nowrap;
-  color:#0f172a;
-}
-
-/* STATUS */
-
-.status{
-  font-size:13px;
-  margin-top:14px;
-  padding:12px 14px;
-  border-radius:11px;
-  background:#f1f5f9;
-  color:#475569;
-  border:1px solid #e2e8f0;
-}
-
-.status.ok{
-  background:#ecfdf5;
-  color:#047857;
-  border-color:#a7f3d0;
-}
-
-.status.erro{
-  background:#fef2f2;
-  color:#b91c1c;
-  border-color:#fecaca;
-}
-
-.small{
-  font-size:12px;
-  color:#64748b;
-  margin-top:10px;
-  line-height:1.5;
-}
-
-/* RESPONSIVO */
-
-@media(max-width:650px){
-
-  .container{
-    padding:14px 12px 35px;
-  }
-
-  .hero{
-    padding:23px 20px;
-    border-radius:18px;
-  }
-
-  .hero h1{
-    font-size:25px;
-  }
-
-  .form,
-  .filters{
-    grid-template-columns:1fr;
-  }
-
-  .form button{
-    min-height:50px;
-  }
-
-  .stats{
-    gap:10px;
-  }
-
-  .stat{
-    padding:16px 14px;
-  }
-
-  .stat strong{
-    font-size:25px;
-  }
-
-  .card{
-    padding:17px 15px;
-    border-radius:16px;
-  }
-
-  .roll{
-    align-items:flex-start;
-    flex-direction:column;
-    padding:16px 2px;
-  }
-
-  .roll-info{
-    width:100%;
-  }
-
-  .roll-action{
-    width:100%;
-    justify-content:space-between;
-  }
-
-  .roll-action button{
-    width:auto;
-  }
-
-  .meters{
-    font-size:19px;
-  }
-
-  .resumo-tabela th,
-  .resumo-tabela td{
-    padding:11px 5px;
-    font-size:13px;
-  }
-
-  .resumo-tabela th{
-    font-size:10px;
-  }
-
-}
-
-@media(max-width:380px){
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .tabs{
-    grid-template-columns:1fr;
-  }
-
-}
-</style></head><body><div class="container"><!-- CABEÇALHO --><div class="hero">
-  <div class="hero-content">
-    <h1>📦 Estoque de Rolos</h1>
-    <p class="subtitle">
-      Controle de metragens, cores, entradas e saídas.
-    </p>
-  </div>
-</div><!-- ADICIONAR ROLO --><div class="card">  <h2>➕ Adicionar novo rolo</h2>  <div class="form"><div>
-  <label for="tipo">Tipo / Cor</label>
-
-  <select id="tipo">
-    <option>Preto liso</option>
-    <option>Preto texturado</option>
-    <option>Golden</option>
-    <option>Nogueira</option>
-    <option>Bronze</option>
-    <option>Pirita</option>
-    <option>Grafite</option>
-  </select>
+<!DOCTYPE html>
+
+<html lang="pt-BR">  
+<head>  
+<link rel="manifest" href="manifest.json">  
+<meta name="theme-color" content="#0f172a">  
+<meta name="mobile-web-app-capable" content="yes">  
+<meta name="apple-mobile-web-app-capable" content="yes">  
+<meta name="apple-mobile-web-app-status-bar-style" content="default">  <meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Estoque de Rolos</title>  <style>  
+*{  
+  box-sizing:border-box;  
+}  
+  
+:root{  
+  --primary:#2563eb;  
+  --primary-dark:#1d4ed8;  
+  --dark:#0f172a;  
+  --text:#1e293b;  
+  --muted:#64748b;  
+  --border:#e2e8f0;  
+  --bg:#f1f5f9;  
+  --card:#ffffff;  
+  --success:#059669;  
+  --danger:#dc2626;  
+}  
+  
+body{  
+  margin:0;  
+  font-family:Inter,Arial,Helvetica,sans-serif;  
+  background:  
+    linear-gradient(180deg,#eaf1ff 0,#f8fafc 280px,#f1f5f9 100%);  
+  color:var(--text);  
+  min-height:100vh;  
+}  
+  
+.container{  
+  width:100%;  
+  max-width:1000px;  
+  margin:auto;  
+  padding:24px 18px 50px;  
+}  
+  
+/* CABEÇALHO */  
+  
+.hero{  
+  background:linear-gradient(135deg,#0f172a,#1e3a8a);  
+  color:white;  
+  border-radius:22px;  
+  padding:28px;  
+  margin-bottom:18px;  
+  box-shadow:0 12px 30px rgba(15,23,42,.18);  
+  position:relative;  
+  overflow:hidden;  
+}  
+  
+.hero::after{  
+  content:"";  
+  position:absolute;  
+  width:180px;  
+  height:180px;  
+  border-radius:50%;  
+  background:rgba(255,255,255,.07);  
+  right:-50px;  
+  top:-70px;  
+}  
+  
+.hero-content{  
+  position:relative;  
+  z-index:1;  
+}  
+  
+.hero h1{  
+  margin:0;  
+  font-size:30px;  
+  letter-spacing:-.5px;  
+}  
+  
+.subtitle{  
+  margin:8px 0 0;  
+  color:#cbd5e1;  
+  font-size:14px;  
+}  
+  
+/* CARDS */  
+  
+.card{  
+  background:var(--card);  
+  border:1px solid rgba(226,232,240,.9);  
+  border-radius:18px;  
+  padding:20px;  
+  margin-bottom:18px;  
+  box-shadow:0 5px 18px rgba(15,23,42,.06);  
+}  
+  
+.card h2{  
+  margin:0 0 18px;  
+  font-size:19px;  
+  color:#0f172a;  
+}  
+  
+/* FORMULÁRIO */  
+  
+.form{  
+  display:grid;  
+  grid-template-columns:1fr 1fr auto;  
+  gap:12px;  
+}  
+  
+label{  
+  font-size:12px;  
+  font-weight:800;  
+  display:block;  
+  margin-bottom:7px;  
+  color:#475569;  
+  text-transform:uppercase;  
+  letter-spacing:.3px;  
+}  
+  
+input,  
+select,  
+button{  
+  width:100%;  
+  min-height:48px;  
+  padding:12px 14px;  
+  border:1px solid var(--border);  
+  border-radius:11px;  
+  font-size:15px;  
+  font-family:inherit;  
+  outline:none;  
+  transition:.2s ease;  
+}  
+  
+input,  
+select{  
+  background:#f8fafc;  
+  color:var(--text);  
+}  
+  
+input:focus,  
+select:focus{  
+  border-color:#60a5fa;  
+  background:white;  
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);  
+}  
+  
+button{  
+  border:0;  
+  background:var(--primary);  
+  color:#fff;  
+  font-weight:800;  
+  cursor:pointer;  
+  box-shadow:0 3px 8px rgba(37,99,235,.2);  
+}  
+  
+button:hover{  
+  background:var(--primary-dark);  
+  transform:translateY(-1px);  
+}  
+  
+button:active{  
+  transform:translateY(0);  
+}  
+  
+button:disabled{  
+  opacity:.6;  
+  cursor:wait;  
+  transform:none;  
+}  
+  
+/* ESTATÍSTICAS */  
+  
+.stats{  
+  display:grid;  
+  grid-template-columns:1fr 1fr;  
+  gap:14px;  
+  margin-bottom:18px;  
+}  
+  
+.stat{  
+  background:white;  
+  border:1px solid var(--border);  
+  border-radius:18px;  
+  padding:20px;  
+  box-shadow:0 5px 18px rgba(15,23,42,.05);  
+  color:#64748b;  
+  font-size:14px;  
+  font-weight:700;  
+}  
+  
+.stat strong{  
+  display:block;  
+  font-size:31px;  
+  line-height:1;  
+  margin-top:10px;  
+  color:#0f172a;  
+}  
+  
+/* ABAS */  
+  
+.tabs{  
+  display:grid;  
+  grid-template-columns:1fr 1fr;  
+  gap:8px;  
+  background:#e2e8f0;  
+  padding:5px;  
+  border-radius:14px;  
+  margin-bottom:18px;  
+}  
+  
+.tab{  
+  background:transparent;  
+  color:#475569;  
+  box-shadow:none;  
+  min-height:45px;  
+}  
+  
+.tab:hover{  
+  background:#cbd5e1;  
+  color:#0f172a;  
+  transform:none;  
+}  
+  
+.tab.active{  
+  background:white;  
+  color:var(--primary);  
+  box-shadow:0 2px 8px rgba(15,23,42,.1);  
+}  
+  
+/* FILTROS */  
+  
+.filters{  
+  display:grid;  
+  grid-template-columns:1fr 1fr;  
+  gap:12px;  
+}  
+  
+/* LISTA */  
+  
+.roll{  
+  display:flex;  
+  align-items:center;  
+  justify-content:space-between;  
+  gap:16px;  
+  padding:16px 4px;  
+  border-bottom:1px solid #edf2f7;  
+}  
+  
+.roll:last-child{  
+  border-bottom:0;  
+}  
+  
+.roll-info{  
+  display:flex;  
+  align-items:flex-start;  
+  gap:13px;  
+  min-width:0;  
+}  
+  
+.dot{  
+  width:18px;  
+  height:18px;  
+  border-radius:50%;  
+  border:2px solid rgba(15,23,42,.12);  
+  flex:none;  
+  margin-top:3px;  
+  box-shadow:0 1px 3px rgba(0,0,0,.15);  
+}  
+  
+.name{  
+  font-weight:800;  
+  color:#1e293b;  
+  font-size:15px;  
+}  
+  
+.meters{  
+  font-size:20px;  
+  font-weight:900;  
+  color:#0f172a;  
+  white-space:nowrap;  
+}  
+  
+.roll-action{  
+  display:flex;  
+  align-items:center;  
+  gap:12px;  
+}  
+  
+.delete{  
+  width:auto;  
+  min-height:40px;  
+  padding:9px 13px;  
+  background:#fee2e2;  
+  color:#b91c1c;  
+  box-shadow:none;  
+  font-size:13px;  
+}  
+  
+.delete:hover{  
+  background:#fecaca;  
+  color:#991b1b;  
+}  
+  
+.count{  
+  color:#64748b;  
+  font-size:13px;  
+  margin-top:6px;  
+}  
+  
+.date{  
+  color:#64748b;  
+  font-size:12px;  
+  margin-top:5px;  
+}  
+  
+.saida-date{  
+  color:#dc2626;  
+  font-size:12px;  
+  margin-top:5px;  
+}  
+  
+.empty{  
+  text-align:center;  
+  color:#94a3b8;  
+  padding:38px 20px;  
+  font-size:14px;  
+}  
+  
+/* RESUMO */  
+  
+.resumo-tabela{  
+  width:100%;  
+  border-collapse:separate;  
+  border-spacing:0;  
+  margin-top:4px;  
+  overflow:hidden;  
+}  
+  
+.resumo-tabela th,  
+.resumo-tabela td{  
+  padding:13px 10px;  
+  text-align:left;  
+  border-bottom:1px solid #edf2f7;  
+}  
+  
+.resumo-tabela th{  
+  font-size:11px;  
+  color:#64748b;  
+  text-transform:uppercase;  
+  letter-spacing:.4px;  
+}  
+  
+.resumo-tabela tr:last-child td{  
+  border-bottom:0;  
+}  
+  
+.tipo-resumo{  
+  display:flex;  
+  align-items:center;  
+  gap:9px;  
+  font-weight:800;  
+}  
+  
+.tipo-resumo .dot{  
+  width:14px;  
+  height:14px;  
+  margin:0;  
+}  
+  
+.total-tipo{  
+  font-weight:900;  
+  white-space:nowrap;  
+  color:#0f172a;  
+}  
+  
+/* STATUS */  
+  
+.status{  
+  font-size:13px;  
+  margin-top:14px;  
+  padding:12px 14px;  
+  border-radius:11px;  
+  background:#f1f5f9;  
+  color:#475569;  
+  border:1px solid #e2e8f0;  
+}  
+  
+.status.ok{  
+  background:#ecfdf5;  
+  color:#047857;  
+  border-color:#a7f3d0;  
+}  
+  
+.status.erro{  
+  background:#fef2f2;  
+  color:#b91c1c;  
+  border-color:#fecaca;  
+}  
+  
+.small{  
+  font-size:12px;  
+  color:#64748b;  
+  margin-top:10px;  
+  line-height:1.5;  
+}  
+  
+/* RESPONSIVO */  
+  
+@media(max-width:650px){  
+  
+  .container{  
+    padding:14px 12px 35px;  
+  }  
+  
+  .hero{  
+    padding:23px 20px;  
+    border-radius:18px;  
+  }  
+  
+  .hero h1{  
+    font-size:25px;  
+  }  
+  
+  .form,  
+  .filters{  
+    grid-template-columns:1fr;  
+  }  
+  
+  .form button{  
+    min-height:50px;  
+  }  
+  
+  .stats{  
+    gap:10px;  
+  }  
+  
+  .stat{  
+    padding:16px 14px;  
+  }  
+  
+  .stat strong{  
+    font-size:25px;  
+  }  
+  
+  .card{  
+    padding:17px 15px;  
+    border-radius:16px;  
+  }  
+  
+  .roll{  
+    align-items:flex-start;  
+    flex-direction:column;  
+    padding:16px 2px;  
+  }  
+  
+  .roll-info{  
+    width:100%;  
+  }  
+  
+  .roll-action{  
+    width:100%;  
+    justify-content:space-between;  
+  }  
+  
+  .roll-action button{  
+    width:auto;  
+  }  
+  
+  .meters{  
+    font-size:19px;  
+  }  
+  
+  .resumo-tabela th,  
+  .resumo-tabela td{  
+    padding:11px 5px;  
+    font-size:13px;  
+  }  
+  
+  .resumo-tabela th{  
+    font-size:10px;  
+  }  
+  
+}  
+  
+@media(max-width:380px){  
+  
+  .stats{  
+    grid-template-columns:1fr;  
+  }  
+  
+  .tabs{  
+    grid-template-columns:1fr;  
+  }  
+  
+}  
+</style>  </head>  <body>  <div class="container">  <!-- CABEÇALHO -->  <div class="hero">  
+  <div class="hero-content">  
+    <h1>📦 Estoque de Rolos</h1>  
+    <p class="subtitle">  
+      Controle de metragens, cores, entradas e saídas.  
+    </p>  
+  </div>  
+</div>  <!-- ADICIONAR ROLO -->  <div class="card">    <h2>➕ Adicionar novo rolo</h2>    <div class="form">  <div>  
+  <label for="tipo">Tipo / Cor</label>  
+
+  <select id="tipo">  
+    <option>Preto liso</option>  
+    <option>Preto texturado</option>  
+    <option>Golden</option>  
+    <option>Nogueira</option>  
+    <option>Bronze</option>  
+    <option>Pirita</option>  
+    <option>Grafite</option>  
+  </select>  
+</div>  
+
+<div>  
+  <label for="metragem">Metragem (m)</label>  
+
+  <input  
+    id="metragem"  
+    type="number"  
+    min="0"  
+    step="0.01"  
+    placeholder="Ex.: 530"  
+  >  
+</div>  
+
+<div style="align-self:end">  
+  <button id="add">  
+    ➕ Adicionar rolo  
+  </button>  
 </div>
 
-<div>
-  <label for="metragem">Metragem (m)</label>
-
-  <input
-    id="metragem"
-    type="number"
-    min="0"
-    step="0.01"
-    placeholder="Ex.: 530"
-  >
-</div>
-
-<div style="align-self:end">
-  <button id="add">
-    ➕ Adicionar rolo
-  </button>
-</div>
-
-  </div>
-</div><!-- ESTATÍSTICAS --><div class="stats">  <div class="stat">
-    📦 Rolos no estoque
-    <strong id="totalRolos">0</strong>
-  </div>  <div class="stat">
-    📏 Metros no estoque
-    <strong id="totalMetros">0 m</strong>
-  </div></div><!-- ABAS --><div class="tabs"><button
+  </div>  
+</div>  <!-- ESTATÍSTICAS -->  <div class="stats">    <div class="stat">  
+    📦 Rolos no estoque  
+    <strong id="totalRolos">0</strong>  
+  </div>    <div class="stat">  
+    📏 Metros no estoque  
+    <strong id="totalMetros">0 m</strong>  
+  </div>  </div>  <!-- ABAS -->  <div class="tabs">  <button
 id="btnEntrada"
 class="tab active"
 
-«»
+> 
 
 📥 Entrada
 
-  </button><button
+  </button>  <button
 id="btnSaida"
 class="tab"
 
-«»
+> 
 
 📤 Saída
 
-  </button></div><!-- BUSCA --><div class="card">  <h2>🔎 Buscar no estoque</h2>  <div class="filters"><input
-  id="buscaMetragem"
-  type="number"
-  min="0"
-  step="0.01"
-  placeholder="🔎 Buscar por metragem..."
->
+  </button>  </div>  <!-- BUSCA -->  <div class="card">    <h2>🔎 Buscar no estoque</h2>    <div class="filters">  <input  
+  id="buscaMetragem"  
+  type="number"  
+  min="0"  
+  step="0.01"  
+  placeholder="🔎 Buscar por metragem..."  
+>  
 
-<select id="filtroTipo">
+<select id="filtroTipo">  
 
-  <option value="">
-    Todas as cores
-  </option>
+  <option value="">  
+    Todas as cores  
+  </option>  
 
-  <option>Preto liso</option>
-  <option>Preto texturado</option>
-  <option>Golden</option>
-  <option>Nogueira</option>
-  <option>Bronze</option>
-  <option>Pirita</option>
-  <option>Grafite</option>
+  <option>Preto liso</option>  
+  <option>Preto texturado</option>  
+  <option>Golden</option>  
+  <option>Nogueira</option>  
+  <option>Bronze</option>  
+  <option>Pirita</option>  
+  <option>Grafite</option>  
 
 </select>
 
-  </div></div><!-- LISTA --><div class="card">  <h2 id="tituloLista">
-    📥 Rolos no estoque
-  </h2>  <div id="lista"></div>  <div
-    class="count"
-    id="count">
-  </div>  <div
-    class="lista-controles"
-    id="listaControles">
-  </div></div><!-- RESUMO --><div class="card">  <h2>📊 Resumo por tipo</h2>  <table class="resumo-tabela"><thead>
-  <tr>
-    <th>Tipo</th>
-    <th>Rolos</th>
-    <th>Metragem total</th>
-  </tr>
-</thead>
+  </div>  </div>  <!-- LISTA -->  <div class="card">    <h2 id="tituloLista">  
+    📥 Rolos no estoque  
+  </h2>    <div id="lista"></div>    <div  
+    class="count"  
+    id="count">  
+  </div>  </div>  <!-- RESUMO -->  <div class="card">    <h2>📊 Resumo por tipo</h2>    <table class="resumo-tabela">  <thead>  
+  <tr>  
+    <th>Tipo</th>  
+    <th>Rolos</th>  
+    <th>Metragem total</th>  
+  </tr>  
+</thead>  
 
 <tbody id="resumoTipos"></tbody>
 
-  </table></div><!-- SUPABASE --><div class="card">  <h2>☁️ Estoque compartilhado</h2>  <button id="recarregar">
-    🔄 Recarregar do Supabase
-  </button>  <div
-    id="status"
-    class="status">
-    Conectando ao estoque...
-  </div>  <div class="small">
-    Os dados são salvos no banco de dados
-    <strong>Supabase</strong>.
-  </div></div></div><script>
-
-/* =====================================================
-   CONFIGURAÇÃO DO SUPABASE
-   ===================================================== */
-
-
-const SUPABASE_URL =
-"https://pipnkvlicwfraisywrzl.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_7v_jngycG...";
-
-const SUPABASE_TABLE =
-"rolos";
-
-/* =====================================================
-   TIPOS
-   ===================================================== */
-
-const tipos = [
-
-"Preto liso",
-"Preto texturado",
-"Golden",
-"Nogueira",
-"Bronze",
-"Pirita",
-"Grafite"
-
-];
-
-
-/* =====================================================
-   CORES
-   ===================================================== */
-
-const cores = {
-
-"Preto liso":"#111111",
-
-"Preto texturado":"#333333",
-
-"Golden":"#d4af37",
-
-"Nogueira":"#6b4226",
-
-"Bronze":"#cd7f32",
-
-"Pirita":"#8b8b83",
-
-"Grafite":"#555555"
-
-};
-
-
-/* =====================================================
-   VARIÁVEIS
-   ===================================================== */
-
-let rolos = [];
-
-let abaAtual = "entrada";
-
-let salvando = false;
-
-/* NOVO: quantidade de rolos exibidos */
-let quantidadeVisivel = 3;
-
-
-/* =====================================================
-   ELEMENTOS
-   ===================================================== */
-
-const tipo =
-document.getElementById("tipo");
-
-const metragem =
-document.getElementById("metragem");
-
-const buscaMetragem =
-document.getElementById("buscaMetragem");
-
-const filtroTipo =
-document.getElementById("filtroTipo");
-
-const lista =
-document.getElementById("lista");
-
-const resumoTipos =
-document.getElementById("resumoTipos");
-
-const statusEl =
-document.getElementById("status");
-
-const addBtn =
-document.getElementById("add");
-
-const btnEntrada =
-document.getElementById("btnEntrada");
-
-const btnSaida =
-document.getElementById("btnSaida");
-
-const listaControles =
-document.getElementById("listaControles");
-
-
-/* =====================================================
-   STATUS
-   ===================================================== */
-
-function setStatus(texto, classe = ""){
-
-statusEl.textContent = texto;
-
-statusEl.className =
-"status " + classe;
-
-}
-
-
-/* =====================================================
-   CABEÇALHOS DO SUPABASE
-   ===================================================== */
-
-function supabaseHeaders(){
-
-return {
-
-"apikey":
-SUPABASE_KEY,
-
-"Authorization":
-"Bearer " + SUPABASE_KEY,
-
-"Content-Type":
-"application/json",
-
-"Accept":
-"application/json"
-
-};
-
-}
-
-
-/* =====================================================
-   REQUISIÇÃO AO SUPABASE
-   ===================================================== */
-
-async function supabaseRequest(
-url,
-options = {}
-){
-
-const response =
-await fetch(
-url,
-{
-
-...options,
-
-headers:{
-...supabaseHeaders(),
-...(options.headers || {})
-}
-
-}
-);
-
-
-let data = null;
-
-
-try{
-
-data =
-await response.json();
-
-}
-catch(error){
-
-data = null;
-
-}
-
-
-if(!response.ok){
-
-throw new Error(
-
-data?.message ||
-data?.error_description ||
-data?.hint ||
-`Erro HTTP ${response.status}`
-
-);
-
-}
-
-
-return data;
-
-}
-
-
-/* =====================================================
-   URL DA TABELA
-   ===================================================== */
-
-function tabelaUrl(){
-
-return (
-
-`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`
-
-);
-
-}
-
-
-/* =====================================================
-   CARREGAR ROLOS
-   ===================================================== */
-
-async function carregarRolos(){
-
-try{
-
-setStatus(
-"🔄 Carregando estoque do Supabase..."
-);
-
-
-const dados =
-await supabaseRequest(
-
-`${tabelaUrl()}?select=*`,
-
-{
-method:"GET"
-}
-
-);
-
-
-rolos =
-Array.isArray(dados)
-? dados
-: [];
-
-
-setStatus(
-
-`✅ Estoque atualizado. ${rolos.length} registro(s) carregado(s).`,
-
-"ok"
-
-);
-
-
-render();
-
-
-}
-catch(error){
-
-console.error(error);
-
-
-setStatus(
-
-"❌ Erro ao carregar: " +
-error.message,
-
-"erro"
-
-);
-
-}
-
-}
-
-
-/* =====================================================
-   ADICIONAR ROLO
-   ===================================================== */
-
-async function adicionar(){
-
-const valor =
-Number(
-metragem.value
-);
-
-
-if(
-
-!Number.isFinite(valor) ||
-valor <= 0
-
-){
-
-alert(
-"Digite uma metragem válida."
-);
-
-metragem.focus();
-
-return;
-
-}
-
-
-if(salvando)
-return;
-
-
-salvando = true;
-
-addBtn.disabled = true;
-
-
-try{
-
-setStatus(
-"🔄 Salvando entrada no Supabase..."
-);
-
-
-const novo = {
-
-tipo:
-tipo.value,
-
-metragem:
-valor,
-
-entrada_em:
-new Date().toISOString(),
-
-saida_em:
-null
-
-};
-
-
-const dados =
-await supabaseRequest(
-
-tabelaUrl(),
-
-{
-
-method:"POST",
-
-headers:{
-"Prefer":
-"return=representation"
-},
-
-body:
-JSON.stringify(novo)
-
-}
-
-);
-
-
-if(
-
-Array.isArray(dados) &&
-dados.length > 0
-
-){
-
-rolos.unshift(
-dados[0]
-);
-
-}
-else{
-
-await carregarRolos();
-
-}
-
-
-metragem.value = "";
-
-metragem.focus();
-
-
-/* NOVO: volta a mostrar somente os 3 mais recentes */
-quantidadeVisivel = 3;
-
-
-setStatus(
-"✅ Rolo adicionado ao estoque.",
-"ok"
-);
-
-
-render();
-
-
-}
-catch(error){
-
-console.error(error);
-
-
-setStatus(
-
-"❌ Erro ao adicionar: " +
-error.message,
-
-"erro"
-
-);
-
-
-alert(
-
-"Não foi possível adicionar o rolo.\n\n" +
-error.message
-
-);
-
-}
-finally{
-
-salvando = false;
-
-addBtn.disabled = false;
-
-}
-
-}
-
-
-/* =====================================================
-   REGISTRAR SAÍDA
-   ===================================================== */
-
-async function registrarSaida(id){
-
-const rolo =
-rolos.find(
-
-r =>
-String(r.id) ===
-String(id)
-
-);
-
-
-if(!rolo)
-return;
-
-
-const confirmar =
-confirm(
-
-`Registrar saída do rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`
-
-);
-
-
-if(!confirmar)
-return;
-
-
-if(salvando)
-return;
-
-
-salvando = true;
-
-
-try{
-
-setStatus(
-"🔄 Registrando saída no Supabase..."
-);
-
-
-const saidaEm =
-new Date().toISOString();
-
-
-const resultado =
-await supabaseRequest(
-
-`${tabelaUrl()}?id=eq.${encodeURIComponent(id)}`,
-
-{
-
-method:"PATCH",
-
-headers:{
-
-"Prefer":
-"return=representation"
-
-},
-
-body:
-JSON.stringify({
-
-saida_em:
-saidaEm
-
-})
-
-}
-
-);
-
-
-if(
-
-!Array.isArray(resultado) ||
-resultado.length === 0
-
-){
-
-throw new Error(
-
-"O Supabase não encontrou esse rolo para atualizar."
-
-);
-
-}
-
-
-await carregarRolos();
-
-
-mostrarEntrada();
-
-
-setStatus(
-"✅ Saída registrada com sucesso.",
-"ok"
-);
-
-
-}
-catch(error){
-
-console.error(error);
-
-
-setStatus(
-
-"❌ Erro ao registrar saída: " +
-error.message,
-
-"erro"
-
-);
-
-
-alert(
-
-"Não foi possível registrar a saída.\n\n" +
-error.message
-
-);
-
-}
-finally{
-
-salvando = false;
-
-}
-
-}
-
-
-/* =====================================================
-   FORMATAÇÃO DE NÚMEROS
-   ===================================================== */
-
-function formatarNumero(numero){
-
-return Number.isInteger(
-Number(numero)
-)
-
-? String(numero)
-
-: Number(numero).toLocaleString(
-
-"pt-BR",
-
-{
-maximumFractionDigits:2
-}
-
-);
-
-}
-
-
-/* =====================================================
-   FORMATAÇÃO DE DATA
-   ===================================================== */
-
-function formatarData(data){
-
-if(!data)
-return "—";
-
-
-const d =
-new Date(data);
-
-
-if(
-isNaN(d.getTime())
-)
-return "—";
-
-
-return d.toLocaleString(
-
-"pt-BR",
-
-{
-
-day:"2-digit",
-month:"2-digit",
-year:"numeric",
-hour:"2-digit",
-minute:"2-digit"
-
-}
-
-);
-
-}
-
-
-/* =====================================================
-   RESUMO POR TIPO
-   ===================================================== */
-
-function renderResumo(){
-
-const estoque =
-rolos.filter(
-
-r =>
-!r.saida_em
-
-);
-
-
-resumoTipos.innerHTML =
-
-tipos.map(
-
-tipoAtual => {
-
-
-const rolosTipo =
-estoque.filter(
-
-r =>
-r.tipo === tipoAtual
-
-);
-
-
-const quantidade =
-rolosTipo.length;
-
-
-const metragemTotal =
-rolosTipo.reduce(
-
-(s,r) =>
-s + Number(r.metragem),
-
-0
-
-);
-
-
-return `
-
-<tr>
-
-<td>
-
-<div class="tipo-resumo">
-
-<span
-class="dot"
-style="background:${cores[tipoAtual] || "#999"}">
-</span>
-
-${tipoAtual}
-
-</div>
-
-</td>
-
-<td>
-${quantidade}
-</td>
-
-<td class="total-tipo">
-${formatarNumero(metragemTotal)} m
-</td>
-
-</tr>
-
-`;
-
-}
-
-).join("");
-
-}
-
-
-/* =====================================================
-   RENDER
-   ===================================================== */
-
-function render(){
-
-const busca =
-buscaMetragem.value.trim();
-
-
-const tipoFiltro =
-filtroTipo.value;
-
-
-let filtrados =
-rolos.filter(
-
-r => {
-
-
-const pertenceAba =
-
-abaAtual === "entrada"
-
-? !r.saida_em
-
-: !!r.saida_em;
-
-
-if(!pertenceAba)
-return false;
-
-
-const bateMetragem =
-
-!busca ||
-
-String(r.metragem)
-.startsWith(busca);
-
-
-const bateTipo =
-
-!tipoFiltro ||
-
-r.tipo === tipoFiltro;
-
-
-return (
-
-bateMetragem &&
-bateTipo
-
-);
-
-}
-
-);
-
-
-/* =====================================================
-   ORDEM DECRESCENTE
-   Mais recente primeiro
-   ===================================================== */
-
-filtrados.sort(
-
-(a,b) => {
-
-
-const dataA =
-
-abaAtual === "entrada"
-
-? b.entrada_em
-: b.saida_em;
-
-
-const dataB =
-
-abaAtual === "entrada"
-
-? a.entrada_em
-: a.saida_em;
-
-
-return (
-
-new Date(dataA) -
-new Date(dataB)
-
-);
-
-}
-
-);
-
-
-const estoque =
-rolos.filter(
-
-r =>
-!r.saida_em
-
-);
-
-
-document.getElementById(
-"totalRolos"
-).textContent =
-estoque.length;
-
-
-document.getElementById(
-"totalMetros"
-).textContent =
-
-formatarNumero(
-
-estoque.reduce(
-
-(s,r) =>
-s + Number(r.metragem),
-
-0
-
-)
-
-) + " m";
-
-
-/* =====================================================
-   NOVO: LIMITAR A EXIBIÇÃO
-   ===================================================== */
-
-const totalFiltrados =
-filtrados.length;
-
-
-const rolosVisiveis =
-filtrados.slice(
-0,
-quantidadeVisivel
-);
-
-
-document.getElementById(
-"count"
-).textContent =
-
-abaAtual === "entrada"
-
-? `${totalFiltrados} rolo(s) no estoque`
-
-: `${totalFiltrados} rolo(s) com saída`;
-
-
-if(!rolosVisiveis.length){
-
-lista.innerHTML =
-
-abaAtual === "entrada"
-
-? `
-
-<div class="empty">
-
-Nenhum rolo no estoque.
-
-</div>
-
-`
-
-: `
-
-<div class="empty">
-
-Nenhum rolo com saída registrada.
-
-</div>
-
-`;
-
-}
-
-else{
-
-lista.innerHTML =
-
-rolosVisiveis.map(
-
-r => `
-
-<div class="roll">
-
-<div class="roll-info">
-
-<span
-class="dot"
-style="background:${cores[r.tipo] || "#999"}">
-</span>
-
-<div>
-
-<div class="name">
-${r.tipo}
-</div>
-
-<div class="count">
-Rolo individual
-</div>
-
-<div class="date">
-📥 Entrada:
-${formatarData(r.entrada_em)}
-</div>
-
-${
-r.saida_em
-
-?
-
-`
-
-<div class="saida-date">
-
-📤 Saída:
-${formatarData(r.saida_em)}
-
-</div>
-
-`
-
-:
-
-""
-
-}
-
-</div>
-
-</div>
-
-<div
-class="roll-action"
->
-
-<span class="meters">
-
-${formatarNumero(r.metragem)} m
-
-</span>
-
-${
-abaAtual === "entrada"
-
-?
-
-`
-
-<button
-class="delete"
-onclick="registrarSaida('${r.id}')"
->
-
-📤 Saída
-
-</button>
-
-`
-
-:
-
-""
-
-}
-
-</div>
-
-</div>
-
-`
-
-).join("");
-
-}
-
-
-/* =====================================================
-   NOVO: BOTÕES VER MAIS / VER MENOS
-   ===================================================== */
-
-if(totalFiltrados > 3){
-
-let botoes = "";
-
-if(quantidadeVisivel < totalFiltrados){
-
-botoes += `
-
-<button
-onclick="verMais()"
->
-
-⬇️ Ver mais
-
-</button>
-
-`;
-
-}
-
-if(quantidadeVisivel > 3){
-
-botoes += `
-
-<button
-onclick="verMenos()"
->
-
-⬆️ Ver menos
-
-</button>
-
-`;
-
-}
-
-listaControles.innerHTML = botoes;
-
-}
-else{
-
-listaControles.innerHTML = "";
-
-}
-
-
-renderResumo();
-
-}
-
-
-/* =====================================================
-   NOVO: VER MAIS
-   ===================================================== */
-
-function verMais(){
-
-quantidadeVisivel += 3;
-
-render();
-
-}
-
-
-/* =====================================================
-   NOVO: VER MENOS
-   ===================================================== */
-
-function verMenos(){
-
-quantidadeVisivel = 3;
-
-render();
-
-}
-
-
-/* =====================================================
-   MOSTRAR ENTRADA
-   ===================================================== */
-
-function mostrarEntrada(){
-
-abaAtual =
-"entrada";
-
-quantidadeVisivel = 3;
-
-
-btnEntrada
-.classList
-.add("active");
-
-
-btnSaida
-.classList
-.remove("active");
-
-
-document.getElementById(
-"tituloLista"
-).textContent =
-"📥 Rolos no estoque";
-
-
-render();
-
-}
-
-
-/* =====================================================
-   MOSTRAR SAÍDA
-   ===================================================== */
-
-function mostrarSaida(){
-
-abaAtual =
-"saida";
-
-quantidadeVisivel = 3;
-
-
-btnSaida
-.classList
-.add("active");
-
-
-btnEntrada
-.classList
-.remove("active");
-
-
-document.getElementById(
-"tituloLista"
-).textContent =
-"📤 Rolos que saíram";
-
-
-render();
-
-}
-
-
-/* =====================================================
-   EVENTOS
-   ===================================================== */
-
-document.getElementById(
-"add"
-).addEventListener(
-
-"click",
-
-adicionar
-
-);
-
-
-metragem.addEventListener(
-
-"keydown",
-
-event => {
-
-if(
-event.key === "Enter"
-){
-
-adicionar();
-
-}
-
-}
-
-);
-
-
-buscaMetragem.addEventListener(
-
-"input",
-
-() => {
-
-quantidadeVisivel = 3;
-
-render();
-
-}
-
-);
-
-
-filtroTipo.addEventListener(
-
-"change",
-
-() => {
-
-quantidadeVisivel = 3;
-
-render();
-
-}
-
-);
-
-
-btnEntrada.addEventListener(
-
-"click",
-
-mostrarEntrada
-
-);
-
-
-btnSaida.addEventListener(
-
-"click",
-
-mostrarSaida
-
-);
-
-
-document.getElementById(
-"recarregar"
-).addEventListener(
-
-"click",
-
-carregarRolos
-
-);
-
-
-/* =====================================================
-   INÍCIO
-   ===================================================== */
-
-carregarRolos();
-
-</script></body>
+  </table>  </div>  <!-- SUPABASE -->  <div class="card">    <h2>☁️ Estoque compartilhado</h2>    <button id="recarregar">  
+    🔄 Recarregar do Supabase  
+  </button>    <div  
+    id="status"  
+    class="status">  
+    Conectando ao estoque...  
+  </div>    <div class="small">  
+    Os dados são salvos no banco de dados  
+    <strong>Supabase</strong>.  
+  </div>  </div>  </div>  <script>  
+  
+/* =====================================================  
+   CONFIGURAÇÃO DO SUPABASE  
+   ===================================================== */  
+  
+const SUPABASE_URL =  
+"https://pipnkvlicwfraisywrzl.supabase.co";  
+  
+const SUPABASE_KEY =  
+"sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";  
+  
+const SUPABASE_TABLE =  
+"rolos";  
+  
+  
+/* =====================================================  
+   TIPOS  
+   ===================================================== */  
+  
+const tipos = [  
+  
+"Preto liso",  
+"Preto texturado",  
+"Golden",  
+"Nogueira",  
+"Bronze",  
+"Pirita",  
+"Grafite"  
+  
+];  
+  
+  
+/* =====================================================  
+   CORES  
+   ===================================================== */  
+  
+const cores = {  
+  
+"Preto liso":"#111111",  
+  
+"Preto texturado":"#333333",  
+  
+"Golden":"#d4af37",  
+  
+"Nogueira":"#6b4226",  
+  
+"Bronze":"#cd7f32",  
+  
+"Pirita":"#8b8b83",  
+  
+"Grafite":"#555555"  
+  
+};  
+  
+  
+/* =====================================================  
+   VARIÁVEIS  
+   ===================================================== */  
+  
+let rolos = [];  
+  
+let abaAtual = "entrada";  
+  
+let salvando = false;  
+  
+  
+/* =====================================================  
+   ELEMENTOS  
+   ===================================================== */  
+  
+const tipo =  
+document.getElementById("tipo");  
+  
+const metragem =  
+document.getElementById("metragem");  
+  
+const buscaMetragem =  
+document.getElementById("buscaMetragem");  
+  
+const filtroTipo =  
+document.getElementById("filtroTipo");  
+  
+const lista =  
+document.getElementById("lista");  
+  
+const resumoTipos =  
+document.getElementById("resumoTipos");  
+  
+const statusEl =  
+document.getElementById("status");  
+  
+const addBtn =  
+document.getElementById("add");  
+  
+const btnEntrada =  
+document.getElementById("btnEntrada");  
+  
+const btnSaida =  
+document.getElementById("btnSaida");  
+  
+  
+/* =====================================================  
+   STATUS  
+   ===================================================== */  
+  
+function setStatus(texto, classe = ""){  
+  
+statusEl.textContent = texto;  
+  
+statusEl.className =  
+"status " + classe;  
+  
+}  
+  
+  
+/* =====================================================  
+   CABEÇALHOS DO SUPABASE  
+   ===================================================== */  
+  
+function supabaseHeaders(){  
+  
+return {  
+  
+"apikey":  
+SUPABASE_KEY,  
+  
+"Authorization":  
+"Bearer " + SUPABASE_KEY,  
+  
+"Content-Type":  
+"application/json",  
+  
+"Accept":  
+"application/json"  
+  
+};  
+  
+}  
+  
+  
+/* =====================================================  
+   REQUISIÇÃO AO SUPABASE  
+   ===================================================== */  
+  
+async function supabaseRequest(  
+url,  
+options = {}  
+){  
+  
+const response =  
+await fetch(  
+url,  
+{  
+  
+...options,  
+  
+headers:{  
+...supabaseHeaders(),  
+...(options.headers || {})  
+}  
+  
+}  
+);  
+  
+  
+let data = null;  
+  
+  
+try{  
+  
+data =  
+await response.json();  
+  
+}  
+catch(error){  
+  
+data = null;  
+  
+}  
+  
+  
+if(!response.ok){  
+  
+throw new Error(  
+  
+data?.message ||  
+data?.error_description ||  
+data?.hint ||  
+`Erro HTTP ${response.status}`  
+  
+);  
+  
+}  
+  
+  
+return data;  
+  
+}  
+  
+  
+/* =====================================================  
+   URL DA TABELA  
+   ===================================================== */  
+  
+function tabelaUrl(){  
+  
+return (  
+  
+`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`  
+  
+);  
+  
+}  
+  
+  
+/* =====================================================  
+   CARREGAR ROLOS  
+   ===================================================== */  
+  
+async function carregarRolos(){  
+  
+try{  
+  
+setStatus(  
+"🔄 Carregando estoque do Supabase..."  
+);  
+  
+  
+const dados =  
+await supabaseRequest(  
+  
+`${tabelaUrl()}?select=*`,  
+  
+{  
+method:"GET"  
+}  
+  
+);  
+  
+  
+rolos =  
+Array.isArray(dados)  
+? dados  
+: [];  
+  
+  
+setStatus(  
+  
+`✅ Estoque atualizado. ${rolos.length} registro(s) carregado(s).`,  
+  
+"ok"  
+  
+);  
+  
+  
+render();  
+  
+  
+}  
+catch(error){  
+  
+console.error(error);  
+  
+  
+setStatus(  
+  
+"❌ Erro ao carregar: " +  
+error.message,  
+  
+"erro"  
+  
+);  
+  
+}  
+  
+}  
+  
+  
+/* =====================================================  
+   ADICIONAR ROLO  
+   ===================================================== */  
+  
+async function adicionar(){  
+  
+const valor =  
+Number(  
+metragem.value  
+);  
+  
+  
+if(  
+  
+!Number.isFinite(valor) ||  
+valor <= 0  
+  
+){  
+  
+alert(  
+"Digite uma metragem válida."  
+);  
+  
+metragem.focus();  
+  
+return;  
+  
+}  
+  
+  
+if(salvando)  
+return;  
+  
+  
+salvando = true;  
+  
+addBtn.disabled = true;  
+  
+  
+try{  
+  
+setStatus(  
+"🔄 Salvando entrada no Supabase..."  
+);  
+  
+  
+const novo = {  
+  
+tipo:  
+tipo.value,  
+  
+metragem:  
+valor,  
+  
+entrada_em:  
+new Date().toISOString(),  
+  
+saida_em:  
+null  
+  
+};  
+  
+  
+const dados =  
+await supabaseRequest(  
+  
+tabelaUrl(),  
+  
+{  
+  
+method:"POST",  
+  
+headers:{  
+"Prefer":  
+"return=representation"  
+},  
+  
+body:  
+JSON.stringify(novo)  
+  
+}  
+  
+);  
+  
+  
+if(  
+  
+Array.isArray(dados) &&  
+dados.length > 0  
+  
+){  
+  
+rolos.unshift(  
+dados[0]  
+);  
+  
+}  
+else{  
+  
+await carregarRolos();  
+  
+}  
+  
+  
+metragem.value = "";  
+  
+metragem.focus();  
+  
+  
+setStatus(  
+"✅ Rolo adicionado ao estoque.",  
+"ok"  
+);  
+  
+  
+render();  
+  
+  
+}  
+catch(error){  
+  
+console.error(error);  
+  
+  
+setStatus(  
+  
+"❌ Erro ao adicionar: " +  
+error.message,  
+  
+"erro"  
+  
+);  
+  
+  
+alert(  
+  
+"Não foi possível adicionar o rolo.\n\n" +  
+error.message  
+  
+);  
+  
+}  
+finally{  
+  
+salvando = false;  
+  
+addBtn.disabled = false;  
+  
+}  
+  
+}  
+  
+  
+/* =====================================================  
+   REGISTRAR SAÍDA  
+   ===================================================== */  
+  
+async function registrarSaida(id){  
+  
+const rolo =  
+rolos.find(  
+  
+r =>  
+String(r.id) ===  
+String(id)  
+  
+);  
+  
+  
+if(!rolo)  
+return;  
+  
+  
+const confirmar =  
+confirm(  
+  
+`Registrar saída do rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`  
+  
+);  
+  
+  
+if(!confirmar)  
+return;  
+  
+  
+if(salvando)  
+return;  
+  
+  
+salvando = true;  
+  
+  
+try{  
+  
+setStatus(  
+"🔄 Registrando saída no Supabase..."  
+);  
+  
+  
+const saidaEm =  
+new Date().toISOString();  
+  
+  
+const resultado =  
+await supabaseRequest(  
+  
+`${tabelaUrl()}?id=eq.${encodeURIComponent(id)}`,  
+  
+{  
+  
+method:"PATCH",  
+  
+headers:{  
+  
+"Prefer":  
+"return=representation"  
+  
+},  
+  
+body:  
+JSON.stringify({  
+  
+saida_em:  
+saidaEm  
+  
+})  
+  
+}  
+  
+);  
+  
+  
+if(  
+  
+!Array.isArray(resultado) ||  
+resultado.length === 0  
+  
+){  
+  
+throw new Error(  
+  
+"O Supabase não encontrou esse rolo para atualizar."  
+  
+);  
+  
+}  
+  
+  
+await carregarRolos();  
+  
+  
+mostrarEntrada();  
+  
+  
+setStatus(  
+"✅ Saída registrada com sucesso.",  
+"ok"  
+);  
+  
+  
+}  
+catch(error){  
+  
+console.error(error);  
+  
+  
+setStatus(  
+  
+"❌ Erro ao registrar saída: " +  
+error.message,  
+  
+"erro"  
+  
+);  
+  
+  
+alert(  
+  
+"Não foi possível registrar a saída.\n\n" +  
+error.message  
+  
+);  
+  
+}  
+finally{  
+  
+salvando = false;  
+  
+}  
+  
+}  
+  
+  
+/* =====================================================  
+   FORMATAÇÃO DE NÚMEROS  
+   ===================================================== */  
+  
+function formatarNumero(numero){  
+  
+return Number.isInteger(  
+Number(numero)  
+)  
+  
+? String(numero)  
+  
+: Number(numero).toLocaleString(  
+  
+"pt-BR",  
+  
+{  
+maximumFractionDigits:2  
+}  
+  
+);  
+  
+}  
+  
+  
+/* =====================================================  
+   FORMATAÇÃO DE DATA  
+   ===================================================== */  
+  
+function formatarData(data){  
+  
+if(!data)  
+return "—";  
+  
+  
+const d =  
+new Date(data);  
+  
+  
+if(  
+isNaN(d.getTime())  
+)  
+return "—";  
+  
+  
+return d.toLocaleString(  
+  
+"pt-BR",  
+  
+{  
+  
+day:"2-digit",  
+month:"2-digit",  
+year:"numeric",  
+hour:"2-digit",  
+minute:"2-digit"  
+  
+}  
+  
+);  
+  
+}  
+  
+  
+/* =====================================================  
+   RESUMO POR TIPO  
+   ===================================================== */  
+  
+function renderResumo(){  
+  
+const estoque =  
+rolos.filter(  
+  
+r =>  
+!r.saida_em  
+  
+);  
+  
+  
+resumoTipos.innerHTML =  
+  
+tipos.map(  
+  
+tipoAtual => {  
+  
+  
+const rolosTipo =  
+estoque.filter(  
+  
+r =>  
+r.tipo === tipoAtual  
+  
+);  
+  
+  
+const quantidade =  
+rolosTipo.length;  
+  
+  
+const metragemTotal =  
+rolosTipo.reduce(  
+  
+(s,r) =>  
+s + Number(r.metragem),  
+  
+0  
+  
+);  
+  
+  
+return `  
+  
+<tr>  
+  
+<td>  
+  
+<div class="tipo-resumo">  
+  
+<span  
+class="dot"  
+style="background:${cores[tipoAtual] || "#999"}">  
+</span>  
+  
+${tipoAtual}  
+  
+</div>  
+  
+</td>  
+  
+<td>  
+${quantidade}  
+</td>  
+  
+<td class="total-tipo">  
+${formatarNumero(metragemTotal)} m  
+</td>  
+  
+</tr>  
+  
+`;  
+  
+}  
+  
+).join("");  
+  
+}  
+  
+  
+/* =====================================================  
+   RENDER  
+   ===================================================== */  
+  
+function render(){  
+  
+const busca =  
+buscaMetragem.value.trim();  
+  
+  
+const tipoFiltro =  
+filtroTipo.value;  
+  
+  
+let filtrados =  
+rolos.filter(  
+  
+r => {  
+  
+  
+const pertenceAba =  
+  
+abaAtual === "entrada"  
+  
+? !r.saida_em  
+  
+: !!r.saida_em;  
+  
+  
+if(!pertenceAba)  
+return false;  
+  
+  
+const bateMetragem =  
+  
+!busca ||  
+  
+String(r.metragem)  
+.startsWith(busca);  
+  
+  
+const bateTipo =  
+  
+!tipoFiltro ||  
+  
+r.tipo === tipoFiltro;  
+  
+  
+return (  
+  
+bateMetragem &&  
+bateTipo  
+  
+);  
+  
+}  
+  
+);  
+  
+  
+filtrados.sort(  
+  
+(a,b) => {  
+  
+  
+const dataA =  
+  
+abaAtual === "entrada"  
+  
+? b.entrada_em  
+: b.saida_em;  
+  
+  
+const dataB =  
+  
+abaAtual === "entrada"  
+  
+? a.entrada_em  
+: a.saida_em;  
+  
+  
+return (  
+  
+new Date(dataA) -  
+new Date(dataB)  
+  
+);  
+  
+}  
+  
+);  
+  
+  
+const estoque =  
+rolos.filter(  
+  
+r =>  
+!r.saida_em  
+  
+);  
+  
+  
+document.getElementById(  
+"totalRolos"  
+).textContent =  
+estoque.length;  
+  
+  
+document.getElementById(  
+"totalMetros"  
+).textContent =  
+  
+formatarNumero(  
+  
+estoque.reduce(  
+  
+(s,r) =>  
+s + Number(r.metragem),  
+  
+0  
+  
+)  
+  
+) + " m";  
+  
+  
+document.getElementById(  
+"count"  
+).textContent =  
+  
+abaAtual === "entrada"  
+  
+? `${filtrados.length} rolo(s) no estoque`  
+  
+: `${filtrados.length} rolo(s) com saída`;  
+  
+  
+if(!filtrados.length){  
+  
+lista.innerHTML =  
+  
+abaAtual === "entrada"  
+  
+? `  
+  
+<div class="empty">  
+  
+Nenhum rolo no estoque.  
+  
+</div>  
+  
+`  
+  
+: `  
+  
+<div class="empty">  
+  
+Nenhum rolo com saída registrada.  
+  
+</div>  
+  
+`;  
+  
+}  
+  
+else{  
+  
+lista.innerHTML =  
+  
+filtrados.map(  
+  
+r => `  
+  
+<div class="roll">  
+  
+<div class="roll-info">  
+  
+<span  
+class="dot"  
+style="background:${cores[r.tipo] || "#999"}">  
+</span>  
+  
+<div>  
+  
+<div class="name">  
+${r.tipo}  
+</div>  
+  
+<div class="count">  
+Rolo individual  
+</div>  
+  
+<div class="date">  
+📥 Entrada:  
+${formatarData(r.entrada_em)}  
+</div>  
+  
+${  
+r.saida_em  
+  
+?  
+  
+`  
+  
+<div class="saida-date">  
+  
+📤 Saída:  
+${formatarData(r.saida_em)}  
+  
+</div>  
+  
+`  
+  
+:  
+  
+""  
+  
+}  
+  
+</div>  
+  
+</div>  
+  
+<div  
+class="roll-action"  
+>  
+  
+<span class="meters">  
+  
+${formatarNumero(r.metragem)} m  
+  
+</span>  
+  
+${  
+abaAtual === "entrada"  
+  
+?  
+  
+`  
+  
+<button  
+class="delete"  
+onclick="registrarSaida('${r.id}')"  
+>  
+  
+📤 Saída  
+  
+</button>  
+  
+`  
+  
+:  
+  
+""  
+  
+}  
+  
+</div>  
+  
+</div>  
+  
+`  
+  
+).join("");  
+  
+}  
+  
+  
+renderResumo();  
+  
+}  
+  
+  
+/* =====================================================  
+   MOSTRAR ENTRADA  
+   ===================================================== */  
+  
+function mostrarEntrada(){  
+  
+abaAtual =  
+"entrada";  
+  
+  
+btnEntrada  
+.classList  
+.add("active");  
+  
+  
+btnSaida  
+.classList  
+.remove("active");  
+  
+  
+document.getElementById(  
+"tituloLista"  
+).textContent =  
+"📥 Rolos no estoque";  
+  
+  
+render();  
+  
+}  
+  
+  
+/* =====================================================  
+   MOSTRAR SAÍDA  
+   ===================================================== */  
+  
+function mostrarSaida(){  
+  
+abaAtual =  
+"saida";  
+  
+  
+btnSaida  
+.classList  
+.add("active");  
+  
+  
+btnEntrada  
+.classList  
+.remove("active");  
+  
+  
+document.getElementById(  
+"tituloLista"  
+).textContent =  
+"📤 Rolos que saíram";  
+  
+  
+render();  
+  
+}  
+  
+  
+/* =====================================================  
+   EVENTOS  
+   ===================================================== */  
+  
+document.getElementById(  
+"add"  
+).addEventListener(  
+  
+"click",  
+  
+adicionar  
+  
+);  
+  
+  
+metragem.addEventListener(  
+  
+"keydown",  
+  
+event => {  
+  
+if(  
+event.key === "Enter"  
+){  
+  
+adicionar();  
+  
+}  
+  
+}  
+  
+);  
+  
+  
+buscaMetragem.addEventListener(  
+  
+"input",  
+  
+render  
+  
+);  
+  
+  
+filtroTipo.addEventListener(  
+  
+"change",  
+  
+render  
+  
+);  
+  
+  
+btnEntrada.addEventListener(  
+  
+"click",  
+  
+mostrarEntrada  
+  
+);  
+  
+  
+btnSaida.addEventListener(  
+  
+"click",  
+  
+mostrarSaida  
+  
+);  
+  
+  
+document.getElementById(  
+"recarregar"  
+).addEventListener(  
+  
+"click",  
+  
+carregarRolos  
+  
+);  
+  
+  
+/* =====================================================  
+   INÍCIO  
+   ===================================================== */  
+  
+carregarRolos();  
+  
+</script>  </body>  
 </html>
