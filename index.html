@@ -1460,6 +1460,9 @@ abaAtual === "entrada"
 ? `${filtrados.length} rolo(s) no estoque`  
   
 : `${filtrados.length} rolo(s) com saída`;  
+
+const rolosVisiveis =
+filtrados.slice(0, quantidadeVisivel);
   
   
 if(!filtrados.length){  
