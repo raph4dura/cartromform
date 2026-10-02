@@ -1465,7 +1465,7 @@ const rolosVisiveis =
 filtrados.slice(0, quantidadeVisivel);
   
   
-if(!filtrados.length){  
+if(!rolosVisiveis.length){
   
 lista.innerHTML =  
   
@@ -1497,7 +1497,7 @@ else{
   
 lista.innerHTML =  
   
-filtrados.map(  
+rolosVisiveis.map(
   
 r => `  
   
@@ -1595,10 +1595,49 @@ onclick="registrarSaida('${r.id}')"
   
 }  
   
+
+
+
+
+if(filtrados.length > quantidadeVisivel){
+
+lista.innerHTML += `
+
+<div style="text-align:center;margin-top:15px;">
+
+<button
+onclick="verMais()"
+style="width:auto;padding:10px 20px;"
+>
+
+⬇️ Ver mais
+
+</button>
+
+</div>
+
+`;
+
+}
+
+
+
+
+
   
 renderResumo();  
   
 }  
+
+
+
+function verMais(){
+
+quantidadeVisivel += 5;
+
+render();
+
+}
   
   
 /* =====================================================  
