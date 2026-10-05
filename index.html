@@ -589,6 +589,7 @@ class="tab"
     <th>Tipo</th>  
     <th>Rolos</th>  
     <th>Metragem total</th>  
+    <th>M²</th>
   </tr>  
 </thead>  
 
@@ -1285,6 +1286,8 @@ s + Number(r.metragem),
 0  
   
 );  
+
+const metrosQuadrados = metragemTotal * 0.66;
   
   
 return `  
@@ -1310,9 +1313,13 @@ ${tipoAtual}
 ${quantidade}  
 </td>  
   
-<td class="total-tipo">  
-${formatarNumero(metragemTotal)} m  
-</td>  
+<td class="total-tipo">
+${formatarNumero(metragemTotal)} m
+</td>
+
+<td class="total-tipo">
+${formatarNumero(metrosQuadrados)} m²
+</td>
   
 </tr>  
   
