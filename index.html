@@ -256,6 +256,60 @@ button:disabled{
   gap:13px;  
   min-width:0;  
 }  
+
+
+
+
+
+
+
+
+
+/* ANIMAÇÕES DOS ROLOS */
+
+.roll.animar-entrada {
+  animation: roloEntrando .45s ease-out;
+}
+
+.roll.animar-saida {
+  animation: roloSaindo .45s ease-in forwards;
+}
+
+@keyframes roloEntrando {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes roloSaindo {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    max-height: 150px;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(35px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+
+
+
+
+
+
+
   
 .dot{  
   width:18px;  
@@ -994,13 +1048,20 @@ metragem.value = "";
 metragem.focus();  
   
   
-setStatus(  
-"✅ Rolo adicionado ao estoque.",  
-"ok"  
-);  
-  
-  
-render();  
+ setStatus(
+  "✅ Rolo adicionado ao estoque.",
+  "ok"
+);
+
+render();
+
+setTimeout(() => {
+  const primeiroRolo = lista.querySelector(".roll");
+
+  if(primeiroRolo){
+    primeiroRolo.classList.add("animar-entrada");
+  }
+}, 50);
   
   
 }  
@@ -1133,16 +1194,30 @@ throw new Error(
 }  
   
   
-await carregarRolos();  
-  
-  
-mostrarEntrada();  
-  
-  
-setStatus(  
-"✅ Saída registrada com sucesso.",  
-"ok"  
-);  
+const elemento = lista.querySelector(
+  `.roll button[onclick*="'${id}'"]`
+);
+
+const roloElemento = elemento
+  ? elemento.closest(".roll")
+  : null;
+
+if(roloElemento){
+  roloElemento.classList.add("animar-saida");
+
+  await new Promise(resolve =>
+    setTimeout(resolve, 450)
+  );
+}
+
+await carregarRolos();
+
+mostrarEntrada();
+
+setStatus(
+  "✅ Saída registrada com sucesso.",
+  "ok"
+);
   
   
 }  
