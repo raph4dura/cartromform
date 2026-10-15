@@ -1,292 +1,534 @@
 
 (() => {
+  "use strict";
+
+  // Catálogo inicial de códigos.
+  // A lista precisa ser conferida com a documentação técnica da Bazze.
   const perfis = [
-    ["HF88S","Europa"],["HF112","Europa"],
-    ["SF92","Europa"],["SF66","Europa"],
-    ["SP66","Europa"],["MF52","Europa"],
-    ["GM42N","Europa"],["IL36","Europa"],
-    ["IL50","Europa"],["BR60","Europa"],
-    ["BR88","Europa"],["FR106","Europa"],
-    ["SF106","Europa"],["SF78C","Europa"],
-    ["SE76N","Europa"],["JT61","Europa"],
-    ["FR73N","Europa"],
-    ["GB10","Europa"],["GB15","Europa"],
-    ["GB19","Europa"],["GB25","Europa"],
-    ["GB31","Europa"],["GB34","Europa"],
-    ["BZ4556","Europa"],["BZ5563","Europa"],
-    ["PERS. 37/57","Europa"],["BZ3016","Europa"],
-    ["KT16","Europa"],["BZ0012","Europa"],
-    ["BZ0006","Europa"],["BZ1770","Europa"],
-    ["BZ0010","Europa"],["CP2","Europa"],
-    ["CA6","Europa"],["ZS30","Europa"],
-    ["VENEZ TROPICAL","Europa"],["BY60","Europa"],
-    ["PP150N","Europa"],["BZ20010","Europa"],
-
-    ["HF112","Reforços"],["HF88S","Reforços"],
-    ["SF66","Reforços"],["SP66","Reforços"],
-    ["SF92","Reforços"],["HF73","Reforços"],
-    ["BR60","Reforços"],["FR73N","Reforços"],
-    ["SF78C","Reforços"],["FR106 / SF106","Reforços"],
-    ["BR88","Reforços"],["SF52","Reforços"],
-    ["CA6","Reforços"],["TRILHO Z","Reforços"],
-
-    ["HF73","Design"],["SF52","Design"],
-    ["IL22","Design"],["SP66","Design"],
-    ["SP66 REFILADO","Design"],["TR27","Design"],
-    ["EMBELEZADOR L22","Design"],
-
-    ["AL1092","Alumínio"],["AL1093","Alumínio"],
-    ["EMBELEZADOR SF92","Alumínio"],
-    ["COLUNA 100 X 50","Alumínio"],
-    ["COLUNA 150 X 50","Alumínio"],
-    ["COLUNA 125 X 125","Alumínio"]
-  ].map(([codigo, categoria]) => ({codigo,categoria}));
-
-  const categorias = ["Europa","Reforços","Design","Alumínio"];
-
-  const estilo = document.createElement("style");
-  estilo.textContent = `
-    #btnPerfisPVC {background:transparent;color:#475569;box-shadow:none}
-    #btnPerfisPVC.active {background:white;color:#2563eb}
-    #painelPerfisPVC {display:none}
-    #painelPerfisPVC .filtros {
-      display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px
+    {
+      categoria: "Europa",
+      codigos: [
+        "HF88S", "HF112", "SF92", "SF66", "SP66", "MF52",
+        "GM42N", "IL36", "IL50", "BR60", "BR88", "FR106",
+        "SF106", "SF78C", "SE76N", "JT61", "FR73N", "GB10",
+        "GB15", "GB19", "GB25", "GB31", "GB34", "BZ4556",
+        "BZ5563", "PERS. 37/57", "BZ3016", "KT16", "BZ0012",
+        "BZ0006", "BZ1770", "BZ0010", "CP2", "CA6", "ZS30",
+        "VENEZ TROPICAL", "BY60", "PP150N", "BZ20010"
+      ]
+    },
+    {
+      categoria: "Reforços",
+      codigos: [
+        "HF112", "HF88S", "SF66", "SP66", "SF92", "HF73",
+        "BR60", "FR73N", "SF78C", "FR106 / SF106", "BR88",
+        "SF52", "CA6", "TRILHO Z"
+      ]
+    },
+    {
+      categoria: "Design",
+      codigos: [
+        "HF73", "SF52", "IL22", "SP66", "SP66 REFILADO",
+        "TR27", "EMBELEZADOR L22"
+      ]
+    },
+    {
+      categoria: "Alumínio",
+      codigos: [
+        "AL1092", "AL1093", "EMBELEZADOR SF92",
+        "COLUNA 100 X 50", "COLUNA 150 X 50",
+        "COLUNA 125 X 125"
+      ]
     }
-    #painelPerfisPVC .grade {
-      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px
+  ];
+
+  const FONTES = [
+    {
+      nome: "Site oficial — esquadrias PVC",
+      url: "https://www.bazze.com.br/produtos/esquadrias-de-pvc/"
+    },
+    {
+      nome: "Manual oficial de instalação",
+      url: "https://www.bazze.com.br/wp-content/uploads/2020/11/manual_instalacao_bazze.pdf"
+    },
+    {
+      nome: "Catálogo da linha Europa",
+      url: "https://www.bazze.com.br/wp-content/uploads/2016/08/Europa.pdf"
     }
-    #painelPerfisPVC .perfil {
-      background:white;color:#1e293b;text-align:left;
-      border:1px solid #e2e8f0;box-shadow:none;padding:14px;
-      min-height:95px
-    }
-    #painelPerfisPVC .perfil strong {display:block;color:#2563eb;font-size:17px}
-    #painelPerfisPVC .perfil small {display:block;color:#64748b;margin-top:7px}
-    #modalPerfilPVC {
-      display:none;position:fixed;inset:0;z-index:99999;
-      background:#0f172acc;padding:12px;overflow:auto
-    }
-    #modalPerfilPVC .conteudo {
-      background:white;border-radius:16px;padding:18px;
-      max-width:600px;margin:25px auto
-    }
-    #modalPerfilPVC .desenho {
-      background:#f8fafc;border:1px solid #e2e8f0;
-      border-radius:12px;padding:12px;margin:15px 0
-    }
-    #modalPerfilPVC .fechar {
-      width:auto;background:#e2e8f0;color:#0f172a;box-shadow:none
-    }
-    #modalPerfilPVC .aviso {
-      font-size:12px;line-height:1.5;color:#64748b
-    }
-    @media(max-width:500px) {
-      #painelPerfisPVC .grade {grid-template-columns:1fr}
-      #painelPerfisPVC .filtros {grid-template-columns:1fr}
-    }
-  `;
-  document.head.appendChild(estilo);
+  ];
 
-  const abas = document.querySelector(".tabs");
-  const container = document.querySelector(".container");
-  if (!abas || !container) return;
+  const normalizar = (texto) =>
+    String(texto || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
 
-  abas.style.gridTemplateColumns = "repeat(3,minmax(0,1fr))";
+  function prepararDados() {
+    const mapa = new Map();
 
-  const botao = document.createElement("button");
-  botao.id = "btnPerfisPVC";
-  botao.className = "tab";
-  botao.textContent = "🧩 Perfis PVC";
-  abas.appendChild(botao);
+    perfis.forEach((grupo) => {
+      grupo.codigos.forEach((codigo) => {
+        const chave = normalizar(codigo);
 
-  const painel = document.createElement("section");
-  painel.id = "painelPerfisPVC";
-  painel.className = "card";
+        if (!mapa.has(chave)) {
+          mapa.set(chave, {
+            codigo,
+            categorias: []
+          });
+        }
 
-  painel.innerHTML = `
-    <h2>🧩 Catálogo de perfis</h2>
-    <p class="small">Pesquise por código e selecione a categoria desejada.</p>
-    <div class="filtros">
-      <input id="pesquisaPerfilPVC" placeholder="🔎 Buscar perfil...">
-      <select id="categoriaPerfilPVC">
-        <option value="">Todas as categorias</option>
-        ${categorias.map(c=>`<option value="${c}">${c}</option>`).join("")}
-      </select>
-    </div>
-    <p id="quantidadePerfisPVC" class="count"></p>
-    <div id="gradePerfisPVC" class="grade"></div>
-    <p class="small">Os códigos foram identificados a partir da foto enviada. Confira as medidas no catálogo oficial.</p>
-  `;
-  abas.insertAdjacentElement("afterend",painel);
+        const item = mapa.get(chave);
 
-  const modal = document.createElement("div");
-  modal.id = "modalPerfilPVC";
-  modal.innerHTML = `
-    <div class="conteudo">
-      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
-        <div>
-          <p id="modalCategoriaPVC" class="count"></p>
-          <h2 id="modalTituloPVC" style="margin:0"></h2>
-        </div>
-        <button id="fecharPerfilPVC" class="fechar">Fechar ✕</button>
-      </div>
-      <div id="desenhoPerfilPVC" class="desenho"></div>
-      <p><strong>Categoria:</strong> <span id="tipoPerfilPVC"></span></p>
-      <p class="small">Medidas: consulte o desenho técnico oficial do fabricante.</p>
-      <label for="observacaoPerfilPVC">Observações</label>
-      <textarea id="observacaoPerfilPVC" rows="4"
-        placeholder="Anotações sobre este perfil..."></textarea>
-      <button id="salvarPerfilPVC" style="margin-top:10px">💾 Salvar observação</button>
-      <p id="statusPerfilPVC" class="small"></p>
-      <p class="aviso">
-        O desenho exibido é ilustrativo, não representa a geometria exata
-        do perfil. Não use para fabricação ou corte.
-      </p>
-    </div>
-  `;
-  document.body.appendChild(modal);
+        if (!item.categorias.includes(grupo.categoria)) {
+          item.categorias.push(grupo.categoria);
+        }
+      });
+    });
 
-  const grade = document.getElementById("gradePerfisPVC");
-  const pesquisa = document.getElementById("pesquisaPerfilPVC");
-  const filtro = document.getElementById("categoriaPerfilPVC");
-
-  // Mantém a mesma ficha para códigos repetidos em categorias diferentes.
-  function chave(p) {
-    return p.categoria + ":" + p.codigo;
-  }
-
-  function desenhoSVG(codigo) {
-    // Desenho genérico para demonstrar a ficha; não é o perfil real.
-    return `
-      <svg viewBox="0 0 240 180" width="100%"
-        role="img" aria-label="Desenho ilustrativo de ${codigo}">
-        <g fill="#dbeafe" stroke="#2563eb" stroke-width="4"
-           stroke-linejoin="round">
-          <path d="M55 35 H185 V60 H155 V80 H180 V145 H130
-                   V115 H100 V145 H55 Z"/>
-          <path d="M75 52 V125 H88 V98 H145 V125 H162 V52 Z"
-                fill="#f8fafc"/>
-        </g>
-        <g fill="#64748b" font-size="10" text-anchor="middle">
-          <text x="120" y="20">Esquema ilustrativo</text>
-          <text x="120" y="165">Não está em escala</text>
-        </g>
-      </svg>`;
-  }
-
-  function renderizar() {
-    const termo = pesquisa.value.trim().toLowerCase();
-    const cat = filtro.value;
-
-    const encontrados = perfis.filter(p =>
-      (!cat || p.categoria === cat) &&
-      (!termo ||
-        p.codigo.toLowerCase().includes(termo) ||
-        p.categoria.toLowerCase().includes(termo))
+    return [...mapa.values()].sort((a, b) =>
+      a.codigo.localeCompare(b.codigo, "pt-BR")
     );
-
-    document.getElementById("quantidadePerfisPVC").textContent =
-      encontrados.length + " perfil(is) encontrado(s)";
-
-    grade.innerHTML = encontrados.map((p,i) => `
-      <button class="perfil" data-indice="${i}">
-        <strong>${p.codigo}</strong>
-        <small>${p.categoria}</small>
-        <small>Toque para ver a ficha →</small>
-      </button>
-    `).join("") || '<p>Nenhum perfil encontrado.</p>';
-
-    grade.querySelectorAll("[data-indice]").forEach((b,i) => {
-      b.addEventListener("click", () => abrirPerfil(encontrados[i]));
-    });
   }
 
-  let perfilAtual = null;
+  const catalogo = prepararDados();
 
-  function abrirPerfil(p) {
-    perfilAtual = p;
-    document.getElementById("modalTituloPVC").textContent = p.codigo;
-    document.getElementById("modalCategoriaPVC").textContent = p.categoria;
-    document.getElementById("tipoPerfilPVC").textContent = p.categoria;
-    document.getElementById("desenhoPerfilPVC").innerHTML = desenhoSVG(p.codigo);
+  function iniciar() {
+    const abas = document.querySelector(".tabs");
+    const container = document.querySelector(".container");
 
-    try {
-      document.getElementById("observacaoPerfilPVC").value =
-        localStorage.getItem("obsPerfilPVC:" + chave(p)) || "";
-    } catch(e) {
-      document.getElementById("observacaoPerfilPVC").value = "";
-    }
-
-    document.getElementById("statusPerfilPVC").textContent = "";
-    modal.style.display = "block";
-    document.body.style.overflow = "hidden";
-  }
-
-  function fecharModal() {
-    modal.style.display = "none";
-    document.body.style.overflow = "";
-  }
-
-  document.getElementById("fecharPerfilPVC").onclick = fecharModal;
-
-  modal.addEventListener("click",e => {
-    if (e.target === modal) fecharModal();
-  });
-
-  document.addEventListener("keydown",e => {
-    if (e.key === "Escape") fecharModal();
-  });
-
-  document.getElementById("salvarPerfilPVC").onclick = () => {
-    if (!perfilAtual) return;
-    try {
-      localStorage.setItem(
-        "obsPerfilPVC:" + chave(perfilAtual),
-        document.getElementById("observacaoPerfilPVC").value
+    if (!abas || !container) {
+      console.error(
+        "Perfis PVC: não encontrei .tabs ou .container no index.html."
       );
-      document.getElementById("statusPerfilPVC").textContent =
-        "Observação salva neste aparelho e navegador.";
-    } catch(e) {
-      document.getElementById("statusPerfilPVC").textContent =
-        "Não foi possível salvar a observação neste navegador.";
+      return;
     }
-  };
 
-  // Guarda a visibilidade original para alternar de aba sem afetar o estoque.
-  const elementosEstoque = [...container.children].filter(
-    el => el !== abas && el !== painel
-  );
-  const visibilidadeOriginal = new Map(
-    elementosEstoque.map(el => [el,el.style.display])
-  );
+    // Evita criar duas abas se o arquivo for carregado novamente.
+    if (document.getElementById("btnPerfisPVC")) return;
 
-  function mostrarCatalogo() {
-    elementosEstoque.forEach(el => el.style.display = "none");
-    painel.style.display = "block";
-    abas.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
-    botao.classList.add("active");
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
+    const estilo = document.createElement("style");
 
-  function mostrarEstoque(btn) {
-    elementosEstoque.forEach(el => {
-      el.style.display = visibilidadeOriginal.get(el);
+    estilo.textContent = `
+      #btnPerfisPVC {
+        cursor: pointer;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 12px 8px;
+        font-weight: 700;
+        background: #1e293b;
+        color: #e2e8f0;
+        font-size: 14px;
+      }
+
+      #btnPerfisPVC.ativo {
+        background: #2563eb;
+        color: white;
+        border-color: #3b82f6;
+      }
+
+      #painelPerfisPVC {
+        width: 100%;
+        color: #e2e8f0;
+        margin-top: 16px;
+      }
+
+      #painelPerfisPVC * {
+        box-sizing: border-box;
+      }
+
+      .pvc-cabecalho {
+        margin-bottom: 18px;
+      }
+
+      .pvc-cabecalho h2 {
+        margin: 0 0 7px;
+        font-size: 23px;
+        color: #f8fafc;
+      }
+
+      .pvc-cabecalho p {
+        margin: 0;
+        color: #94a3b8;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .pvc-filtros {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 180px);
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .pvc-filtros input,
+      .pvc-filtros select {
+        width: 100%;
+        min-width: 0;
+        padding: 12px;
+        border: 1px solid #334155;
+        border-radius: 9px;
+        background: #0f172a;
+        color: #f8fafc;
+        font-size: 14px;
+      }
+
+      .pvc-contagem {
+        color: #94a3b8;
+        font-size: 12px;
+        margin-bottom: 12px;
+      }
+
+      .pvc-grade {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+        gap: 12px;
+      }
+
+      .pvc-card {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        width: 100%;
+        min-width: 0;
+        padding: 14px;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        background: #111c30;
+        color: #e2e8f0;
+        cursor: pointer;
+        transition: border-color .15s, transform .15s;
+      }
+
+      .pvc-card:hover {
+        border-color: #3b82f6;
+        transform: translateY(-2px);
+      }
+
+      .pvc-codigo {
+        font-size: 18px;
+        font-weight: 800;
+        overflow-wrap: anywhere;
+        color: #f8fafc;
+        margin-bottom: 10px;
+      }
+
+      .pvc-etiquetas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-bottom: 12px;
+      }
+
+      .pvc-etiqueta {
+        background: #1e3a5f;
+        color: #bfdbfe;
+        border-radius: 5px;
+        padding: 4px 6px;
+        font-size: 10px;
+      }
+
+      .pvc-pendente {
+        font-size: 11px;
+        line-height: 1.5;
+        color: #fbbf24;
+        margin-top: auto;
+      }
+
+      .pvc-detalhes {
+        border: 1px solid #334155;
+        background: #111c30;
+        padding: 16px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+      }
+
+      .pvc-detalhes h3 {
+        font-size: 21px;
+        margin: 0 0 12px;
+        overflow-wrap: anywhere;
+      }
+
+      .pvc-desenho-pendente {
+        min-height: 130px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 20px;
+        border: 1px dashed #64748b;
+        border-radius: 10px;
+        text-align: center;
+        color: #cbd5e1;
+        margin: 12px 0;
+      }
+
+      .pvc-desenho-pendente strong {
+        color: #fbbf24;
+      }
+
+      .pvc-detalhes p {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #cbd5e1;
+      }
+
+      .pvc-fontes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .pvc-fontes a {
+        color: #93c5fd;
+        font-size: 12px;
+        text-decoration: underline;
+      }
+
+      .pvc-fechar {
+        padding: 9px 13px;
+        border: 1px solid #475569;
+        border-radius: 8px;
+        background: #1e293b;
+        color: white;
+        cursor: pointer;
+      }
+
+      .pvc-vazio {
+        padding: 25px 12px;
+        text-align: center;
+        color: #94a3b8;
+        grid-column: 1 / -1;
+      }
+
+      @media (max-width: 480px) {
+        .pvc-filtros {
+          grid-template-columns: 1fr;
+        }
+
+        .pvc-grade {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+        }
+
+        .pvc-card {
+          padding: 11px;
+        }
+
+        .pvc-codigo {
+          font-size: 16px;
+        }
+      }
+    `;
+
+    document.head.appendChild(estilo);
+
+    // Cria a terceira aba.
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.id = "btnPerfisPVC";
+    botao.textContent = "Perfis PVC";
+    abas.appendChild(botao);
+
+    abas.style.gridTemplateColumns = "repeat(3, minmax(0, 1fr))";
+
+    // Cria o painel do catálogo.
+    const painel = document.createElement("section");
+    painel.id = "painelPerfisPVC";
+    painel.hidden = true;
+
+    painel.innerHTML = `
+      <div class="pvc-cabecalho">
+        <h2>Catálogo de Perfis PVC</h2>
+        <p>
+          Pesquise por código ou categoria e abra um perfil para consultar
+          os dados disponíveis.
+        </p>
+      </div>
+
+      <div class="pvc-filtros">
+        <input
+          id="pvcBusca"
+          type="search"
+          placeholder="Buscar código do perfil..."
+          aria-label="Buscar perfil por código"
+        >
+
+        <select id="pvcCategoria" aria-label="Filtrar por categoria">
+          <option value="">Todas as categorias</option>
+          ${perfis.map((grupo) =>
+            `<option value="${grupo.categoria}">${grupo.categoria}</option>`
+          ).join("")}
+        </select>
+      </div>
+
+      <div id="pvcContagem" class="pvc-contagem"></div>
+      <div id="pvcDetalhes" class="pvc-detalhes" hidden></div>
+      <div id="pvcGrade" class="pvc-grade"></div>
+    `;
+
+    abas.insertAdjacentElement("afterend", painel);
+
+    const busca = painel.querySelector("#pvcBusca");
+    const categoria = painel.querySelector("#pvcCategoria");
+    const grade = painel.querySelector("#pvcGrade");
+    const contagem = painel.querySelector("#pvcContagem");
+    const detalhes = painel.querySelector("#pvcDetalhes");
+
+    function selecionarAbaPerfis() {
+      // Oculta o conteúdo do estoque sem removê-lo.
+      Array.from(container.children).forEach((elemento) => {
+        if (elemento !== abas && elemento !== painel) {
+          elemento.dataset.pvcDisplayOriginal ??= elemento.style.display;
+          elemento.style.display = "none";
+        }
+      });
+
+      painel.hidden = false;
+      botao.classList.add("ativo");
+
+      abas.querySelectorAll("button").forEach((b) => {
+        if (b !== botao) b.classList.remove("ativo");
+      });
+
+      renderizar();
+    }
+
+    function voltarAoEstoque() {
+      painel.hidden = true;
+      botao.classList.remove("ativo");
+
+      Array.from(container.children).forEach((elemento) => {
+        if (elemento !== abas && elemento !== painel) {
+          if (elemento.dataset.pvcDisplayOriginal !== undefined) {
+            elemento.style.display = elemento.dataset.pvcDisplayOriginal;
+            delete elemento.dataset.pvcDisplayOriginal;
+          }
+        }
+      });
+    }
+
+    function abrirDetalhes(item) {
+      detalhes.hidden = false;
+
+      const etiquetas = item.categorias
+        .map((cat) => `<span class="pvc-etiqueta">${cat}</span>`)
+        .join("");
+
+      detalhes.innerHTML = `
+        <h3>${item.codigo}</h3>
+
+        <div class="pvc-etiquetas">${etiquetas}</div>
+
+        <div class="pvc-desenho-pendente">
+          <strong>Desenho técnico pendente de confirmação</strong>
+          <span>
+            O desenho da seção transversal e as dimensões deste código
+            ainda precisam ser conferidos com a documentação técnica.
+          </span>
+        </div>
+
+        <p>
+          <strong>Código:</strong> ${item.codigo}<br>
+          <strong>Categoria:</strong> ${item.categorias.join(", ")}<br>
+          <strong>Dimensões:</strong> não confirmadas<br>
+          <strong>Seção transversal:</strong> não confirmada
+        </p>
+
+        <button type="button" class="pvc-fechar" id="pvcFecharDetalhes">
+          Fechar detalhes
+        </button>
+
+        <div class="pvc-fontes">
+          ${FONTES.map((fonte) => `
+            <a href="${fonte.url}" target="_blank" rel="noopener noreferrer">
+              ${fonte.nome}
+            </a>
+          `).join("")}
+        </div>
+      `;
+
+      detalhes.querySelector("#pvcFecharDetalhes")
+        .addEventListener("click", () => {
+          detalhes.hidden = true;
+        });
+
+      detalhes.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function renderizar() {
+      const termo = normalizar(busca.value);
+      const filtro = categoria.value;
+
+      const encontrados = catalogo.filter((item) => {
+        const combinaBusca = normalizar(item.codigo).includes(termo);
+        const combinaCategoria =
+          !filtro || item.categorias.includes(filtro);
+
+        return combinaBusca && combinaCategoria;
+      });
+
+      contagem.textContent =
+        `${encontrados.length} perfil(is) encontrado(s)`;
+
+      grade.innerHTML = "";
+
+      if (!encontrados.length) {
+        grade.innerHTML = `
+          <div class="pvc-vazio">
+            Nenhum perfil encontrado. Tente outro código ou categoria.
+          </div>
+        `;
+        return;
+      }
+
+      encontrados.forEach((item) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "pvc-card";
+
+        const codigo = document.createElement("span");
+        codigo.className = "pvc-codigo";
+        codigo.textContent = item.codigo;
+
+        const etiquetas = document.createElement("span");
+        etiquetas.className = "pvc-etiquetas";
+
+        item.categorias.forEach((cat) => {
+          const tag = document.createElement("span");
+          tag.className = "pvc-etiqueta";
+          tag.textContent = cat;
+          etiquetas.appendChild(tag);
+        });
+
+        const aviso = document.createElement("span");
+        aviso.className = "pvc-pendente";
+        aviso.textContent = "Desenho técnico a confirmar";
+
+        card.append(codigo, etiquetas, aviso);
+        card.addEventListener("click", () => abrirDetalhes(item));
+        grade.appendChild(card);
+      });
+    }
+
+    botao.addEventListener("click", selecionarAbaPerfis);
+
+    // Ao voltar para Entrada ou Saída, deixa o código atual do estoque agir.
+    document.querySelectorAll("#btnEntrada, #btnSaida").forEach((b) => {
+      b.addEventListener("click", voltarAoEstoque);
     });
-    painel.style.display = "none";
-    abas.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
+
+    busca.addEventListener("input", renderizar);
+    categoria.addEventListener("change", renderizar);
+
+    renderizar();
   }
 
-  botao.addEventListener("click",mostrarCatalogo);
-  document.getElementById("btnEntrada").addEventListener("click",() =>
-    mostrarEstoque(document.getElementById("btnEntrada"))
-  );
-  document.getElementById("btnSaida").addEventListener("click",() =>
-    mostrarEstoque(document.getElementById("btnSaida"))
-  );
-
-  pesquisa.addEventListener("input",renderizar);
-  filtro.addEventListener("change",renderizar);
-
-  renderizar();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciar);
+  } else {
+    iniciar();
+  }
 })();
