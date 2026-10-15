@@ -100,14 +100,158 @@
   ];
 
   // Cadastre aqui os SVGs individuais quando houver referências.
+  
+
   const DESENHOS = {
-    // Exemplo:
-    // "sf66": {
-    //   status: "confirmado",
-    //   fonte: "Catálogo técnico Bazze, página X",
-    //   svg: `<svg viewBox="0 0 300 200">...</svg>`
-    // }
+    "sf66": {
+      status: "ilustrativo",
+      fonte: "Esboço experimental baseado nas referências textuais do Manual Técnico Wolff v2 2021, página impressa 08. Contorno e cotas a confirmar.",
+      svg: `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 360 290"
+          role="img"
+          aria-labelledby="sf66-titulo sf66-desc"
+        >
+          <title id="sf66-titulo">SF66 — folha para janela</title>
+          <desc id="sf66-desc">
+            Esboço ilustrativo de uma seção de perfil PVC com câmaras internas.
+            Geometria e dimensões não confirmadas.
+          </desc>
+
+          <defs>
+            <marker
+              id="sf66-seta"
+              markerWidth="7"
+              markerHeight="7"
+              refX="3.5"
+              refY="3.5"
+              orient="auto-start-reverse"
+            >
+              <path
+                d="M 0 0 L 7 3.5 L 0 7 z"
+                fill="#38bdf8"
+              />
+            </marker>
+          </defs>
+
+          <rect width="360" height="290" rx="8" fill="#0b1220"/>
+
+          <!-- Cotas ilustrativas: não representam medidas confirmadas -->
+          <g
+            stroke="#38bdf8"
+            stroke-width="1.2"
+            fill="none"
+          >
+            <path d="M75 55 V30 M285 55 V30"/>
+            <path
+              d="M78 35 H282"
+              marker-start="url(#sf66-seta)"
+              marker-end="url(#sf66-seta)"
+            />
+
+            <path d="M285 55 H320 M285 205 H320"/>
+            <path
+              d="M314 58 V202"
+              marker-start="url(#sf66-seta)"
+              marker-end="url(#sf66-seta)"
+            />
+          </g>
+
+          <g
+            fill="#7dd3fc"
+            font-family="Arial, sans-serif"
+            font-size="11"
+          >
+            <text x="180" y="24" text-anchor="middle">
+              largura a confirmar
+            </text>
+            <text
+              x="330"
+              y="130"
+              text-anchor="middle"
+              transform="rotate(90 330 130)"
+            >altura a confirmar</text>
+          </g>
+
+          <!-- Contorno conceitual: NÃO é a geometria oficial do SF66 -->
+          <g
+            stroke="#e2e8f0"
+            stroke-width="3"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            fill="#1e3a5f"
+          >
+            <path d="
+              M75 55
+              H285
+              V82
+              H260
+              V102
+              H285
+              V178
+              H250
+              V205
+              H75
+              V180
+              H95
+              V150
+              H75
+              Z
+            "/>
+
+            <!-- Câmaras internas meramente ilustrativas -->
+            <path
+              d="M110 78 H155 V112 H110 Z"
+              fill="#0b1220"
+              stroke-width="2"
+            />
+            <path
+              d="M170 78 H245 V112 H170 Z"
+              fill="#0b1220"
+              stroke-width="2"
+            />
+            <path
+              d="M115 128 H155 V180 H115 Z"
+              fill="#0b1220"
+              stroke-width="2"
+            />
+            <path
+              d="M170 128 H230 V180 H170 Z"
+              fill="#0b1220"
+              stroke-width="2"
+            />
+          </g>
+
+          <g
+            font-family="Arial, sans-serif"
+            text-anchor="middle"
+          >
+            <text
+              x="180"
+              y="235"
+              fill="#fbbf24"
+              font-size="13"
+              font-weight="bold"
+            >ESBOÇO ILUSTRATIVO</text>
+            <text
+              x="180"
+              y="253"
+              fill="#fbbf24"
+              font-size="10"
+            >Não usar para fabricação</text>
+            <text
+              x="180"
+              y="269"
+              fill="#94a3b8"
+              font-size="9"
+            >Formato e cotas a confirmar</text>
+          </g>
+        </svg>
+      `
+    }
   };
+
 
   const normalizar = (texto) =>
     String(texto || "")
