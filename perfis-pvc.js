@@ -351,6 +351,63 @@
     `;
   }
 
+
+function animarContornoSVG(container) {
+  const svg = container.querySelector("svg");
+  if (!svg) return;
+
+  // Seleciona somente o contorno externo.
+  const contorno = svg.querySelector("#hf88-contorno, #sf66-contorno");
+  if (!contorno) return;
+
+  // Evita repetir a animação em outros elementos do desenho.
+  const comprimento = contorno.getTotalLength();
+
+  contorno.style.strokeDasharray = comprimento;
+  contorno.style.strokeDashoffset = comprimento;
+  contorno.style.animation = "none";
+
+  // Reinicia a animação sempre que o perfil for aberto.
+  void contorno.getBoundingClientRect();
+
+  contorno.style.animation =
+    "pvcDesenharContorno 0.75s ease-out forwards";
+
+  // Cria o ponto azul que percorre o contorno.
+  const ns = "http://www.w3.org/2000/svg";
+  const ponto = document.createElementNS(ns, "circle");
+
+  ponto.setAttribute("r", "4");
+  ponto.setAttribute("fill", "#38bdf8");
+  ponto.setAttribute("stroke", "#e0f2fe");
+  ponto.setAttribute("stroke-width", "1.5");
+  ponto.setAttribute("pointer-events", "none");
+
+  svg.appendChild(ponto);
+
+  const inicio = performance.now();
+  const duracao = 750;
+
+  function percorrer(agora) {
+    const progresso = Math.min((agora - inicio) / duracao, 1);
+    const posicao = contorno.getPointAtLength(
+      comprimento * progresso
+    );
+
+    ponto.setAttribute("cx", posicao.x);
+    ponto.setAttribute("cy", posicao.y);
+
+    if (progresso < 1) {
+      requestAnimationFrame(percorrer);
+    } else {
+      ponto.remove();
+    }
+  }
+
+  requestAnimationFrame(percorrer);
+}
+
+
   function renderizarDesenho(item) {
     const desenho = obterDesenho(item.codigo);
 
