@@ -1,11 +1,5 @@
-
 (() => {
   "use strict";
-
-  // =========================================================
-  // CATÁLOGO DE PERFIS PVC
-  // Códigos e categorias iniciais: conferir com a documentação.
-  // =========================================================
 
   const perfis = [
     {
@@ -45,155 +39,46 @@
     }
   ];
 
-  // =========================================================
-  // MEDIDAS INFORMADAS
-  // Todas as medidas estão em milímetros.
-  // Valores registrados como informados, sem completar lacunas.
-  // =========================================================
-
   const MEDIDAS = {
-    "GB8": {
-      externa: 3.2
-    },
-    "GB12": {
-      externa: 3.5
-    },
-    "GB15": {
-      externa: 3.8
-    },
-    "GB19": {
-      externa: 4.2
-    },
-    "GB22": {
-      externa: 4.4
-    },
-    "GB25": {
-      externa: 5.0
-    },
-    "GB31": {
-      externa: 5.0
-    },
-    "GB34": {
-      externa: 5.2
-    },
-    "GB38": {
-      externa: 5.6
-    },
-    "SE76N": {
-      externa: 10.4,
-      interna: 4.3
-    },
-    "SF66": {
-      externa: 9.0,
-      interna: 7.0
-    },
-    "SF78C": {
-      externa: 10.7,
-      interna: "5 / 5,5"
-    },
-    "SF92": {
-      externa: 11.6,
-      interna: 9.5
-    },
-    "SF106": {
-      externa: 13.3,
-      interna: 7.7
-    },
-    "SF111": {
-      externa: 14.4,
-      interna: 11.4
-    },
-    "BR60": {
-      externa: 8.5,
-      interna: 5.5
-    },
-    "BR88": {
-      externa: 7.5,
-      interna: 6.5
-    },
-    "FR73": {
-      externa: 7.5,
-      interna: 7.3
-    },
-    "FR106": {
-      externa: 11.0,
-      interna: 10.4
-    },
-    "GUIA CENTRAL": {
-      centralMaior: 9.6,
-      centralMenor: 9.0
-    },
-    "GUIA LATERAL": {
-      maior: 9.0,
-      menor: 6.5
-    },
-    "HF88": {
-      externa: 8.0,
-      interna: 8.5,
-      meio: 12.5
-    },
-    "HF166": {
-      meio: 18.5,
-      lateral: 10.5
-    },
-    "COLUNA 100 X 100": {
-      externa: 12.0,
-      interna: 9.0
-    },
-    "COLUNA 50 X 50": {
-      externa: 7.0,
-      interna: 4.0
-    },
-    "COLUNA 100 X 50": {
-      externa: 7.0
-    },
-    "COLUNA 150 X 50": {
-      externa: 7.0,
-      interna: 8.0
-    },
-    "COLUNA 125 X 125": {
-      externa: 14.5,
-      interna: 11.5
-    },
-    "LAMBri": {
-      externa: 17.5
-    },
-    "CAIXA": {
-      externa: 21.0
-    },
-    "APLique": {
-      externa: 5.0
-    },
-    "PINAZIO": {
-      externa: 5.0,
-      interna: 5.5
-    },
-    "GM42": {
-      meio: 5.0,
-      lateral: 4.3
-    },
-    "IL42": {
-      externa: 6.0
-    },
-    "KT42": {
-      externa: 5.5
-    },
-    "IL65": {
-      externa: 7.0,
-      interna: 7.5
-    },
-    "KT65": {
-      externa: 7.0,
-      interna: 8.0
-    },
-    "VENEZIANA 60": {
-      externa: 9.5
-    }
+    "GB8": { externa: 3.2 },
+    "GB12": { externa: 3.5 },
+    "GB15": { externa: 3.8 },
+    "GB19": { externa: 4.2 },
+    "GB22": { externa: 4.4 },
+    "GB25": { externa: 5.0 },
+    "GB31": { externa: 5.0 },
+    "GB34": { externa: 5.2 },
+    "GB38": { externa: 5.6 },
+    "SE76N": { externa: 10.4, interna: 4.3 },
+    "SF66": { externa: 9.0, interna: 7.0 },
+    "SF78C": { externa: 10.7, interna: "5 / 5,5" },
+    "SF92": { externa: 11.6, interna: 9.5 },
+    "SF106": { externa: 13.3, interna: 7.7 },
+    "SF111": { externa: 14.4, interna: 11.4 },
+    "BR60": { externa: 8.5, interna: 5.5 },
+    "BR88": { externa: 7.5, interna: 6.5 },
+    "FR73": { externa: 7.5, interna: 7.3 },
+    "FR106": { externa: 11.0, interna: 10.4 },
+    "GUIA CENTRAL": { centralMaior: 9.6, centralMenor: 9.0 },
+    "GUIA LATERAL": { maior: 9.0, menor: 6.5 },
+    "HF88": { externa: 8.0, interna: 8.5, meio: 12.5 },
+    "HF166": { meio: 18.5, lateral: 10.5 },
+    "COLUNA 100 X 100": { externa: 12.0, interna: 9.0 },
+    "COLUNA 50 X 50": { externa: 7.0, interna: 4.0 },
+    "COLUNA 100 X 50": { externa: 7.0 },
+    "COLUNA 150 X 50": { externa: 7.0, interna: 8.0 },
+    "COLUNA 125 X 125": { externa: 14.5, interna: 11.5 },
+    "LAMBri": { externa: 17.5 },
+    "CAIXA": { externa: 21.0 },
+    "APLique": { externa: 5.0 },
+    "PINAZIO": { externa: 5.0, interna: 5.5 },
+    "GM42": { meio: 5.0, lateral: 4.3 },
+    "IL42": { externa: 6.0 },
+    "KT42": { externa: 5.5 },
+    "IL65": { externa: 7.0, interna: 7.5 },
+    "KT65": { externa: 7.0, interna: 8.0 },
+    "VENEZIANA 60": { externa: 9.5 }
   };
-
-  // =========================================================
-  // REFERÊNCIAS
-  // =========================================================
 
   const FONTES = [
     {
@@ -207,19 +92,30 @@
     {
       nome: "Catálogo Europa",
       url: "https://www.bazze.com.br/wp-content/uploads/2016/08/Europa.pdf"
+    },
+    {
+      nome: "Sistema de perfis",
+      url: "https://www.bazze.com.br/produtos/sistema-de-perfis-para-esquadrias/"
     }
   ];
 
-  // =========================================================
-  // UTILITÁRIOS
-  // =========================================================
+  // Cadastre aqui os SVGs individuais quando houver referências.
+  const DESENHOS = {
+    // Exemplo:
+    // "sf66": {
+    //   status: "confirmado",
+    //   fonte: "Catálogo técnico Bazze, página X",
+    //   svg: `<svg viewBox="0 0 300 200">...</svg>`
+    // }
+  };
 
   const normalizar = (texto) =>
     String(texto || "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase()
-      .trim();
+      .trim()
+      .replace(/\s+/g, " ");
 
   const escaparHTML = (texto) =>
     String(texto ?? "").replace(/[&<>"']/g, (caractere) => ({
@@ -230,17 +126,16 @@
       "'": "&#39;"
     })[caractere]);
 
-  function chaveMedida(codigo) {
+  function obterMedidas(codigo) {
     const chave = normalizar(codigo);
-
-    return Object.keys(MEDIDAS).find(
-      (nome) => normalizar(nome) === chave
+    const nome = Object.keys(MEDIDAS).find(
+      (item) => normalizar(item) === chave
     );
+    return nome ? MEDIDAS[nome] : null;
   }
 
-  function obterMedidas(codigo) {
-    const chave = chaveMedida(codigo);
-    return chave ? MEDIDAS[chave] : null;
+  function obterDesenho(codigo) {
+    return DESENHOS[normalizar(codigo)] || null;
   }
 
   function prepararDados() {
@@ -251,10 +146,7 @@
         const chave = normalizar(codigo);
 
         if (!mapa.has(chave)) {
-          mapa.set(chave, {
-            codigo,
-            categorias: []
-          });
+          mapa.set(chave, { codigo, categorias: [] });
         }
 
         const item = mapa.get(chave);
@@ -265,8 +157,6 @@
       });
     });
 
-    // Acrescenta os perfis informados que ainda não estavam
-    // na lista original de códigos.
     Object.keys(MEDIDAS).forEach((codigo) => {
       const chave = normalizar(codigo);
 
@@ -285,158 +175,69 @@
 
   const catalogo = prepararDados();
 
-  // =========================================================
-  // DESENHO SVG PROVISÓRIO DO SF66
-  // IMPORTANTE:
-  // O formato abaixo é ilustrativo, não é o desenho confirmado
-  // do perfil original da Bazze.
-  // =========================================================
+  function desenhoPendente(item) {
+    const medidas = obterMedidas(item.codigo);
 
-  function desenhoSF66() {
+    return `
+      <div class="pvc-desenho-pendente" role="status">
+        <svg class="pvc-icone-pendente"
+             viewBox="0 0 100 75"
+             aria-hidden="true"
+             xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M18 15 H82 V60 H18 Z M30 27 H70 V48 H30 Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8 8 H92 M8 67 H92"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1"
+            stroke-dasharray="4 4"
+            opacity=".55"
+          />
+        </svg>
+
+        <strong>Desenho técnico pendente</strong>
+
+        <span>
+          O contorno real deste perfil ainda precisa ser confirmado
+          em uma referência técnica confiável.
+        </span>
+
+        ${medidas
+          ? `<small>Há medidas cadastradas abaixo; elas não definem o formato do contorno.</small>`
+          : ""}
+      </div>
+    `;
+  }
+
+  function renderizarDesenho(item) {
+    const desenho = obterDesenho(item.codigo);
+
+    if (!desenho || !desenho.svg) {
+      return desenhoPendente(item);
+    }
+
     return `
       <div class="pvc-desenho-area">
-        <svg
-          class="pvc-svg"
-          viewBox="0 0 340 285"
-          xmlns="http://www.w3.org/2000/svg"
-          role="img"
-          aria-label="Desenho provisório do perfil SF66"
-        >
-          <defs>
-            <pattern
-              id="pvcGradeSF66"
-              width="10"
-              height="10"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 10 0 L 0 0 0 10"
-                fill="none"
-                stroke="#263449"
-                stroke-width="0.6"
-              />
-            </pattern>
-          </defs>
+        <div class="pvc-desenho-svg">${desenho.svg}</div>
 
-          <rect
-            x="0" y="0" width="340" height="285"
-            rx="10"
-            fill="url(#pvcGradeSF66)"
-          />
+        <p class="pvc-status-desenho">
+          ${desenho.status === "confirmado"
+            ? "Desenho cadastrado com referência técnica."
+            : "Desenho ilustrativo: geometria ainda não confirmada."}
+        </p>
 
-          <!-- Cota horizontal superior -->
-          <g
-            fill="none"
-            stroke="#38bdf8"
-            stroke-width="1.5"
-          >
-            <path d="M95 88 V44 M245 88 V44"/>
-            <path d="M95 52 H245"/>
-            <path d="M95 52 l8 -4 M95 52 l8 4"/>
-            <path d="M245 52 l-8 -4 M245 52 l-8 4"/>
-
-            <!-- Cota vertical esquerda -->
-            <path d="M95 88 H49 M95 188 H49"/>
-            <path d="M57 88 V188"/>
-            <path d="M57 88 l-4 8 M57 88 l4 8"/>
-            <path d="M57 188 l-4 -8 M57 188 l4 -8"/>
-
-            <!-- Cota horizontal da cavidade -->
-            <path d="M125 128 V150 M215 128 V150"/>
-            <path d="M125 142 H215"/>
-            <path d="M125 142 l7 -4 M125 142 l7 4"/>
-            <path d="M215 142 l-7 -4 M215 142 l-7 4"/>
-          </g>
-
-          <!-- Contorno exterior ilustrativo -->
-          <path
-            d="M95 88
-               H245
-               V188
-               H95
-               Z"
-            fill="#334155"
-            stroke="#38bdf8"
-            stroke-width="3"
-            stroke-linejoin="round"
-          />
-
-          <!-- Cavidade ilustrativa -->
-          <path
-            d="M125 118
-               H215
-               V158
-               H125
-               Z"
-            fill="#0b1220"
-            stroke="#38bdf8"
-            stroke-width="2"
-            stroke-linejoin="round"
-          />
-
-          <!-- Identificação das cotas -->
-          <g
-            fill="#7dd3fc"
-            font-family="Arial, sans-serif"
-            font-size="12"
-            text-anchor="middle"
-          >
-            <text x="170" y="36">Externa: 9,0 mm</text>
-            <text x="170" y="134">7,0 mm</text>
-            <text
-              x="32" y="138"
-              transform="rotate(-90 32 138)"
-            >Esquema ilustrativo</text>
-          </g>
-
-          <g
-            font-family="Arial, sans-serif"
-            text-anchor="middle"
-          >
-            <text
-              x="170" y="230"
-              fill="#fbbf24"
-              font-size="12"
-              font-weight="700"
-            >DESENHO PROVISÓRIO</text>
-
-            <text
-              x="170" y="249"
-              fill="#94a3b8"
-              font-size="10"
-            >Geometria a conferir</text>
-
-            <text
-              x="170" y="267"
-              fill="#94a3b8"
-              font-size="10"
-            >Cotas não estão em escala real</text>
-          </g>
-        </svg>
+        ${desenho.fonte
+          ? `<small class="pvc-fonte-desenho">Referência: ${escaparHTML(desenho.fonte)}</small>`
+          : ""}
       </div>
     `;
   }
-
-  // =========================================================
-  // DESENHO GENÉRICO PARA OS DEMAIS PERFIS
-  // Só é utilizado quando não existe desenho específico.
-  // =========================================================
-
-  function desenhoPendente() {
-    return `
-      <div class="pvc-desenho-pendente">
-        <span class="pvc-icone-desenho">⌗</span>
-        <strong>Desenho técnico pendente</strong>
-        <span>
-          O contorno real deste perfil ainda precisa ser conferido.
-        </span>
-      </div>
-    `;
-  }
-
-  // =========================================================
-  // INICIALIZAÇÃO
-  // =========================================================
 
   function iniciar() {
     const abas = document.querySelector(".tabs");
@@ -452,8 +253,8 @@
     if (document.getElementById("btnPerfisPVC")) return;
 
     const estilo = document.createElement("style");
-
     estilo.textContent = `
+
       #btnPerfisPVC {
         cursor: pointer;
         border: 1px solid #334155;
@@ -525,9 +326,7 @@
 
       .pvc-grade {
         display: grid;
-        grid-template-columns: repeat(
-          auto-fill, minmax(155px, 1fr)
-        );
+        grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
         gap: 12px;
       }
 
@@ -549,6 +348,13 @@
       .pvc-card:hover {
         border-color: #3b82f6;
         transform: translateY(-2px);
+      }
+
+      .pvc-card:focus-visible,
+      #btnPerfisPVC:focus-visible,
+      .pvc-fechar:focus-visible {
+        outline: 2px solid #38bdf8;
+        outline-offset: 3px;
       }
 
       .pvc-codigo {
@@ -611,21 +417,26 @@
         overflow: hidden;
       }
 
-      .pvc-svg {
+      .pvc-desenho-svg {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      .pvc-desenho-svg svg {
         display: block;
         width: 100%;
-        max-width: 440px;
+        max-width: 520px;
         height: auto;
         margin: 0 auto;
       }
 
       .pvc-desenho-pendente {
-        min-height: 150px;
+        min-height: 180px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 9px;
         padding: 20px;
         border: 1px dashed #64748b;
         border-radius: 10px;
@@ -638,16 +449,35 @@
         color: #fbbf24;
       }
 
-      .pvc-icone-desenho {
-        font-size: 30px;
+      .pvc-desenho-pendente small {
+        display: block;
+        max-width: 420px;
+        color: #94a3b8;
+        line-height: 1.5;
+      }
+
+      .pvc-icone-pendente {
+        width: 84px;
+        height: 64px;
         color: #38bdf8;
+      }
+
+      .pvc-status-desenho {
+        margin: 8px 0 0;
+        color: #fbbf24;
+        font-size: 12px;
+      }
+
+      .pvc-fonte-desenho {
+        display: block;
+        color: #94a3b8;
+        font-size: 11px;
+        margin-top: 5px;
       }
 
       .pvc-medidas {
         display: grid;
-        grid-template-columns: repeat(
-          auto-fit, minmax(110px, 1fr)
-        );
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
         gap: 9px;
         margin: 14px 0;
       }
@@ -670,6 +500,7 @@
         display: block;
         color: #38bdf8;
         font-size: 17px;
+        overflow-wrap: anywhere;
       }
 
       .pvc-aviso {
@@ -737,17 +568,14 @@
 
     document.head.appendChild(estilo);
 
-    // Cria a aba de perfis.
     const botao = document.createElement("button");
     botao.type = "button";
     botao.id = "btnPerfisPVC";
     botao.textContent = "Perfis PVC";
     abas.appendChild(botao);
 
-    // Mantém a distribuição em três colunas das abas.
     abas.style.gridTemplateColumns = "repeat(3, minmax(0, 1fr))";
 
-    // Cria o painel do catálogo.
     const painel = document.createElement("section");
     painel.id = "painelPerfisPVC";
     painel.hidden = true;
@@ -756,8 +584,8 @@
       <div class="pvc-cabecalho">
         <h2>Catálogo de Perfis PVC</h2>
         <p>
-          Pesquise por código ou categoria e abra um perfil
-          para consultar suas medidas e seu desenho.
+          Pesquise por código ou categoria e abra um perfil para consultar
+          as medidas cadastradas e o desenho técnico, quando confirmado.
         </p>
       </div>
 
@@ -779,7 +607,7 @@
         </select>
       </div>
 
-      <div id="pvcContagem" class="pvc-contagem"></div>
+      <div id="pvcContagem" class="pvc-contagem" aria-live="polite"></div>
       <div id="pvcDetalhes" class="pvc-detalhes" hidden></div>
       <div id="pvcGrade" class="pvc-grade"></div>
     `;
@@ -792,7 +620,6 @@
     const contagem = painel.querySelector("#pvcContagem");
     const detalhes = painel.querySelector("#pvcDetalhes");
 
-    // Guarda a aba ativa para poder restaurá-la ao sair do catálogo.
     let abaAnterior = null;
 
     function selecionarAbaPerfis() {
@@ -825,20 +652,17 @@
       botao.classList.remove("ativo");
 
       Array.from(container.children).forEach((elemento) => {
-        if (elemento !== abas && elemento !== painel) {
-          if (elemento.dataset.pvcDisplayOriginal !== undefined) {
-            elemento.style.display =
-              elemento.dataset.pvcDisplayOriginal;
-
-            delete elemento.dataset.pvcDisplayOriginal;
-          }
+        if (
+          elemento !== abas &&
+          elemento !== painel &&
+          elemento.dataset.pvcDisplayOriginal !== undefined
+        ) {
+          elemento.style.display = elemento.dataset.pvcDisplayOriginal;
+          delete elemento.dataset.pvcDisplayOriginal;
         }
       });
 
-      if (abaAnterior) {
-        abaAnterior.classList.add("ativo");
-      }
-
+      if (abaAnterior) abaAnterior.classList.add("ativo");
       abaAnterior = null;
     }
 
@@ -856,11 +680,7 @@
       const medidas = obterMedidas(item.codigo);
 
       if (!medidas) {
-        return `
-          <p>
-            <strong>Medidas:</strong> ainda não cadastradas.
-          </p>
-        `;
+        return `<p><strong>Medidas:</strong> ainda não cadastradas.</p>`;
       }
 
       const nomes = {
@@ -874,13 +694,12 @@
         centralMenor: "Central menor"
       };
 
-      const cartoes = Object.entries(medidas)
-        .map(([chave, valor]) => `
-          <div class="pvc-medida">
-            <span>${escaparHTML(nomes[chave] || chave)}</span>
-            <strong>${escaparHTML(formatarMedida(valor))}</strong>
-          </div>
-        `).join("");
+      const cartoes = Object.entries(medidas).map(([chave, valor]) => `
+        <div class="pvc-medida">
+          <span>${escaparHTML(nomes[chave] || chave)}</span>
+          <strong>${escaparHTML(formatarMedida(valor))}</strong>
+        </div>
+      `).join("");
 
       return `<div class="pvc-medidas">${cartoes}</div>`;
     }
@@ -888,20 +707,13 @@
     function abrirDetalhes(item) {
       detalhes.hidden = false;
 
-      const etiquetas = item.categorias
-        .map((cat) =>
-          `<span class="pvc-etiqueta">${escaparHTML(cat)}</span>`
-        )
-        .join("");
+      const etiquetas = item.categorias.map((cat) =>
+        `<span class="pvc-etiqueta">${escaparHTML(cat)}</span>`
+      ).join("");
 
-      // Só o SF66 possui desenho individual neste primeiro teste.
-      const temDesenho = normalizar(item.codigo) === "sf66";
-
-      const desenho = temDesenho
-        ? desenhoSF66()
-        : desenhoPendente();
-
+      const desenho = renderizarDesenho(item);
       const medidas = criarCartoesMedidas(item);
+      const desenhoCadastrado = Boolean(obterDesenho(item.codigo));
 
       detalhes.innerHTML = `
         <h3>${escaparHTML(item.codigo)}</h3>
@@ -909,15 +721,12 @@
         <div class="pvc-etiquetas">${etiquetas}</div>
 
         ${desenho}
-
         ${medidas}
 
         <div class="pvc-aviso">
-          ${
-            temDesenho
-              ? "ATENÇÃO: desenho ilustrativo provisório. O formato real do SF66 ainda precisa ser conferido. As medidas exibidas foram informadas para cadastro e o desenho não está em escala real."
-              : "O desenho técnico deste perfil ainda não foi confirmado. As medidas exibidas, quando disponíveis, são as registradas no cadastro."
-          }
+          ${desenhoCadastrado
+            ? "Confira a referência indicada e valide o desenho antes de utilizá-lo para fabricação ou identificação técnica."
+            : "O contorno deste perfil ainda não foi confirmado. As medidas exibidas são as registradas no cadastro e não permitem deduzir a geometria completa."}
         </div>
 
         <p>
@@ -962,7 +771,6 @@
 
       const encontrados = catalogo.filter((item) => {
         const combinaBusca = normalizar(item.codigo).includes(termo);
-
         const combinaCategoria =
           !filtro || item.categorias.includes(filtro);
 
@@ -977,8 +785,7 @@
       if (!encontrados.length) {
         grade.innerHTML = `
           <div class="pvc-vazio">
-            Nenhum perfil encontrado.
-            Tente outro código ou categoria.
+            Nenhum perfil encontrado. Tente outro código ou categoria.
           </div>
         `;
         return;
@@ -1006,10 +813,10 @@
         const aviso = document.createElement("span");
         aviso.className = "pvc-pendente";
 
-        if (normalizar(item.codigo) === "sf66") {
-          aviso.textContent = "Desenho ilustrativo disponível";
+        if (obterDesenho(item.codigo)) {
+          aviso.textContent = "Desenho cadastrado — conferir referência";
         } else if (obterMedidas(item.codigo)) {
-          aviso.textContent = "Medidas cadastradas";
+          aviso.textContent = "Medidas cadastradas · desenho pendente";
         } else {
           aviso.textContent = "Desenho técnico a confirmar";
         }
@@ -1026,7 +833,6 @@
 
     botao.addEventListener("click", selecionarAbaPerfis);
 
-    // Retorna ao estoque quando as abas Entrada/Saída são acionadas.
     document.querySelectorAll("#btnEntrada, #btnSaida").forEach((b) => {
       b.addEventListener("click", voltarAoEstoque);
     });
