@@ -1,3 +1,4 @@
+
 (() => {
   "use strict";
 
@@ -99,8 +100,8 @@
     }
   ];
 
-  // Cadastre aqui os SVGs individuais quando houver referências.
-  
+  // Desenhos cadastrados.
+  // O SF66 abaixo continua sendo ilustrativo, não oficial.
 
   const DESENHOS = {
     "sf66": {
@@ -114,6 +115,7 @@
           aria-labelledby="sf66-titulo sf66-desc"
         >
           <title id="sf66-titulo">SF66 — folha para janela</title>
+
           <desc id="sf66-desc">
             Esboço ilustrativo de uma seção de perfil PVC com câmaras internas.
             Geometria e dimensões não confirmadas.
@@ -135,15 +137,21 @@
             </marker>
           </defs>
 
-          <rect width="360" height="290" rx="8" fill="#0b1220"/>
+          <rect
+            width="360"
+            height="290"
+            rx="8"
+            fill="#0b1220"
+          />
 
-          <!-- Cotas ilustrativas: não representam medidas confirmadas -->
+          <!-- Cotas ilustrativas -->
           <g
             stroke="#38bdf8"
             stroke-width="1.2"
             fill="none"
           >
             <path d="M75 55 V30 M285 55 V30"/>
+
             <path
               d="M78 35 H282"
               marker-start="url(#sf66-seta)"
@@ -151,6 +159,7 @@
             />
 
             <path d="M285 55 H320 M285 205 H320"/>
+
             <path
               d="M314 58 V202"
               marker-start="url(#sf66-seta)"
@@ -163,9 +172,12 @@
             font-family="Arial, sans-serif"
             font-size="11"
           >
-            <text x="180" y="24" text-anchor="middle">
-              largura a confirmar
-            </text>
+            <text
+              x="180"
+              y="24"
+              text-anchor="middle"
+            >largura a confirmar</text>
+
             <text
               x="330"
               y="130"
@@ -174,54 +186,79 @@
             >altura a confirmar</text>
           </g>
 
-          <!-- Contorno conceitual: NÃO é a geometria oficial do SF66 -->
+          <!-- Contorno externo animado -->
           <g
             stroke="#e2e8f0"
             stroke-width="3"
             stroke-linejoin="round"
             stroke-linecap="round"
-            fill="#1e3a5f"
           >
-            <path d="
-              M75 55
-              H285
-              V82
-              H260
-              V102
-              H285
-              V178
-              H250
-              V205
-              H75
-              V180
-              H95
-              V150
-              H75
-              Z
-            "/>
+            <path
+              id="sf66-contorno"
+              class="pvc-contorno-animado"
+              pathLength="1000"
+              fill="#1e3a5f"
+              d="
+                M75 55
+                H285
+                V82
+                H260
+                V102
+                H285
+                V178
+                H250
+                V205
+                H75
+                V180
+                H95
+                V150
+                H75
+                Z
+              "
+            />
 
-            <!-- Câmaras internas meramente ilustrativas -->
+            <!-- Câmaras internas ilustrativas -->
             <path
               d="M110 78 H155 V112 H110 Z"
               fill="#0b1220"
               stroke-width="2"
             />
+
             <path
               d="M170 78 H245 V112 H170 Z"
               fill="#0b1220"
               stroke-width="2"
             />
+
             <path
               d="M115 128 H155 V180 H115 Z"
               fill="#0b1220"
               stroke-width="2"
             />
+
             <path
               d="M170 128 H230 V180 H170 Z"
               fill="#0b1220"
               stroke-width="2"
             />
           </g>
+
+          <!-- Pontinho azul que percorre o contorno -->
+          <circle
+            r="4.5"
+            fill="#38bdf8"
+            stroke="#e0f2fe"
+            stroke-width="1.5"
+          >
+            <animateMotion
+              dur="1.5s"
+              repeatCount="1"
+              fill="freeze"
+              calcMode="paced"
+            >
+              <mpath href="#sf66-contorno"/>
+            </animateMotion>
+          </circle>
 
           <g
             font-family="Arial, sans-serif"
@@ -234,12 +271,14 @@
               font-size="13"
               font-weight="bold"
             >ESBOÇO ILUSTRATIVO</text>
+
             <text
               x="180"
               y="253"
               fill="#fbbf24"
               font-size="10"
             >Não usar para fabricação</text>
+
             <text
               x="180"
               y="269"
@@ -251,7 +290,6 @@
       `
     }
   };
-
 
   const normalizar = (texto) =>
     String(texto || "")
@@ -272,9 +310,11 @@
 
   function obterMedidas(codigo) {
     const chave = normalizar(codigo);
+
     const nome = Object.keys(MEDIDAS).find(
       (item) => normalizar(item) === chave
     );
+
     return nome ? MEDIDAS[nome] : null;
   }
 
@@ -290,7 +330,10 @@
         const chave = normalizar(codigo);
 
         if (!mapa.has(chave)) {
-          mapa.set(chave, { codigo, categorias: [] });
+          mapa.set(chave, {
+            codigo,
+            categorias: []
+          });
         }
 
         const item = mapa.get(chave);
@@ -324,10 +367,12 @@
 
     return `
       <div class="pvc-desenho-pendente" role="status">
-        <svg class="pvc-icone-pendente"
-             viewBox="0 0 100 75"
-             aria-hidden="true"
-             xmlns="http://www.w3.org/2000/svg">
+        <svg
+          class="pvc-icone-pendente"
+          viewBox="0 0 100 75"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             d="M18 15 H82 V60 H18 Z M30 27 H70 V48 H30 Z"
             fill="none"
@@ -335,6 +380,7 @@
             stroke-width="2.5"
             stroke-linejoin="round"
           />
+
           <path
             d="M8 8 H92 M8 67 H92"
             fill="none"
@@ -397,6 +443,7 @@
     if (document.getElementById("btnPerfisPVC")) return;
 
     const estilo = document.createElement("style");
+
     estilo.textContent = `
 
       #btnPerfisPVC {
@@ -572,6 +619,27 @@
         max-width: 520px;
         height: auto;
         margin: 0 auto;
+      }
+
+      /* Animação do contorno do SF66 */
+      .pvc-contorno-animado {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation:
+          pvcDesenharContorno 1.5s ease-out forwards,
+          pvcPreencherPerfil 0.2s ease 1.3s forwards;
+      }
+
+      @keyframes pvcDesenharContorno {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes pvcPreencherPerfil {
+        to {
+          fill-opacity: 1;
+        }
       }
 
       .pvc-desenho-pendente {
