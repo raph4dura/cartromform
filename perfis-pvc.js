@@ -800,17 +800,13 @@
   // ANIMAÇÃO DO CONTORNO
   // =========================================================
 
-  function animarContornoSVG(container) {
-    const svg = container.querySelector("svg");
-
-    if (!svg) return;
-
-    const contorno = svg.querySelector([
-      "#hf88-contorno",
-      "#sf66-contorno",
-      "#europa-marco-contorno",
-      "#europa-folha-contorno"
-    ].join(", "));
+  const contorno = svg.querySelector([
+  "#br88-contorno",
+  "#hf88-contorno",
+  "#sf66-contorno",
+  "#europa-marco-contorno",
+  "#europa-folha-contorno"
+].join(", "));
 
     if (!contorno) return;
 
