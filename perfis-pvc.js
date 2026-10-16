@@ -188,6 +188,269 @@
     // HF88 — esboço de perfil com câmaras internas
     // -------------------------------------------------------
 
+
+    // -------------------------------------------------------
+    // BR88 — seção baseada na fotografia enviada
+    // Cotas de referência: largura 88 mm, alturas 52 e 32 mm.
+    // -------------------------------------------------------
+
+    "br88": {
+      status: "ilustrativo",
+      fonte: "Fotografia do desenho técnico BR88 enviada pelo usuário. Redesenho vetorial aproximado; conferir a documentação original.",
+
+      svg: `
+        <svg xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 520 340"
+          role="img"
+          aria-label="Seção do perfil BR88 com largura 88 mm, altura esquerda 52 mm e altura direita 32 mm">
+
+          <defs>
+            <marker id="br88-seta"
+              markerWidth="6" markerHeight="6"
+              refX="3" refY="3"
+              orient="auto-start-reverse">
+              <path d="M0 0 L6 3 L0 6 Z" fill="#38bdf8"/>
+            </marker>
+          </defs>
+
+          <rect width="520" height="340" rx="8" fill="#0b1220"/>
+
+          <!-- Contorno externo do perfil -->
+          <path id="br88-contorno"
+            class="pvc-contorno-animado"
+            d="
+              M70 275
+              Q64 275 64 267
+              L54 80
+              Q53 69 64 65
+              L111 49
+              Q119 46 119 55
+              L119 63
+              Q119 68 113 65
+              Q105 60 98 68
+              Q88 80 98 92
+              Q105 99 119 103
+              L119 148
+              Q119 157 112 165
+              Q104 174 112 185
+              Q121 197 137 199
+              L137 237
+              L299 237
+              L299 172
+              L142 172
+              Q121 169 112 153
+              Q105 141 114 129
+              L119 120
+              L119 103
+              M299 172
+              L299 237
+              L349 237
+              L349 172
+              L299 172
+
+              M349 172
+              L349 237
+              L369 237
+              L369 151
+              Q369 143 378 145
+              L393 148
+              Q399 150 399 157
+              L399 166
+              L388 166
+              L388 172
+              L421 172
+              L421 158
+              Q421 151 413 149
+              L409 147
+              Q402 143 405 135
+              Q408 129 417 130
+              L433 130
+              L506 150
+              Q513 153 513 162
+              L513 267
+              Q513 275 506 275
+
+              L506 253
+              L492 253
+              L492 263
+              L499 263
+              L499 273
+              Q499 281 491 281
+              L484 281
+              Q478 281 477 274
+              L473 263
+              L480 263
+              L480 253
+              L419 253
+              L419 263
+              L426 263
+              L422 274
+              Q420 281 413 281
+              L406 281
+              Q399 281 397 273
+              L394 263
+              L401 263
+              L401 253
+              L340 253
+              L340 263
+              L347 263
+              L343 274
+              Q341 281 334 281
+              L327 281
+              Q320 281 318 273
+              L315 263
+              L322 263
+              L322 253
+              L259 253
+              L259 263
+              L266 263
+              L262 274
+              Q260 281 253 281
+              L246 281
+              Q239 281 237 273
+              L234 263
+              L241 263
+              L241 253
+              L180 253
+              L180 263
+              L187 263
+              L183 274
+              Q181 281 174 281
+              L167 281
+              Q160 281 158 273
+              L155 263
+              L162 263
+              L162 253
+              L101 253
+              L101 263
+              L108 263
+              L104 274
+              Q102 281 95 281
+              L88 281
+              Q81 281 79 273
+              L76 263
+              L83 263
+              L83 253
+              L70 253
+              Z"
+            fill="#1e3a5f"
+            stroke="#e2e8f0"
+            stroke-width="2.4"
+            stroke-linejoin="round"
+            stroke-linecap="round"/>
+
+          <!-- Câmaras e divisórias internas -->
+          <g fill="none"
+             stroke="#e2e8f0"
+             stroke-width="2.1"
+             stroke-linejoin="round"
+             stroke-linecap="round">
+
+            <!-- Câmara superior esquerda -->
+            <path d="
+              M76 80
+              L105 70
+              L105 90
+              Q91 84 88 97
+              Q85 108 105 117
+              L105 132
+              L79 132 Z"/>
+
+            <!-- Divisória esquerda -->
+            <path d="M79 143 L112 143"/>
+            <path d="
+              M112 143
+              Q101 158 111 174
+              Q120 188 137 191"/>
+
+            <!-- Câmara inferior esquerda -->
+            <path d="M79 151 L105 151
+              Q99 166 112 183
+              L119 187 L119 237 L83 237 Z"/>
+
+            <!-- Câmara central grande -->
+            <path d="M142 172 H299 V237 H142 Z"/>
+
+            <!-- Divisória central e encaixe superior -->
+            <path d="M305 172 V237"/>
+            <path d="M296 172 V151
+              Q296 146 291 146
+              L288 146
+              Q284 146 284 141
+              L284 135
+              Q284 130 289 130
+              L304 130
+              Q310 130 310 137
+              L310 145
+              L305 145
+              L305 172"/>
+
+            <!-- Câmara central direita -->
+            <path d="M312 190 H342 V237 H312 Z"/>
+
+            <!-- Câmara grande direita -->
+            <path d="
+              M369 153
+              L421 163
+              L497 181
+              L497 237
+              L369 237 Z"/>
+
+            <!-- Linha horizontal de separação -->
+            <path d="M79 246 H497"/>
+          </g>
+
+          <!-- Cotas: largura 88 mm -->
+          <g fill="none"
+             stroke="#38bdf8"
+             stroke-width="1.3">
+
+            <path d="M64 286 V308"/>
+            <path d="M513 286 V308"/>
+            <path d="M70 302 H507"
+              marker-start="url(#br88-seta)"
+              marker-end="url(#br88-seta)"/>
+
+            <!-- Altura esquerda 52 mm -->
+            <path d="M44 49 H25"/>
+            <path d="M64 275 H25"/>
+            <path d="M31 55 V269"
+              marker-start="url(#br88-seta)"
+              marker-end="url(#br88-seta)"/>
+
+            <!-- Altura direita 32 mm -->
+            <path d="M513 150 H500"/>
+            <path d="M513 275 H500"/>
+            <path d="M490 156 V269"
+              marker-start="url(#br88-seta)"
+              marker-end="url(#br88-seta)"/>
+          </g>
+
+          <g fill="#7dd3fc"
+             font-family="Arial, sans-serif"
+             font-size="15"
+             font-weight="bold">
+
+            <text x="287" y="296" text-anchor="middle">88 mm</text>
+            <text x="15" y="168"
+              text-anchor="middle"
+              transform="rotate(-90 15 168)">52 mm</text>
+            <text x="478" y="214"
+              text-anchor="middle"
+              transform="rotate(-90 478 214)">32 mm</text>
+          </g>
+
+          <text x="260" y="326"
+            text-anchor="middle"
+            fill="#fbbf24"
+            font-family="Arial, sans-serif"
+            font-size="14"
+            font-weight="bold">BR88 — REFERÊNCIA VISUAL</text>
+        </svg>
+      `
+    },
+
+
     "hf88": {
       status: "ilustrativo",
       fonte: "Esboço visual HF88. Conferir a seção original antes de uso técnico.",
