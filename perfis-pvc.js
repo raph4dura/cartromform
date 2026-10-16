@@ -1454,3 +1454,166 @@
       detalhes.hidden = false;
 
       const etiquetas = item.categorias
+        .map(cat => `
+          <span class="pvc-etiqueta">${escaparHTML(cat)}</span>
+        `)
+        .join("");
+
+      const desenho = renderizarDesenho(item);
+      const medidas = criarCartoesMedidas(item);
+      const desenhoCadastrado = Boolean(obterDesenho(item.codigo));
+      const desenhoConfirmado =
+        obterDesenho(item.codigo)?.status === "confirmado";
+
+      detalhes.innerHTML = `
+        <h3>${escaparHTML(item.codigo)}</h3>
+
+        <div class="pvc-etiquetas">${etiquetas}</div>
+
+        ${desenho}
+        ${medidas}
+
+        <div class="pvc-aviso">
+          ${
+            desenhoConfirmado
+              ? "Consulte a referência técnica indicada."
+              : desenhoCadastrado
+                ? "Desenho ilustrativo. Valide o contorno e as medidas antes de utilizá-lo tecnicamente."
+                : "Desenho ainda não confirmado. As medidas cadastradas não definem a geometria completa."
+          }
+        </div>
+
+        <p>
+          <strong>Código:</strong> ${escaparHTML(item.codigo)}<br>
+          <strong>Categoria:</strong> ${escaparHTML(item.categorias.join(", "))}
+        </p>
+
+        <button type="button" class="pvc-fechar" id="pvcFecharDetalhes">
+          Fechar detalhes
+        </button>
+
+        <div class="pvc-fontes">
+          ${FONTES.map(fonte => `
+            <a href="${escaparHTML(fonte.url)}"
+              target="_blank" rel="noopener noreferrer">
+              ${escaparHTML(fonte.nome)}
+            </a>
+          `).join("")}
+        </div>
+      `;
+
+      const areaDesenho = detalhes.querySelector(".pvc-desenho-svg");
+
+      if (areaDesenho) {
+        requestAnimationFrame(() => animarContornoSVG(areaDesenho));
+      }
+
+      detalhes.querySelector("#pvcFecharDetalhes")
+        .addEventListener("click", () => {
+          detalhes.hidden = true;
+        });
+
+      detalhes.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+
+    // =======================================================
+    // PESQUISA E FILTROS
+    // =======================================================
+
+    function renderizar() {
+      const termo = normalizar(busca.value);
+      const filtro = categoria.value;
+
+      const encontrados = catalogo.filter(item => {
+        const combinaBusca = normalizar(item.codigo).includes(termo);
+        const combinaCategoria =
+          !filtro || item.categorias.includes(filtro);
+
+        return combinaBusca && combinaCategoria;
+      });
+
+      contagem.textContent =
+        `${encontrados.length} perfil(is) encontrado(s)`;
+
+      grade.innerHTML = "";
+
+      if (!encontrados.length) {
+        grade.innerHTML = `
+          <div class="pvc-vazio">
+            Nenhum perfil encontrado. Tente outro código ou categoria.
+          </div>
+        `;
+        return;
+      }
+
+      encontrados.forEach(item => {
+        const card = document.createElement("button");
+
+        card.type = "button";
+        card.className = "pvc-card";
+
+        const codigo = document.createElement("span");
+        codigo.className = "pvc-codigo";
+        codigo.textContent = item.codigo;
+
+        const etiquetas = document.createElement("span");
+        etiquetas.className = "pvc-etiquetas";
+
+        item.categorias.forEach(cat => {
+          const tag = document.createElement("span");
+          tag.className = "pvc-etiqueta";
+          tag.textContent = cat;
+          etiquetas.appendChild(tag);
+        });
+
+        const aviso = document.createElement("span");
+        aviso.className = "pvc-pendente";
+
+        const desenho = obterDesenho(item.codigo);
+
+        if (desenho?.status === "confirmado") {
+          aviso.textContent = "Desenho confirmado";
+        } else if (desenho) {
+          aviso.textContent = "Desenho ilustrativo — conferir";
+        } else if (obterMedidas(item.codigo)) {
+          aviso.textContent = "Medidas cadastradas · desenho pendente";
+        } else {
+          aviso.textContent = "Desenho técnico a confirmar";
+        }
+
+        card.append(codigo, etiquetas, aviso);
+
+        card.addEventListener("click", () => abrirDetalhes(item));
+
+        grade.appendChild(card);
+      });
+    }
+
+    // =======================================================
+    // EVENTOS
+    // =======================================================
+
+    botao.addEventListener("click", selecionarAbaPerfis);
+
+    document.querySelectorAll("#btnEntrada, #btnSaida")
+      .forEach(b => b.addEventListener("click", voltarAoEstoque));
+
+    busca.addEventListener("input", renderizar);
+    categoria.addEventListener("change", renderizar);
+
+    renderizar();
+  }
+
+  // =========================================================
+  // INICIAR QUANDO O DOCUMENTO ESTIVER PRONTO
+  // =========================================================
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciar);
+  } else {
+    iniciar();
+  }
+})();
