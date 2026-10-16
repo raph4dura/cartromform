@@ -3,9 +3,12 @@
 
   // =========================================================
   // CATÁLOGO DE PERFIS PVC — BAZZE
-  // Desenhos ilustrativos baseados em referências visuais.
-  // Confirmar geometria e cotas na documentação original.
+  // Versão corrigida e funcional
+  // Desenhos ilustrativos: conferir a documentação original.
   // =========================================================
+
+  if (window.__catalogoPerfisPVCIniciado) return;
+  window.__catalogoPerfisPVCIniciado = true;
 
   const perfis = [
     {
@@ -163,7 +166,7 @@
       url: "https://www.bazze.com.br/produtos/esquadrias-de-pvc/"
     },
     {
-      nome: "Manual de instalação — página 23",
+      nome: "Manual de instalação",
       url: "https://www.bazze.com.br/wp-content/uploads/2020/11/manual_instalacao_bazze.pdf"
     },
     {
@@ -178,368 +181,110 @@
 
   // =========================================================
   // DESENHOS SVG
-  // Os perfis abaixo são representações visuais esquemáticas.
-  // Não são arquivos CAD oficiais.
+  // Representações ilustrativas, não desenhos CAD oficiais.
   // =========================================================
 
   const DESENHOS = {
-
-    // -------------------------------------------------------
-    // HF88 — esboço de perfil com câmaras internas
-    // -------------------------------------------------------
-
-
-    // -------------------------------------------------------
-    // BR88 — seção baseada na fotografia enviada
-    // Cotas de referência: largura 88 mm, alturas 52 e 32 mm.
-    // -------------------------------------------------------
-
-    "br88": {
+    br88: {
       status: "ilustrativo",
-      fonte: "Fotografia do desenho técnico BR88 enviada pelo usuário. Redesenho vetorial aproximado; conferir a documentação original.",
-
+      fonte: "Redesenho visual aproximado do BR88. Conferir a documentação técnica original.",
       svg: `
         <svg xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 520 340"
-          role="img"
-          aria-label="Seção do perfil BR88 com largura 88 mm, altura esquerda 52 mm e altura direita 32 mm">
-
+          viewBox="0 0 520 340" role="img"
+          aria-label="Desenho ilustrativo BR88">
           <defs>
-            <marker id="br88-seta"
-              markerWidth="6" markerHeight="6"
-              refX="3" refY="3"
-              orient="auto-start-reverse">
-              <path d="M0 0 L6 3 L0 6 Z" fill="#38bdf8"/>
+            <marker id="br88-dim" markerWidth="7" markerHeight="7"
+              refX="3.5" refY="3.5" orient="auto-start-reverse">
+              <path d="M0 0 L7 3.5 L0 7Z" fill="#38bdf8"/>
             </marker>
           </defs>
-
           <rect width="520" height="340" rx="8" fill="#0b1220"/>
 
-          <!-- Contorno externo do perfil -->
           <path id="br88-contorno"
             class="pvc-contorno-animado"
-            d="
-              M70 275
-              Q64 275 64 267
-              L54 80
-              Q53 69 64 65
-              L111 49
-              Q119 46 119 55
-              L119 63
-              Q119 68 113 65
-              Q105 60 98 68
-              Q88 80 98 92
-              Q105 99 119 103
-              L119 148
-              Q119 157 112 165
-              Q104 174 112 185
-              Q121 197 137 199
-              L137 237
-              L299 237
-              L299 172
-              L142 172
-              Q121 169 112 153
-              Q105 141 114 129
-              L119 120
-              L119 103
-              M299 172
-              L299 237
-              L349 237
-              L349 172
-              L299 172
+            d="M70 70 H120 V100 H140 V145 H300 V175 H350 V145
+               H390 V170 H450 V150 H490 V265 H70 Z"
+            fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"
+            stroke-linejoin="round"/>
 
-              M349 172
-              L349 237
-              L369 237
-              L369 151
-              Q369 143 378 145
-              L393 148
-              Q399 150 399 157
-              L399 166
-              L388 166
-              L388 172
-              L421 172
-              L421 158
-              Q421 151 413 149
-              L409 147
-              Q402 143 405 135
-              Q408 129 417 130
-              L433 130
-              L506 150
-              Q513 153 513 162
-              L513 267
-              Q513 275 506 275
-
-              L506 253
-              L492 253
-              L492 263
-              L499 263
-              L499 273
-              Q499 281 491 281
-              L484 281
-              Q478 281 477 274
-              L473 263
-              L480 263
-              L480 253
-              L419 253
-              L419 263
-              L426 263
-              L422 274
-              Q420 281 413 281
-              L406 281
-              Q399 281 397 273
-              L394 263
-              L401 263
-              L401 253
-              L340 253
-              L340 263
-              L347 263
-              L343 274
-              Q341 281 334 281
-              L327 281
-              Q320 281 318 273
-              L315 263
-              L322 263
-              L322 253
-              L259 253
-              L259 263
-              L266 263
-              L262 274
-              Q260 281 253 281
-              L246 281
-              Q239 281 237 273
-              L234 263
-              L241 263
-              L241 253
-              L180 253
-              L180 263
-              L187 263
-              L183 274
-              Q181 281 174 281
-              L167 281
-              Q160 281 158 273
-              L155 263
-              L162 263
-              L162 253
-              L101 253
-              L101 263
-              L108 263
-              L104 274
-              Q102 281 95 281
-              L88 281
-              Q81 281 79 273
-              L76 263
-              L83 263
-              L83 253
-              L70 253
-              Z"
-            fill="#1e3a5f"
-            stroke="#e2e8f0"
-            stroke-width="2.4"
-            stroke-linejoin="round"
-            stroke-linecap="round"/>
-
-          <!-- Câmaras e divisórias internas -->
-          <g fill="none"
-             stroke="#e2e8f0"
-             stroke-width="2.1"
-             stroke-linejoin="round"
-             stroke-linecap="round">
-
-            <!-- Câmara superior esquerda -->
-            <path d="
-              M76 80
-              L105 70
-              L105 90
-              Q91 84 88 97
-              Q85 108 105 117
-              L105 132
-              L79 132 Z"/>
-
-            <!-- Divisória esquerda -->
-            <path d="M79 143 L112 143"/>
-            <path d="
-              M112 143
-              Q101 158 111 174
-              Q120 188 137 191"/>
-
-            <!-- Câmara inferior esquerda -->
-            <path d="M79 151 L105 151
-              Q99 166 112 183
-              L119 187 L119 237 L83 237 Z"/>
-
-            <!-- Câmara central grande -->
-            <path d="M142 172 H299 V237 H142 Z"/>
-
-            <!-- Divisória central e encaixe superior -->
-            <path d="M305 172 V237"/>
-            <path d="M296 172 V151
-              Q296 146 291 146
-              L288 146
-              Q284 146 284 141
-              L284 135
-              Q284 130 289 130
-              L304 130
-              Q310 130 310 137
-              L310 145
-              L305 145
-              L305 172"/>
-
-            <!-- Câmara central direita -->
-            <path d="M312 190 H342 V237 H312 Z"/>
-
-            <!-- Câmara grande direita -->
-            <path d="
-              M369 153
-              L421 163
-              L497 181
-              L497 237
-              L369 237 Z"/>
-
-            <!-- Linha horizontal de separação -->
-            <path d="M79 246 H497"/>
+          <g fill="#0b1220" stroke="#cbd5e1" stroke-width="2">
+            <path d="M85 85 H108 V115 H85 Z"/>
+            <path d="M150 160 H285 V245 H150 Z"/>
+            <path d="M310 190 H340 V245 H310 Z"/>
+            <path d="M365 165 H385 V235 H365 Z"/>
+            <path d="M400 185 H470 V245 H400 Z"/>
           </g>
 
-          <!-- Cotas: largura 88 mm -->
-          <g fill="none"
-             stroke="#38bdf8"
-             stroke-width="1.3">
-
-            <path d="M64 286 V308"/>
-            <path d="M513 286 V308"/>
-            <path d="M70 302 H507"
-              marker-start="url(#br88-seta)"
-              marker-end="url(#br88-seta)"/>
-
-            <!-- Altura esquerda 52 mm -->
-            <path d="M44 49 H25"/>
-            <path d="M64 275 H25"/>
-            <path d="M31 55 V269"
-              marker-start="url(#br88-seta)"
-              marker-end="url(#br88-seta)"/>
-
-            <!-- Altura direita 32 mm -->
-            <path d="M513 150 H500"/>
-            <path d="M513 275 H500"/>
-            <path d="M490 156 V269"
-              marker-start="url(#br88-seta)"
-              marker-end="url(#br88-seta)"/>
+          <g stroke="#38bdf8" stroke-width="1.5" fill="none">
+            <path d="M70 280 V310 M490 275 V310"/>
+            <path d="M76 302 H484" marker-start="url(#br88-dim)"
+              marker-end="url(#br88-dim)"/>
+            <path d="M50 70 H25 M70 265 H25"/>
+            <path d="M32 76 V259" marker-start="url(#br88-dim)"
+              marker-end="url(#br88-dim)"/>
           </g>
 
-          <g fill="#7dd3fc"
-             font-family="Arial, sans-serif"
-             font-size="15"
-             font-weight="bold">
-
-            <text x="287" y="296" text-anchor="middle">88 mm</text>
-            <text x="15" y="168"
-              text-anchor="middle"
-              transform="rotate(-90 15 168)">52 mm</text>
-            <text x="478" y="214"
-              text-anchor="middle"
-              transform="rotate(-90 478 214)">32 mm</text>
+          <g fill="#7dd3fc" font-family="Arial" font-size="15">
+            <text x="280" y="294" text-anchor="middle">88 mm</text>
+            <text x="18" y="170" text-anchor="middle"
+              transform="rotate(-90 18 170)">52 mm — referência</text>
           </g>
 
-          <text x="260" y="326"
-            text-anchor="middle"
-            fill="#fbbf24"
-            font-family="Arial, sans-serif"
-            font-size="14"
-            font-weight="bold">BR88 — REFERÊNCIA VISUAL</text>
+          <text x="260" y="328" text-anchor="middle"
+            fill="#fbbf24" font-family="Arial" font-size="14">
+            BR88 — ILUSTRATIVO
+          </text>
         </svg>
       `
     },
 
-
-    "hf88": {
+    hf88: {
       status: "ilustrativo",
       fonte: "Esboço visual HF88. Conferir a seção original antes de uso técnico.",
-
       svg: `
         <svg xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 420 330" role="img"
-          aria-label="Esboço de seção do perfil HF88">
-
-          <defs>
-            <marker id="hf88-dim"
-              markerWidth="7" markerHeight="7"
-              refX="3.5" refY="3.5"
-              orient="auto-start-reverse">
-              <path d="M0 0 L7 3.5 L0 7Z" fill="#38bdf8"/>
-            </marker>
-          </defs>
-
+          aria-label="Desenho ilustrativo HF88">
           <rect width="420" height="330" rx="8" fill="#0b1220"/>
-
-          <g stroke="#38bdf8" stroke-width="1.4" fill="none">
-            <path d="M74 90 V48 M326 90 V48"/>
-            <path d="M80 55 H320"
-              marker-start="url(#hf88-dim)"
-              marker-end="url(#hf88-dim)"/>
-
-            <path d="M326 90 H365 M326 232 H365"/>
-            <path d="M356 96 V226"
-              marker-start="url(#hf88-dim)"
-              marker-end="url(#hf88-dim)"/>
-          </g>
-
-          <g fill="#7dd3fc" font-family="Arial" font-size="12">
-            <text x="200" y="39" text-anchor="middle">88 mm — referência</text>
-            <text x="379" y="160" text-anchor="middle"
-              transform="rotate(90 379 160)">52 mm — referência</text>
-          </g>
 
           <path id="hf88-contorno"
             class="pvc-contorno-animado"
-            d="
-              M74 90
-              H326 V112
-              H306 V130
-              H326 V150
-              H306 V170
-              H326 V192
-              H306 V210
-              H326 V232
-              H74 V211
-              H94 V190
-              H74 V168
-              H94 V148
-              H74 V126
-              H94 V108
-              H74 Z"
-            fill="#1e3a5f"
-            stroke="#e2e8f0"
-            stroke-width="3"
-            stroke-linejoin="round"/>
+            d="M74 90 H326 V232 H74 Z"
+            fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"/>
 
           <g fill="#0b1220" stroke="#cbd5e1" stroke-width="2">
-            <path d="M104 105 H148 V132 H104 Z"/>
-            <path d="M159 105 H203 V132 H159 Z"/>
-            <path d="M214 105 H260 V132 H214 Z"/>
-
-            <path d="M104 145 H143 V181 H104 Z"/>
-            <path d="M154 145 H198 V181 H154 Z"/>
-            <path d="M209 145 H253 V181 H209 Z"/>
-
-            <path d="M104 194 H148 V217 H104 Z"/>
-            <path d="M159 194 H203 V217 H159 Z"/>
-            <path d="M214 194 H260 V217 H214 Z"/>
+            <path d="M90 105 H145 V132 H90 Z"/>
+            <path d="M154 105 H210 V132 H154 Z"/>
+            <path d="M219 105 H270 V132 H219 Z"/>
+            <path d="M279 105 H310 V132 H279 Z"/>
+            <path d="M90 142 H145 V180 H90 Z"/>
+            <path d="M154 142 H210 V180 H154 Z"/>
+            <path d="M219 142 H270 V180 H219 Z"/>
+            <path d="M279 142 H310 V180 H279 Z"/>
+            <path d="M90 190 H145 V216 H90 Z"/>
+            <path d="M154 190 H210 V216 H154 Z"/>
+            <path d="M219 190 H270 V216 H219 Z"/>
+            <path d="M279 190 H310 V216 H279 Z"/>
           </g>
 
-          <g stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4">
-            <path d="M74 245 H326"/>
+          <g stroke="#38bdf8" stroke-width="1.4" fill="none">
+            <path d="M74 65 V45 M326 65 V45"/>
+            <path d="M80 52 H320"/>
           </g>
+
+          <text x="200" y="38" text-anchor="middle"
+            fill="#7dd3fc" font-family="Arial" font-size="12">
+            88 mm — referência
+          </text>
 
           <g font-family="Arial" text-anchor="middle">
-            <text x="200" y="265" fill="#fbbf24"
-              font-size="14" font-weight="bold">HF88 — ESBOÇO</text>
-            <text x="200" y="284" fill="#fbbf24" font-size="11">
+            <text x="200" y="263" fill="#fbbf24" font-size="14">
+              HF88 — ESBOÇO
+            </text>
+            <text x="200" y="283" fill="#94a3b8" font-size="11">
               Câmaras representativas
             </text>
-            <text x="200" y="301" fill="#94a3b8" font-size="10">
-              Geometria a confirmar no catálogo
-            </text>
-            <text x="200" y="316" fill="#94a3b8" font-size="9">
+            <text x="200" y="302" fill="#94a3b8" font-size="10">
               Não utilizar para fabricação
             </text>
           </g>
@@ -547,62 +292,40 @@
       `
     },
 
-    // -------------------------------------------------------
-    // SF66 — esboço de seção
-    // -------------------------------------------------------
-
-    "sf66": {
+    sf66: {
       status: "ilustrativo",
       fonte: "Esboço experimental SF66. Contorno e cotas a confirmar.",
-
       svg: `
         <svg xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 360 300" role="img"
-          aria-label="Esboço de seção do perfil SF66">
-
+          aria-label="Desenho ilustrativo SF66">
           <rect width="360" height="300" rx="8" fill="#0b1220"/>
 
           <path id="sf66-contorno"
             class="pvc-contorno-animado"
-            d="
-              M72 55 H286
-              V80 H264
-              V101 H286
-              V178 H260
-              V202 H72
-              V180 H92
-              V151 H72
-              V126 H92
-              V101 H72 Z"
-            fill="#1e3a5f"
-            stroke="#e2e8f0"
-            stroke-width="3"
-            stroke-linejoin="round"/>
+            d="M72 55 H286 V202 H72 Z"
+            fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"/>
 
           <g fill="#0b1220" stroke="#cbd5e1" stroke-width="2">
-            <path d="M109 78 H153 V109 H109 Z"/>
-            <path d="M164 78 H244 V109 H164 Z"/>
-            <path d="M109 124 H151 V178 H109 Z"/>
-            <path d="M163 124 H230 V178 H163 Z"/>
+            <path d="M90 75 H145 V112 H90 Z"/>
+            <path d="M154 75 H266 V112 H154 Z"/>
+            <path d="M90 121 H145 V182 H90 Z"/>
+            <path d="M154 121 H266 V182 H154 Z"/>
           </g>
 
-          <g stroke="#38bdf8" stroke-width="1.4" fill="none">
-            <path d="M72 42 H286"/>
-            <path d="M72 37 V49 M286 37 V49"/>
-          </g>
-
-          <text x="179" y="34" text-anchor="middle"
-            fill="#7dd3fc" font-family="Arial" font-size="11">
+          <text x="179" y="35" text-anchor="middle"
+            fill="#7dd3fc" font-family="Arial" font-size="12">
             Seção esquemática
           </text>
 
           <g font-family="Arial" text-anchor="middle">
-            <text x="180" y="234" fill="#fbbf24"
-              font-size="13" font-weight="bold">SF66 — ESBOÇO</text>
-            <text x="180" y="253" fill="#fbbf24" font-size="10">
+            <text x="180" y="230" fill="#fbbf24" font-size="14">
+              SF66 — ESBOÇO
+            </text>
+            <text x="180" y="251" fill="#94a3b8" font-size="11">
               Geometria a confirmar
             </text>
-            <text x="180" y="270" fill="#94a3b8" font-size="9">
+            <text x="180" y="270" fill="#94a3b8" font-size="10">
               Não usar para fabricação
             </text>
           </g>
@@ -610,179 +333,84 @@
       `
     },
 
-    // -------------------------------------------------------
-    // MARCO EUROPA — seção com câmaras e encaixes
-    // Referência visual: manual Bazze, página 23.
-    // Cota externa de referência: 88 × 52 mm.
-    // -------------------------------------------------------
-
     "europa-marco": {
       status: "ilustrativo",
-      fonte: "Manual de instalação Bazze, página 23. Referência visual do marco; seção redesenhada em SVG, não CAD oficial.",
-
+      fonte: "Referência visual do marco Europa. Seção redesenhada, não CAD oficial.",
       svg: `
         <svg xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 440 330" role="img"
-          aria-label="Seção ilustrativa do marco Europa">
-
-          <defs>
-            <marker id="marco-seta"
-              markerWidth="7" markerHeight="7"
-              refX="3.5" refY="3.5"
-              orient="auto-start-reverse">
-              <path d="M0 0 L7 3.5 L0 7Z" fill="#38bdf8"/>
-            </marker>
-          </defs>
-
+          aria-label="Desenho ilustrativo do marco Europa">
           <rect width="440" height="330" rx="8" fill="#0b1220"/>
 
-          <!-- Cotas externas -->
-          <g stroke="#38bdf8" stroke-width="1.4" fill="none">
-            <path d="M86 86 V45 M340 86 V45"/>
-            <path d="M92 52 H334"
-              marker-start="url(#marco-seta)"
-              marker-end="url(#marco-seta)"/>
-
-            <path d="M340 86 H378 M340 236 H378"/>
-            <path d="M369 92 V230"
-              marker-start="url(#marco-seta)"
-              marker-end="url(#marco-seta)"/>
-          </g>
-
-          <g fill="#7dd3fc" font-family="Arial" font-size="12">
-            <text x="213" y="38" text-anchor="middle">88 mm</text>
-            <text x="391" y="162" text-anchor="middle"
-              transform="rotate(90 391 162)">52 mm</text>
-          </g>
-
-          <!-- Corpo principal do marco -->
           <path id="europa-marco-contorno"
             class="pvc-contorno-animado"
-            d="
-              M86 86
-              H340 V236
-              H86 Z"
-            fill="#1e3a5f"
-            stroke="#e2e8f0"
-            stroke-width="3"
-            stroke-linejoin="round"/>
+            d="M86 86 H340 V236 H86 Z"
+            fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"/>
 
-          <!-- Cavidades internas -->
           <g fill="#0b1220" stroke="#cbd5e1" stroke-width="2">
-            <path d="M104 103 H153 V133 H104 Z"/>
-            <path d="M162 103 H211 V133 H162 Z"/>
-            <path d="M220 103 H266 V133 H220 Z"/>
-            <path d="M275 103 H321 V133 H275 Z"/>
-
-            <path d="M104 143 H153 V174 H104 Z"/>
-            <path d="M162 143 H211 V174 H162 Z"/>
-            <path d="M220 143 H266 V174 H220 Z"/>
-            <path d="M275 143 H321 V174 H275 Z"/>
-
-            <path d="M104 184 H153 V218 H104 Z"/>
-            <path d="M162 184 H211 V218 H162 Z"/>
-            <path d="M220 184 H266 V218 H220 Z"/>
-            <path d="M275 184 H321 V218 H275 Z"/>
+            <path d="M103 103 H153 V133 H103 Z"/>
+            <path d="M161 103 H211 V133 H161 Z"/>
+            <path d="M219 103 H269 V133 H219 Z"/>
+            <path d="M277 103 H322 V133 H277 Z"/>
+            <path d="M103 143 H153 V174 H103 Z"/>
+            <path d="M161 143 H211 V174 H161 Z"/>
+            <path d="M219 143 H269 V174 H219 Z"/>
+            <path d="M277 143 H322 V174 H277 Z"/>
+            <path d="M103 184 H153 V218 H103 Z"/>
+            <path d="M161 184 H211 V218 H161 Z"/>
+            <path d="M219 184 H269 V218 H219 Z"/>
+            <path d="M277 184 H322 V218 H277 Z"/>
           </g>
 
-          <!-- Linha de referência do corte -->
-          <path d="M70 250 H355"
-            stroke="#64748b" stroke-width="1"
-            stroke-dasharray="5 5"/>
-
           <g font-family="Arial" text-anchor="middle">
-            <text x="213" y="274" fill="#fbbf24"
-              font-size="14" font-weight="bold">MARCO EUROPA</text>
-            <text x="213" y="292" fill="#fbbf24" font-size="11">
-              Seção visual ilustrativa
+            <text x="213" y="270" fill="#fbbf24" font-size="14">
+              MARCO EUROPA
+            </text>
+            <text x="213" y="290" fill="#94a3b8" font-size="11">
+              Seção ilustrativa — 88 × 52 mm
             </text>
             <text x="213" y="309" fill="#94a3b8" font-size="10">
-              Conferir câmaras, encaixes e cotas
+              Conferir encaixes e cotas
             </text>
           </g>
         </svg>
       `
     },
 
-    // -------------------------------------------------------
-    // FOLHA EUROPA — seção vertical
-    // Referência visual: manual Bazze, página 23.
-    // Cota externa de referência: 42 × 92 mm.
-    // -------------------------------------------------------
-
     "europa-folha": {
       status: "ilustrativo",
-      fonte: "Manual de instalação Bazze, página 23. Referência visual da folha; seção redesenhada em SVG, não CAD oficial.",
-
+      fonte: "Referência visual da folha Europa. Seção redesenhada, não CAD oficial.",
       svg: `
         <svg xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 380 370" role="img"
-          aria-label="Seção ilustrativa da folha Europa">
-
-          <defs>
-            <marker id="folha-seta"
-              markerWidth="7" markerHeight="7"
-              refX="3.5" refY="3.5"
-              orient="auto-start-reverse">
-              <path d="M0 0 L7 3.5 L0 7Z" fill="#38bdf8"/>
-            </marker>
-          </defs>
-
+          aria-label="Desenho ilustrativo da folha Europa">
           <rect width="380" height="370" rx="8" fill="#0b1220"/>
 
-          <!-- Cotas -->
-          <g stroke="#38bdf8" stroke-width="1.4" fill="none">
-            <path d="M115 85 V47 M265 85 V47"/>
-            <path d="M121 54 H259"
-              marker-start="url(#folha-seta)"
-              marker-end="url(#folha-seta)"/>
-
-            <path d="M265 85 H305 M265 255 H305"/>
-            <path d="M296 91 V249"
-              marker-start="url(#folha-seta)"
-              marker-end="url(#folha-seta)"/>
-          </g>
-
-          <g fill="#7dd3fc" font-family="Arial" font-size="12">
-            <text x="190" y="39" text-anchor="middle">42 mm</text>
-            <text x="318" y="170" text-anchor="middle"
-              transform="rotate(90 318 170)">92 mm</text>
-          </g>
-
-          <!-- Corpo do perfil -->
           <path id="europa-folha-contorno"
             class="pvc-contorno-animado"
-            d="
-              M115 85
-              H265 V255
-              H115 Z"
-            fill="#1e3a5f"
-            stroke="#e2e8f0"
-            stroke-width="3"
-            stroke-linejoin="round"/>
+            d="M115 85 H265 V255 H115 Z"
+            fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"/>
 
-          <!-- Câmaras ilustrativas -->
           <g fill="#0b1220" stroke="#cbd5e1" stroke-width="2">
             <path d="M132 102 H174 V139 H132 Z"/>
             <path d="M183 102 H247 V139 H183 Z"/>
-
             <path d="M132 149 H174 V190 H132 Z"/>
             <path d="M183 149 H247 V190 H183 Z"/>
-
             <path d="M132 200 H174 V237 H132 Z"/>
             <path d="M183 200 H247 V237 H183 Z"/>
           </g>
 
           <g font-family="Arial" text-anchor="middle">
-            <text x="190" y="292" fill="#fbbf24"
-              font-size="14" font-weight="bold">FOLHA EUROPA</text>
-            <text x="190" y="311" fill="#fbbf24" font-size="11">
-              Seção visual ilustrativa
+            <text x="190" y="292" fill="#fbbf24" font-size="14">
+              FOLHA EUROPA
             </text>
-            <text x="190" y="329" fill="#94a3b8" font-size="10">
+            <text x="190" y="312" fill="#94a3b8" font-size="11">
+              Seção ilustrativa — 42 × 92 mm
+            </text>
+            <text x="190" y="332" fill="#94a3b8" font-size="10">
               Câmaras e encaixes a confirmar
             </text>
-            <text x="190" y="346" fill="#94a3b8" font-size="9">
+            <text x="190" y="350" fill="#94a3b8" font-size="10">
               Não utilizar para fabricação
             </text>
           </g>
@@ -790,108 +418,55 @@
       `
     },
 
-    // -------------------------------------------------------
-    // PORTA DE CORRER — DUAS FOLHAS
-    // Vista frontal esquemática da montagem.
-    // -------------------------------------------------------
-
     "europa-porta-2-folhas": {
       status: "ilustrativo",
-      fonte: "Manual de instalação Bazze, página 23. Vista esquemática da montagem, sem escala.",
-
+      fonte: "Esquema visual de porta de correr com duas folhas. Sem escala.",
       svg: `
         <svg xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 440 350" role="img"
-          aria-label="Vista esquemática de porta de correr com duas folhas">
-
-          <defs>
-            <marker id="porta-seta"
-              markerWidth="7" markerHeight="7"
-              refX="3.5" refY="3.5"
-              orient="auto">
-              <path d="M0 0 L7 3.5 L0 7Z" fill="#38bdf8"/>
-            </marker>
-          </defs>
-
+          aria-label="Porta de correr com duas folhas">
           <rect width="440" height="350" rx="8" fill="#0b1220"/>
 
-          <!-- Marco externo -->
           <rect x="44" y="35" width="352" height="240"
-            fill="#1e3a5f"
-            stroke="#e2e8f0"
-            stroke-width="5"/>
+            fill="#1e3a5f" stroke="#e2e8f0" stroke-width="5"/>
 
-          <!-- Área interna -->
           <rect x="59" y="50" width="322" height="210"
-            fill="#0c4a6e"
-            stroke="#cbd5e1"
-            stroke-width="2"/>
+            fill="#0c4a6e" stroke="#cbd5e1" stroke-width="2"/>
 
-          <!-- Folha esquerda -->
           <rect x="69" y="60" width="145" height="190"
-            fill="#164e63"
-            fill-opacity="0.65"
-            stroke="#e2e8f0"
-            stroke-width="4"/>
+            fill="#164e63" fill-opacity=".65"
+            stroke="#e2e8f0" stroke-width="4"/>
 
-          <!-- Folha direita -->
           <rect x="226" y="60" width="145" height="190"
-            fill="#164e63"
-            fill-opacity="0.65"
-            stroke="#e2e8f0"
-            stroke-width="4"/>
+            fill="#164e63" fill-opacity=".65"
+            stroke="#e2e8f0" stroke-width="4"/>
 
-          <!-- Encontro das folhas -->
-          <path d="M214 60 V250 M226 60 V250"
-            stroke="#cbd5e1"
-            stroke-width="3"/>
-
-          <!-- Vidros -->
           <rect x="82" y="74" width="119" height="162"
-            fill="#0ea5e9"
-            fill-opacity="0.12"
-            stroke="#7dd3fc"
-            stroke-width="1.5"/>
+            fill="#0ea5e9" fill-opacity=".12"
+            stroke="#7dd3fc" stroke-width="1.5"/>
 
           <rect x="239" y="74" width="119" height="162"
-            fill="#0ea5e9"
-            fill-opacity="0.12"
-            stroke="#7dd3fc"
-            stroke-width="1.5"/>
+            fill="#0ea5e9" fill-opacity=".12"
+            stroke="#7dd3fc" stroke-width="1.5"/>
 
-          <!-- Setas de deslizamento -->
-          <g stroke="#38bdf8"
-            stroke-width="3"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round">
-
-            <path d="M93 151 H169"
-              marker-end="url(#porta-seta)"/>
-
-            <path d="M347 177 H271"
-              marker-end="url(#porta-seta)"/>
+          <g stroke="#38bdf8" stroke-width="3"
+            fill="none" stroke-linecap="round">
+            <path d="M95 151 H165 L157 143 M165 151 L157 159"/>
+            <path d="M345 177 H275 L283 169 M275 177 L283 185"/>
           </g>
 
-          <!-- Trilho inferior -->
-          <path d="M44 278 H396"
-            stroke="#94a3b8"
-            stroke-width="2"/>
-
-          <path d="M59 285 H381"
-            stroke="#64748b"
-            stroke-width="3"/>
+          <path d="M44 278 H396 M59 285 H381"
+            stroke="#94a3b8" stroke-width="2"/>
 
           <g font-family="Arial" text-anchor="middle">
-            <text x="220" y="306" fill="#fbbf24"
-              font-size="14" font-weight="bold">
+            <text x="220" y="306" fill="#fbbf24" font-size="14">
               PORTA DE CORRER — 2 FOLHAS
             </text>
             <text x="220" y="325" fill="#94a3b8" font-size="11">
-              Esquema de montagem ilustrativo
+              Montagem ilustrativa, sem escala
             </text>
             <text x="220" y="340" fill="#94a3b8" font-size="9">
-              Sem escala; ferragens não representadas
+              Ferragens não representadas
             </text>
           </g>
         </svg>
@@ -904,7 +479,7 @@
   // =========================================================
 
   const normalizar = (texto) =>
-    String(texto || "")
+    String(texto ?? "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase()
@@ -912,13 +487,13 @@
       .replace(/\s+/g, " ");
 
   const escaparHTML = (texto) =>
-    String(texto ?? "").replace(/[&<>"']/g, (caractere) => ({
+    String(texto ?? "").replace(/[&<>"']/g, (c) => ({
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#39;"
-    })[caractere]);
+    })[c]);
 
   function obterMedidas(codigo) {
     const chave = normalizar(codigo);
@@ -930,7 +505,7 @@
     const chaveMedidas = equivalencias[chave] || chave;
 
     const nome = Object.keys(MEDIDAS).find(
-      (item) => normalizar(item) === chaveMedidas
+      item => normalizar(item) === chaveMedidas
     );
 
     return nome ? MEDIDAS[nome] : null;
@@ -947,20 +522,18 @@
       "porta europa 2 folhas": "europa-porta-2-folhas"
     };
 
-    const desenhoId = equivalencias[chave] || chave;
-
-    return DESENHOS[desenhoId] || null;
+    return DESENHOS[equivalencias[chave] || chave] || null;
   }
 
   // =========================================================
-  // MONTAR CATÁLOGO
+  // PREPARAR CATÁLOGO
   // =========================================================
 
   function prepararDados() {
     const mapa = new Map();
 
-    perfis.forEach((grupo) => {
-      grupo.codigos.forEach((codigo) => {
+    perfis.forEach(grupo => {
+      grupo.codigos.forEach(codigo => {
         const chave = normalizar(codigo);
 
         if (!mapa.has(chave)) {
@@ -978,33 +551,19 @@
       });
     });
 
-    const extras = [
-      {
-        codigo: "EUROPA — MARCO 88 X 52",
-        categoria: "Europa"
-      },
-      {
-        codigo: "EUROPA — FOLHA 42 X 92",
-        categoria: "Europa"
-      },
-      {
-        codigo: "PORTA EUROPA 2 FOLHAS",
-        categoria: "Europa"
-      }
-    ];
-
-    extras.forEach(({ codigo, categoria }) => {
+    [
+      ["EUROPA — MARCO 88 X 52", "Europa"],
+      ["EUROPA — FOLHA 42 X 92", "Europa"],
+      ["PORTA EUROPA 2 FOLHAS", "Europa"]
+    ].forEach(([codigo, categoria]) => {
       const chave = normalizar(codigo);
 
       if (!mapa.has(chave)) {
-        mapa.set(chave, {
-          codigo,
-          categorias: [categoria]
-        });
+        mapa.set(chave, { codigo, categorias: [categoria] });
       }
     });
 
-    Object.keys(MEDIDAS).forEach((codigo) => {
+    Object.keys(MEDIDAS).forEach(codigo => {
       const chave = normalizar(codigo);
 
       if (!mapa.has(chave)) {
@@ -1015,62 +574,25 @@
       }
     });
 
-    return [...mapa.values()].sort((a, b) =>
-      a.codigo.localeCompare(b.codigo, "pt-BR")
+    return [...mapa.values()].sort(
+      (a, b) => a.codigo.localeCompare(b.codigo, "pt-BR")
     );
   }
 
   const catalogo = prepararDados();
 
   // =========================================================
-  // DESENHO PENDENTE
+  // ANIMAÇÃO SVG — CORREÇÃO DO ERRO ORIGINAL
+  // A variável svg agora é declarada dentro da função.
   // =========================================================
 
-  function desenhoPendente(item) {
-    const medidas = obterMedidas(item.codigo);
+  function animarContornoSVG(areaDesenho) {
+    if (!areaDesenho) return;
 
-    return `
-      <div class="pvc-desenho-pendente" role="status">
-        <svg class="pvc-icone-pendente"
-          viewBox="0 0 100 75"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg">
+    const svg = areaDesenho.querySelector("svg");
+    if (!svg) return;
 
-          <path d="M18 15 H82 V60 H18 Z M30 27 H70 V48 H30 Z"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"/>
-
-          <path d="M8 8 H92 M8 67 H92"
-            fill="none"
-            stroke="currentColor"
-            stroke-dasharray="4 4"/>
-        </svg>
-
-        <strong>Desenho técnico pendente</strong>
-        <span>O contorno específico deste perfil ainda precisa ser confirmado.</span>
-
-        ${
-          medidas
-            ? "<small>As medidas cadastradas não definem o formato completo.</small>"
-            : ""
-        }
-      </div>
-    `;
-  }
-
-  // =========================================================
-  // ANIMAÇÃO DO CONTORNO
-  // =========================================================
-
-  const contorno = svg.querySelector([
-  "#br88-contorno",
-  "#hf88-contorno",
-  "#sf66-contorno",
-  "#europa-marco-contorno",
-  "#europa-folha-contorno"
-].join(", "));
-
+    const contorno = svg.querySelector(".pvc-contorno-animado");
     if (!contorno) return;
 
     if (
@@ -1082,17 +604,23 @@
       return;
     }
 
-    const comprimento = contorno.getTotalLength();
+    let comprimento;
 
-    contorno.style.setProperty(
-      "--pvc-comprimento",
-      comprimento
-    );
+    try {
+      comprimento = contorno.getTotalLength();
+    } catch (erro) {
+      console.warn("Não foi possível animar o contorno SVG.", erro);
+      return;
+    }
 
-    contorno.style.strokeDasharray = comprimento;
-    contorno.style.strokeDashoffset = comprimento;
+    if (!Number.isFinite(comprimento) || comprimento <= 0) return;
+
     contorno.style.animation = "none";
+    contorno.style.strokeDasharray = String(comprimento);
+    contorno.style.strokeDashoffset = String(comprimento);
+    contorno.style.setProperty("--pvc-comprimento", comprimento);
 
+    // Força o navegador a atualizar o desenho antes da animação.
     void contorno.getBoundingClientRect();
 
     contorno.style.animation =
@@ -1118,17 +646,19 @@
         return;
       }
 
-      const progresso = Math.min(
-        (agora - inicio) / duracao,
-        1
-      );
+      const progresso = Math.min((agora - inicio) / duracao, 1);
 
-      const posicao = contorno.getPointAtLength(
-        comprimento * progresso
-      );
+      try {
+        const posicao = contorno.getPointAtLength(
+          comprimento * progresso
+        );
 
-      ponto.setAttribute("cx", posicao.x);
-      ponto.setAttribute("cy", posicao.y);
+        ponto.setAttribute("cx", posicao.x);
+        ponto.setAttribute("cy", posicao.y);
+      } catch (erro) {
+        ponto.remove();
+        return;
+      }
 
       if (progresso < 1) {
         requestAnimationFrame(percorrer);
@@ -1141,8 +671,29 @@
   }
 
   // =========================================================
-  // RENDERIZAR DESENHOS
+  // DESENHO PENDENTE
   // =========================================================
+
+  function desenhoPendente(item) {
+    const medidas = obterMedidas(item.codigo);
+
+    return `
+      <div class="pvc-desenho-pendente" role="status">
+        <svg class="pvc-icone-pendente"
+          viewBox="0 0 100 75"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 15 H82 V60 H18 Z M30 27 H70 V48 H30 Z"
+            fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <path d="M8 8 H92 M8 67 H92"
+            fill="none" stroke="currentColor" stroke-dasharray="4 4"/>
+        </svg>
+        <strong>Desenho técnico pendente</strong>
+        <span>O contorno específico deste perfil ainda precisa ser confirmado.</span>
+        ${medidas ? "<small>As medidas cadastradas não definem o formato completo.</small>" : ""}
+      </div>
+    `;
+  }
 
   function renderizarDesenho(item) {
     const desenho = obterDesenho(item.codigo);
@@ -1158,22 +709,12 @@
         </div>
 
         <p class="pvc-status-desenho">
-          ${
-            desenho.status === "confirmado"
-              ? "Desenho com referência técnica confirmada."
-              : "Desenho ilustrativo — geometria não confirmada."
-          }
+          Desenho ilustrativo — geometria não confirmada.
         </p>
 
-        ${
-          desenho.fonte
-            ? `
-              <small class="pvc-fonte-desenho">
-                Referência: ${escaparHTML(desenho.fonte)}
-              </small>
-            `
-            : ""
-        }
+        <small class="pvc-fonte-desenho">
+          Referência: ${escaparHTML(desenho.fonte)}
+        </small>
       </div>
     `;
   }
@@ -1188,8 +729,11 @@
 
     if (!abas || !container) {
       console.error(
-        "Perfis PVC: não encontrei .tabs ou .container."
+        "Perfis PVC: não encontrei .tabs ou .container. Confira o HTML."
       );
+
+      // Permite tentar novamente se o HTML for montado depois.
+      window.__catalogoPerfisPVCIniciado = false;
       return;
     }
 
@@ -1200,6 +744,8 @@
     // =======================================================
 
     const estilo = document.createElement("style");
+
+    estilo.id = "estiloPerfisPVC";
 
     estilo.textContent = `
       #btnPerfisPVC {
@@ -1223,6 +769,11 @@
         width: 100%;
         color: #e2e8f0;
         margin-top: 16px;
+      }
+
+      #painelPerfisPVC[hidden],
+      #pvcDetalhes[hidden] {
+        display: none !important;
       }
 
       #painelPerfisPVC * {
@@ -1386,7 +937,6 @@
         from {
           stroke-dashoffset: var(--pvc-comprimento, 1000);
         }
-
         to {
           stroke-dashoffset: 0;
         }
@@ -1547,13 +1097,19 @@
     botao.type = "button";
     botao.id = "btnPerfisPVC";
     botao.textContent = "Perfis PVC";
+    botao.setAttribute("aria-controls", "painelPerfisPVC");
+    botao.setAttribute("aria-expanded", "false");
 
     abas.appendChild(botao);
 
-    abas.style.gridTemplateColumns = "repeat(3, minmax(0, 1fr))";
+    // Ajusta a grade sem assumir que existem somente duas abas.
+    const quantidadeAbas = abas.querySelectorAll("button").length;
+
+    abas.style.gridTemplateColumns =
+      `repeat(${Math.max(quantidadeAbas, 1)}, minmax(0, 1fr))`;
 
     // =======================================================
-    // PAINEL
+    // PAINEL DO CATÁLOGO
     // =======================================================
 
     const painel = document.createElement("section");
@@ -1580,15 +1136,12 @@
 
         <select id="pvcCategoria" aria-label="Filtrar por categoria">
           <option value="">Todas as categorias</option>
-
           ${[...new Set(perfis.map(g => g.categoria))]
             .map(cat => `
               <option value="${escaparHTML(cat)}">
                 ${escaparHTML(cat)}
               </option>
-            `)
-            .join("")}
-
+            `).join("")}
           <option value="Outros">Outros</option>
         </select>
       </div>
@@ -1607,28 +1160,30 @@
     const detalhes = painel.querySelector("#pvcDetalhes");
 
     let abaAnterior = null;
+    let estadoDisplay = new Map();
 
     // =======================================================
-    // ALTERNAR ABAS
+    // ABRIR O CATÁLOGO
     // =======================================================
 
     function selecionarAbaPerfis() {
       if (painel.hidden) {
         abaAnterior = abas.querySelector("button.ativo");
-      }
 
-      Array.from(container.children).forEach(elemento => {
-        if (elemento !== abas && elemento !== painel) {
-          if (elemento.dataset.pvcDisplayOriginal === undefined) {
-            elemento.dataset.pvcDisplayOriginal = elemento.style.display;
-          }
+        // Guarda o estado visual original dos elementos do estoque.
+        estadoDisplay = new Map();
 
+        Array.from(container.children).forEach(elemento => {
+          if (elemento === abas || elemento === painel) return;
+
+          estadoDisplay.set(elemento, elemento.style.display);
           elemento.style.display = "none";
-        }
-      });
+        });
+      }
 
       painel.hidden = false;
       botao.classList.add("ativo");
+      botao.setAttribute("aria-expanded", "true");
 
       abas.querySelectorAll("button").forEach(b => {
         if (b !== botao) b.classList.remove("ativo");
@@ -1637,22 +1192,26 @@
       renderizar();
     }
 
+    // =======================================================
+    // VOLTAR AO ESTOQUE
+    // =======================================================
+
     function voltarAoEstoque() {
       painel.hidden = true;
       botao.classList.remove("ativo");
+      botao.setAttribute("aria-expanded", "false");
 
-      Array.from(container.children).forEach(elemento => {
-        if (
-          elemento !== abas &&
-          elemento !== painel &&
-          elemento.dataset.pvcDisplayOriginal !== undefined
-        ) {
-          elemento.style.display = elemento.dataset.pvcDisplayOriginal;
-          delete elemento.dataset.pvcDisplayOriginal;
+      estadoDisplay.forEach((displayOriginal, elemento) => {
+        if (elemento.isConnected) {
+          elemento.style.display = displayOriginal;
         }
       });
 
-      if (abaAnterior) abaAnterior.classList.add("ativo");
+      estadoDisplay.clear();
+
+      if (abaAnterior && abaAnterior.isConnected) {
+        abaAnterior.classList.add("ativo");
+      }
 
       abaAnterior = null;
     }
@@ -1675,9 +1234,7 @@
       const medidas = obterMedidas(item.codigo);
 
       if (!medidas) {
-        return `
-          <p><strong>Medidas:</strong> ainda não cadastradas.</p>
-        `;
+        return "<p><strong>Medidas:</strong> ainda não cadastradas.</p>";
       }
 
       const nomes = {
@@ -1699,8 +1256,7 @@
             <span>${escaparHTML(nomes[chave] || chave)}</span>
             <strong>${escaparHTML(formatarMedida(valor))}</strong>
           </div>
-        `)
-        .join("");
+        `).join("");
 
       return `<div class="pvc-medidas">${cartoes}</div>`;
     }
@@ -1715,14 +1271,11 @@
       const etiquetas = item.categorias
         .map(cat => `
           <span class="pvc-etiqueta">${escaparHTML(cat)}</span>
-        `)
-        .join("");
+        `).join("");
 
       const desenho = renderizarDesenho(item);
       const medidas = criarCartoesMedidas(item);
       const desenhoCadastrado = Boolean(obterDesenho(item.codigo));
-      const desenhoConfirmado =
-        obterDesenho(item.codigo)?.status === "confirmado";
 
       detalhes.innerHTML = `
         <h3>${escaparHTML(item.codigo)}</h3>
@@ -1734,11 +1287,9 @@
 
         <div class="pvc-aviso">
           ${
-            desenhoConfirmado
-              ? "Consulte a referência técnica indicada."
-              : desenhoCadastrado
-                ? "Desenho ilustrativo. Valide o contorno e as medidas antes de utilizá-lo tecnicamente."
-                : "Desenho ainda não confirmado. As medidas cadastradas não definem a geometria completa."
+            desenhoCadastrado
+              ? "Desenho ilustrativo. Valide o contorno e as medidas antes de utilizá-lo tecnicamente."
+              : "Desenho ainda não confirmado. As medidas cadastradas não definem a geometria completa."
           }
         </div>
 
@@ -1761,6 +1312,7 @@
         </div>
       `;
 
+      // CORREÇÃO: a animação recebe a área SVG e declara svg internamente.
       const areaDesenho = detalhes.querySelector(".pvc-desenho-svg");
 
       if (areaDesenho) {
@@ -1857,8 +1409,15 @@
 
     botao.addEventListener("click", selecionarAbaPerfis);
 
-    document.querySelectorAll("#btnEntrada, #btnSaida")
-      .forEach(b => b.addEventListener("click", voltarAoEstoque));
+    // Os botões do estoque fecham o catálogo sem depender
+    // de IDs específicos para todas as abas.
+    abas.querySelectorAll("button").forEach(b => {
+      if (b === botao) return;
+
+      b.addEventListener("click", () => {
+        if (!painel.hidden) voltarAoEstoque();
+      });
+    });
 
     busca.addEventListener("input", renderizar);
     categoria.addEventListener("change", renderizar);
@@ -1871,7 +1430,7 @@
   // =========================================================
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", iniciar);
+    document.addEventListener("DOMContentLoaded", iniciar, { once: true });
   } else {
     iniciar();
   }
