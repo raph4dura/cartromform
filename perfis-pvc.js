@@ -3,8 +3,8 @@
 
   // =========================================================
   // CATÁLOGO DE PERFIS PVC — BAZZE
-  // Versão corrigida e funcional
-  // Desenhos ilustrativos: conferir a documentação original.
+  // SF106: desenho vetorial redesenhado a partir da foto.
+  // Demais desenhos: representações ilustrativas.
   // =========================================================
 
   if (window.__catalogoPerfisPVCIniciado) return;
@@ -181,29 +181,333 @@
 
   // =========================================================
   // DESENHOS SVG
-  // Representações ilustrativas, não desenhos CAD oficiais.
   // =========================================================
 
   const DESENHOS = {
+
+    // =======================================================
+    // SF106 — REDESENHO DA IMAGEM ENVIADA
+    // =======================================================
+
+    sf106: {
+      status: "ilustrativo",
+      fonte: "Redesenho vetorial baseado na imagem fornecida do SF106. Cotas de referência visual: 106 mm e 86 mm. Geometria a conferir com o catálogo técnico original.",
+      svg: `
+        <svg xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 560 500"
+          role="img"
+          aria-label="Seção do perfil SF106, com câmaras internas, encaixes laterais e cotas de referência 106 e 86">
+
+          <defs>
+            <marker id="sf106-cota"
+              markerWidth="7" markerHeight="7"
+              refX="3.5" refY="3.5"
+              orient="auto-start-reverse">
+              <path d="M0 0 L7 3.5 L0 7Z" fill="#38bdf8"/>
+            </marker>
+
+            <style>
+              .sf106-linha {
+                fill: none;
+                stroke: #e2e8f0;
+                stroke-width: 2.2;
+                stroke-linejoin: round;
+                stroke-linecap: round;
+              }
+              .sf106-camara {
+                fill: #0b1220;
+                stroke: #cbd5e1;
+                stroke-width: 1.8;
+                stroke-linejoin: round;
+              }
+              .sf106-cota {
+                fill: none;
+                stroke: #38bdf8;
+                stroke-width: 1.4;
+              }
+              .sf106-numero {
+                fill: #7dd3fc;
+                font-family: Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 600;
+              }
+              .sf106-titulo {
+                fill: #fbbf24;
+                font-family: Arial, sans-serif;
+                font-size: 18px;
+                font-weight: 700;
+              }
+            </style>
+          </defs>
+
+          <rect width="560" height="500" rx="8" fill="#0b1220"/>
+
+          <!-- COTA SUPERIOR: 106 -->
+
+          <g class="sf106-cota">
+            <path d="M34 83 V48"/>
+            <path d="M526 83 V48"/>
+            <path d="M39 58 H521"
+              marker-start="url(#sf106-cota)"
+              marker-end="url(#sf106-cota)"/>
+          </g>
+
+          <text x="280" y="43"
+            class="sf106-numero"
+            text-anchor="middle">106</text>
+
+          <!-- CONTORNO EXTERNO E ENCAIXES -->
+
+          <path id="sf106-contorno"
+            class="pvc-contorno-animado"
+            d="
+              M66 102
+              Q52 102 48 115
+              L28 165
+              Q25 175 36 175
+              L48 175
+              Q51 155 67 154
+              Q84 154 88 175
+
+              L143 175
+              L143 119
+              Q143 113 150 113
+              L174 113
+              Q180 113 180 120
+              L180 175
+
+              L302 175
+              L302 120
+              Q302 113 309 113
+              L440 113
+              Q447 113 447 120
+              L447 164
+              Q447 175 436 175
+              L403 175
+
+              Q395 175 389 184
+              Q382 195 370 195
+              L331 195
+
+              L331 355
+              L351 355
+              Q359 355 359 347
+              L359 337
+              Q359 329 367 329
+              L385 329
+              Q392 329 392 336
+              L392 347
+              Q392 354 385 354
+              L370 354
+              L370 373
+              L385 373
+              Q392 373 392 380
+              L392 390
+              Q392 397 385 397
+              L359 397
+              L359 410
+              Q359 417 352 417
+
+              L128 417
+              Q118 417 116 406
+              L109 376
+              L109 312
+              L128 312
+              L128 302
+              L140 302
+              L140 290
+              L128 290
+              L128 280
+              L169 280
+              Q183 280 183 294
+              L183 359
+              Q183 370 171 370
+              L116 370
+
+              L116 267
+              L129 267
+              L129 254
+              L140 254
+              L140 244
+              L129 244
+              L129 234
+              L115 234
+              L115 196
+
+              L88 196
+              Q82 196 80 188
+              Q76 177 65 177
+              Q54 177 52 188
+              L52 194
+              L39 194
+              Q30 194 33 184
+              L48 115
+              Q52 102 66 102
+              Z"
+            fill="#1e3a5f"
+            stroke="#e2e8f0"
+            stroke-width="2.4"
+            stroke-linejoin="round"/>
+
+          <!-- CÂMARAS SUPERIORES -->
+
+          <g class="sf106-camara">
+            <path d="
+              M62 116
+              L105 116
+              L105 166
+              L87 166
+              Q82 145 66 145
+              Q58 145 52 153
+              Z"/>
+
+            <path d="M114 116 H137 V166 H114 Z"/>
+
+            <path d="M148 116 H289 V175 H148 Z"/>
+
+            <path d="
+              M309 116
+              H436
+              L445 154
+              Q428 145 417 166
+              H402
+              Q394 146 378 146
+              Q359 146 351 166
+              H309
+              Z"/>
+          </g>
+
+          <!-- CÂMARA CENTRAL E PAREDES INTERNAS -->
+
+          <path class="sf106-camara"
+            d="
+              M126 203
+              H330
+              V355
+              H183
+              V294
+              Q183 280 169 280
+              H151
+              V267
+              H126
+              Z"/>
+
+          <!-- ENCAIXE INTERNO ESQUERDO -->
+
+          <path class="sf106-linha"
+            d="
+              M115 196
+              H165
+              Q183 196 183 212
+              V226
+              Q183 233 192 235
+              L207 240
+              Q212 242 207 245
+              L194 250
+              Q188 252 194 255
+              L207 260
+              Q212 263 206 266
+              L194 270
+              Q189 272 189 278
+              V359
+              Q189 370 176 370
+              H116"/>
+
+          <!-- CÂMARAS INFERIORES -->
+
+          <g class="sf106-camara">
+            <path d="
+              M117 382
+              H248
+              V407
+              H125
+              Q120 407 119 401
+              Z"/>
+
+            <path d="
+              M254 382
+              H325
+              V407
+              H254
+              Z"/>
+          </g>
+
+          <!-- PAREDE VERTICAL DIREITA E ENCAIXES -->
+
+          <path class="sf106-linha"
+            d="
+              M331 195
+              V355
+              M331 355
+              H350
+              Q359 355 359 347
+              V337
+              Q359 329 367 329
+              H385
+              Q392 329 392 336
+              V347
+              Q392 354 385 354
+              H370
+              M370 354 V373
+              H385
+              Q392 373 392 380
+              V390
+              Q392 397 385 397
+              H359
+              V410
+              Q359 417 352 417
+              H128"/>
+
+          <!-- REFORÇO DA CÂMARA CENTRAL -->
+
+          <path class="sf106-linha"
+            d="
+              M126 203 H330
+              M126 267 H151
+              M151 267 V280
+              M151 280 H169
+              M183 294 V355
+              M183 355 H330"/>
+
+          <!-- COTA INFERIOR: 86 -->
+
+          <g class="sf106-cota">
+            <path d="M115 427 V459"/>
+            <path d="M359 423 V459"/>
+            <path d="M120 450 H354"
+              marker-start="url(#sf106-cota)"
+              marker-end="url(#sf106-cota)"/>
+          </g>
+
+          <text x="237" y="443"
+            class="sf106-numero"
+            text-anchor="middle">86</text>
+
+          <!-- IDENTIFICAÇÃO -->
+
+          <text x="280" y="482"
+            class="sf106-titulo"
+            text-anchor="middle">SF106</text>
+
+        </svg>
+      `
+    },
+
+    // =======================================================
+    // BR88
+    // =======================================================
+
     br88: {
       status: "ilustrativo",
-      fonte: "Redesenho visual aproximado do BR88. Conferir a documentação técnica original.",
+      fonte: "Redesenho visual aproximado do BR88. Conferir a documentação original.",
       svg: `
         <svg xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 520 340" role="img"
           aria-label="Desenho ilustrativo BR88">
-          <defs>
-            <marker id="br88-dim" markerWidth="7" markerHeight="7"
-              refX="3.5" refY="3.5" orient="auto-start-reverse">
-              <path d="M0 0 L7 3.5 L0 7Z" fill="#38bdf8"/>
-            </marker>
-          </defs>
           <rect width="520" height="340" rx="8" fill="#0b1220"/>
 
-          <path id="br88-contorno"
-            class="pvc-contorno-animado"
-            d="M70 70 H120 V100 H140 V145 H300 V175 H350 V145
-               H390 V170 H450 V150 H490 V265 H70 Z"
+          <path class="pvc-contorno-animado"
+            d="M70 70 H120 V100 H140 V145 H300 V175 H350 V145 H390 V170 H450 V150 H490 V265 H70 Z"
             fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"
             stroke-linejoin="round"/>
 
@@ -217,19 +521,13 @@
 
           <g stroke="#38bdf8" stroke-width="1.5" fill="none">
             <path d="M70 280 V310 M490 275 V310"/>
-            <path d="M76 302 H484" marker-start="url(#br88-dim)"
-              marker-end="url(#br88-dim)"/>
-            <path d="M50 70 H25 M70 265 H25"/>
-            <path d="M32 76 V259" marker-start="url(#br88-dim)"
-              marker-end="url(#br88-dim)"/>
+            <path d="M76 302 H484"/>
           </g>
 
-          <g fill="#7dd3fc" font-family="Arial" font-size="15">
-            <text x="280" y="294" text-anchor="middle">88 mm</text>
-            <text x="18" y="170" text-anchor="middle"
-              transform="rotate(-90 18 170)">52 mm — referência</text>
-          </g>
-
+          <text x="280" y="294" text-anchor="middle"
+            fill="#7dd3fc" font-family="Arial" font-size="15">
+            88 mm
+          </text>
           <text x="260" y="328" text-anchor="middle"
             fill="#fbbf24" font-family="Arial" font-size="14">
             BR88 — ILUSTRATIVO
@@ -237,6 +535,10 @@
         </svg>
       `
     },
+
+    // =======================================================
+    // HF88
+    // =======================================================
 
     hf88: {
       status: "ilustrativo",
@@ -247,8 +549,7 @@
           aria-label="Desenho ilustrativo HF88">
           <rect width="420" height="330" rx="8" fill="#0b1220"/>
 
-          <path id="hf88-contorno"
-            class="pvc-contorno-animado"
+          <path class="pvc-contorno-animado"
             d="M74 90 H326 V232 H74 Z"
             fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"/>
 
@@ -267,30 +568,26 @@
             <path d="M279 190 H310 V216 H279 Z"/>
           </g>
 
-          <g stroke="#38bdf8" stroke-width="1.4" fill="none">
-            <path d="M74 65 V45 M326 65 V45"/>
-            <path d="M80 52 H320"/>
-          </g>
-
           <text x="200" y="38" text-anchor="middle"
             fill="#7dd3fc" font-family="Arial" font-size="12">
             88 mm — referência
           </text>
 
-          <g font-family="Arial" text-anchor="middle">
-            <text x="200" y="263" fill="#fbbf24" font-size="14">
-              HF88 — ESBOÇO
-            </text>
-            <text x="200" y="283" fill="#94a3b8" font-size="11">
-              Câmaras representativas
-            </text>
-            <text x="200" y="302" fill="#94a3b8" font-size="10">
-              Não utilizar para fabricação
-            </text>
-          </g>
+          <text x="200" y="263" text-anchor="middle"
+            fill="#fbbf24" font-family="Arial" font-size="14">
+            HF88 — ESBOÇO
+          </text>
+          <text x="200" y="283" text-anchor="middle"
+            fill="#94a3b8" font-family="Arial" font-size="11">
+            Câmaras representativas
+          </text>
         </svg>
       `
     },
+
+    // =======================================================
+    // SF66
+    // =======================================================
 
     sf66: {
       status: "ilustrativo",
@@ -301,8 +598,7 @@
           aria-label="Desenho ilustrativo SF66">
           <rect width="360" height="300" rx="8" fill="#0b1220"/>
 
-          <path id="sf66-contorno"
-            class="pvc-contorno-animado"
+          <path class="pvc-contorno-animado"
             d="M72 55 H286 V202 H72 Z"
             fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"/>
 
@@ -318,20 +614,17 @@
             Seção esquemática
           </text>
 
-          <g font-family="Arial" text-anchor="middle">
-            <text x="180" y="230" fill="#fbbf24" font-size="14">
-              SF66 — ESBOÇO
-            </text>
-            <text x="180" y="251" fill="#94a3b8" font-size="11">
-              Geometria a confirmar
-            </text>
-            <text x="180" y="270" fill="#94a3b8" font-size="10">
-              Não usar para fabricação
-            </text>
-          </g>
+          <text x="180" y="230" text-anchor="middle"
+            fill="#fbbf24" font-family="Arial" font-size="14">
+            SF66 — ESBOÇO
+          </text>
         </svg>
       `
     },
+
+    // =======================================================
+    // MARCO EUROPA
+    // =======================================================
 
     "europa-marco": {
       status: "ilustrativo",
@@ -342,8 +635,7 @@
           aria-label="Desenho ilustrativo do marco Europa">
           <rect width="440" height="330" rx="8" fill="#0b1220"/>
 
-          <path id="europa-marco-contorno"
-            class="pvc-contorno-animado"
+          <path class="pvc-contorno-animado"
             d="M86 86 H340 V236 H86 Z"
             fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"/>
 
@@ -362,20 +654,21 @@
             <path d="M277 184 H322 V218 H277 Z"/>
           </g>
 
-          <g font-family="Arial" text-anchor="middle">
-            <text x="213" y="270" fill="#fbbf24" font-size="14">
-              MARCO EUROPA
-            </text>
-            <text x="213" y="290" fill="#94a3b8" font-size="11">
-              Seção ilustrativa — 88 × 52 mm
-            </text>
-            <text x="213" y="309" fill="#94a3b8" font-size="10">
-              Conferir encaixes e cotas
-            </text>
-          </g>
+          <text x="213" y="270" text-anchor="middle"
+            fill="#fbbf24" font-family="Arial" font-size="14">
+            MARCO EUROPA
+          </text>
+          <text x="213" y="290" text-anchor="middle"
+            fill="#94a3b8" font-family="Arial" font-size="11">
+            Seção ilustrativa — 88 × 52 mm
+          </text>
         </svg>
       `
     },
+
+    // =======================================================
+    // FOLHA EUROPA
+    // =======================================================
 
     "europa-folha": {
       status: "ilustrativo",
@@ -386,8 +679,7 @@
           aria-label="Desenho ilustrativo da folha Europa">
           <rect width="380" height="370" rx="8" fill="#0b1220"/>
 
-          <path id="europa-folha-contorno"
-            class="pvc-contorno-animado"
+          <path class="pvc-contorno-animado"
             d="M115 85 H265 V255 H115 Z"
             fill="#1e3a5f" stroke="#e2e8f0" stroke-width="3"/>
 
@@ -400,23 +692,21 @@
             <path d="M183 200 H247 V237 H183 Z"/>
           </g>
 
-          <g font-family="Arial" text-anchor="middle">
-            <text x="190" y="292" fill="#fbbf24" font-size="14">
-              FOLHA EUROPA
-            </text>
-            <text x="190" y="312" fill="#94a3b8" font-size="11">
-              Seção ilustrativa — 42 × 92 mm
-            </text>
-            <text x="190" y="332" fill="#94a3b8" font-size="10">
-              Câmaras e encaixes a confirmar
-            </text>
-            <text x="190" y="350" fill="#94a3b8" font-size="10">
-              Não utilizar para fabricação
-            </text>
-          </g>
+          <text x="190" y="292" text-anchor="middle"
+            fill="#fbbf24" font-family="Arial" font-size="14">
+            FOLHA EUROPA
+          </text>
+          <text x="190" y="312" text-anchor="middle"
+            fill="#94a3b8" font-family="Arial" font-size="11">
+            Seção ilustrativa — 42 × 92 mm
+          </text>
         </svg>
       `
     },
+
+    // =======================================================
+    // PORTA EUROPA COM DUAS FOLHAS
+    // =======================================================
 
     "europa-porta-2-folhas": {
       status: "ilustrativo",
@@ -441,34 +731,20 @@
             fill="#164e63" fill-opacity=".65"
             stroke="#e2e8f0" stroke-width="4"/>
 
-          <rect x="82" y="74" width="119" height="162"
-            fill="#0ea5e9" fill-opacity=".12"
-            stroke="#7dd3fc" stroke-width="1.5"/>
-
-          <rect x="239" y="74" width="119" height="162"
-            fill="#0ea5e9" fill-opacity=".12"
-            stroke="#7dd3fc" stroke-width="1.5"/>
-
           <g stroke="#38bdf8" stroke-width="3"
             fill="none" stroke-linecap="round">
             <path d="M95 151 H165 L157 143 M165 151 L157 159"/>
             <path d="M345 177 H275 L283 169 M275 177 L283 185"/>
           </g>
 
-          <path d="M44 278 H396 M59 285 H381"
-            stroke="#94a3b8" stroke-width="2"/>
-
-          <g font-family="Arial" text-anchor="middle">
-            <text x="220" y="306" fill="#fbbf24" font-size="14">
-              PORTA DE CORRER — 2 FOLHAS
-            </text>
-            <text x="220" y="325" fill="#94a3b8" font-size="11">
-              Montagem ilustrativa, sem escala
-            </text>
-            <text x="220" y="340" fill="#94a3b8" font-size="9">
-              Ferragens não representadas
-            </text>
-          </g>
+          <text x="220" y="306" text-anchor="middle"
+            fill="#fbbf24" font-family="Arial" font-size="14">
+            PORTA DE CORRER — 2 FOLHAS
+          </text>
+          <text x="220" y="325" text-anchor="middle"
+            fill="#94a3b8" font-family="Arial" font-size="11">
+            Montagem ilustrativa, sem escala
+          </text>
         </svg>
       `
     }
@@ -478,7 +754,7 @@
   // FUNÇÕES AUXILIARES
   // =========================================================
 
-  const normalizar = (texto) =>
+  const normalizar = texto =>
     String(texto ?? "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
@@ -486,8 +762,8 @@
       .trim()
       .replace(/\s+/g, " ");
 
-  const escaparHTML = (texto) =>
-    String(texto ?? "").replace(/[&<>"']/g, (c) => ({
+  const escaparHTML = texto =>
+    String(texto ?? "").replace(/[&<>"']/g, c => ({
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
@@ -517,6 +793,7 @@
     const equivalencias = {
       "hf88s": "hf88",
       "hf88": "hf88",
+      "sf106": "sf106",
       "europa — marco 88 x 52": "europa-marco",
       "europa — folha 42 x 92": "europa-folha",
       "porta europa 2 folhas": "europa-porta-2-folhas"
@@ -582,8 +859,7 @@
   const catalogo = prepararDados();
 
   // =========================================================
-  // ANIMAÇÃO SVG — CORREÇÃO DO ERRO ORIGINAL
-  // A variável svg agora é declarada dentro da função.
+  // ANIMAÇÃO DO CONTORNO SVG
   // =========================================================
 
   function animarContornoSVG(areaDesenho) {
@@ -620,7 +896,6 @@
     contorno.style.strokeDashoffset = String(comprimento);
     contorno.style.setProperty("--pvc-comprimento", comprimento);
 
-    // Força o navegador a atualizar o desenho antes da animação.
     void contorno.getBoundingClientRect();
 
     contorno.style.animation =
@@ -732,7 +1007,6 @@
         "Perfis PVC: não encontrei .tabs ou .container. Confira o HTML."
       );
 
-      // Permite tentar novamente se o HTML for montado depois.
       window.__catalogoPerfisPVCIniciado = false;
       return;
     }
@@ -744,7 +1018,6 @@
     // =======================================================
 
     const estilo = document.createElement("style");
-
     estilo.id = "estiloPerfisPVC";
 
     estilo.textContent = `
@@ -923,7 +1196,7 @@
       .pvc-desenho-svg svg {
         display: block;
         width: 100%;
-        max-width: 520px;
+        max-width: 560px;
         height: auto;
         margin: 0 auto;
       }
@@ -1102,7 +1375,6 @@
 
     abas.appendChild(botao);
 
-    // Ajusta a grade sem assumir que existem somente duas abas.
     const quantidadeAbas = abas.querySelectorAll("button").length;
 
     abas.style.gridTemplateColumns =
@@ -1169,8 +1441,6 @@
     function selecionarAbaPerfis() {
       if (painel.hidden) {
         abaAnterior = abas.querySelector("button.ativo");
-
-        // Guarda o estado visual original dos elementos do estoque.
         estadoDisplay = new Map();
 
         Array.from(container.children).forEach(elemento => {
@@ -1312,7 +1582,6 @@
         </div>
       `;
 
-      // CORREÇÃO: a animação recebe a área SVG e declara svg internamente.
       const areaDesenho = detalhes.querySelector(".pvc-desenho-svg");
 
       if (areaDesenho) {
@@ -1409,8 +1678,6 @@
 
     botao.addEventListener("click", selecionarAbaPerfis);
 
-    // Os botões do estoque fecham o catálogo sem depender
-    // de IDs específicos para todas as abas.
     abas.querySelectorAll("button").forEach(b => {
       if (b === botao) return;
 
