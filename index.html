@@ -1,2103 +1,1879 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0f172a">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="manifest" href="manifest.json">
-<title>Estoque de Rolos — Perfis PVC</title>
-
-<style>
-*{box-sizing:border-box}
-
-:root{
-  --primary:#2563eb;
-  --primary-dark:#1d4ed8;
-  --dark:#0f172a;
-  --text:#1e293b;
-  --muted:#64748b;
-  --border:#e2e8f0;
-  --bg:#f1f5f9;
-  --card:#ffffff;
-  --success:#059669;
-  --danger:#dc2626;
-}
 
-body{
-  margin:0;
-  font-family:Inter,Arial,Helvetica,sans-serif;
-  background:linear-gradient(180deg,#eaf1ff 0,#f8fafc 280px,#f1f5f9 100%);
-  color:var(--text);
-  min-height:100vh;
-}
+<html lang="pt-BR">  
+<head>  
+<link rel="manifest" href="manifest.json">  
+<meta name="theme-color" content="#0f172a">  
+<meta name="mobile-web-app-capable" content="yes">  
+<meta name="apple-mobile-web-app-capable" content="yes">  
+<meta name="apple-mobile-web-app-status-bar-style" content="default">  <meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Estoque de Rolos</title>  <style>  
+*{  
+  box-sizing:border-box;  
+}  
+
+:root{  
+  --primary:#2563eb;  
+  --primary-dark:#1d4ed8;  
+  --dark:#0f172a;  
+  --text:#1e293b;  
+  --muted:#64748b;  
+  --border:#e2e8f0;  
+  --bg:#f1f5f9;  
+  --card:#ffffff;  
+  --success:#059669;  
+  --danger:#dc2626;  
+}  
+
+body{  
+  margin:0;  
+  font-family:Inter,Arial,Helvetica,sans-serif;  
+  background:  
+    linear-gradient(180deg,#eaf1ff 0,#f8fafc 280px,#f1f5f9 100%);  
+  color:var(--text);  
+  min-height:100vh;  
+}  
+
+.container{  
+  width:100%;  
+  max-width:1000px;  
+  margin:auto;  
+  padding:24px 18px 50px;  
+}  
+
+/* CABEÇALHO */  
+
+.hero{  
+  background:linear-gradient(135deg,#0f172a,#1e3a8a);  
+  color:white;  
+  border-radius:22px;  
+  padding:28px;  
+  margin-bottom:18px;  
+  box-shadow:0 12px 30px rgba(15,23,42,.18);  
+  position:relative;  
+  overflow:hidden;  
+}  
+
+.hero::after{  
+  content:"";  
+  position:absolute;  
+  width:180px;  
+  height:180px;  
+  border-radius:50%;  
+  background:rgba(255,255,255,.07);  
+  right:-50px;  
+  top:-70px;  
+}  
+
+.hero-content{  
+  position:relative;  
+  z-index:1;  
+}  
+
+.hero h1{  
+  margin:0;  
+  font-size:30px;  
+  letter-spacing:-.5px;  
+}  
+
+.subtitle{  
+  margin:8px 0 0;  
+  color:#cbd5e1;  
+  font-size:14px;  
+}  
+
+/* CARDS */  
+
+.card{  
+  background:var(--card);  
+  border:1px solid rgba(226,232,240,.9);  
+  border-radius:18px;  
+  padding:20px;  
+  margin-bottom:18px;  
+  box-shadow:0 5px 18px rgba(15,23,42,.06);  
+}  
+
+.card h2{  
+  margin:0 0 18px;  
+  font-size:19px;  
+  color:#0f172a;  
+}  
+
+/* FORMULÁRIO */  
+
+.form{  
+  display:grid;  
+  grid-template-columns:1fr 1fr auto;  
+  gap:12px;  
+}  
+
+label{  
+  font-size:12px;  
+  font-weight:800;  
+  display:block;  
+  margin-bottom:7px;  
+  color:#475569;  
+  text-transform:uppercase;  
+  letter-spacing:.3px;  
+}  
+
+input,  
+select,  
+button{  
+  width:100%;  
+  min-height:48px;  
+  padding:12px 14px;  
+  border:1px solid var(--border);  
+  border-radius:11px;  
+  font-size:15px;  
+  font-family:inherit;  
+  outline:none;  
+  transition:.2s ease;  
+}  
+
+input,  
+select{  
+  background:#f8fafc;  
+  color:var(--text);  
+}  
+
+input:focus,  
+select:focus{  
+  border-color:#60a5fa;  
+  background:white;  
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);  
+}  
+
+button{  
+  border:0;  
+  background:var(--primary);  
+  color:#fff;  
+  font-weight:800;  
+  cursor:pointer;  
+  box-shadow:0 3px 8px rgba(37,99,235,.2);  
+}  
+
+button:hover{  
+  background:var(--primary-dark);  
+  transform:translateY(-1px);  
+}  
+
+button:active{  
+  transform:translateY(0);  
+}  
+
+button:disabled{  
+  opacity:.6;  
+  cursor:wait;  
+  transform:none;  
+}  
+
+/* ESTATÍSTICAS */  
+
+.stats{  
+  display:grid;  
+  grid-template-columns:1fr 1fr;  
+  gap:14px;  
+  margin-bottom:18px;  
+}  
+
+.stat{  
+  background:white;  
+  border:1px solid var(--border);  
+  border-radius:18px;  
+  padding:20px;  
+  box-shadow:0 5px 18px rgba(15,23,42,.05);  
+  color:#64748b;  
+  font-size:14px;  
+  font-weight:700;  
+}  
+
+.stat strong{  
+  display:block;  
+  font-size:31px;  
+  line-height:1;  
+  margin-top:10px;  
+  color:#0f172a;  
+}  
+
+/* ABAS */  
+
+.tabs{  
+  display:grid;  
+  grid-template-columns:1fr 1fr;  
+  gap:8px;  
+  background:#e2e8f0;  
+  padding:5px;  
+  border-radius:14px;  
+  margin-bottom:18px;  
+}  
+
+.tab{  
+  background:transparent;  
+  color:#475569;  
+  box-shadow:none;  
+  min-height:45px;  
+}  
+
+.tab:hover{  
+  background:#cbd5e1;  
+  color:#0f172a;  
+  transform:none;  
+}  
+
+.tab.active{  
+  background:white;  
+  color:var(--primary);  
+  box-shadow:0 2px 8px rgba(15,23,42,.1);  
+}  
+
+/* FILTROS */  
+
+.filters{  
+  display:grid;  
+  grid-template-columns:1fr 1fr;  
+  gap:12px;  
+}  
+
+/* LISTA */  
+
+.roll{  
+  display:flex;  
+  align-items:center;  
+  justify-content:space-between;  
+  gap:16px;  
+  padding:16px 4px;  
+  border-bottom:1px solid #edf2f7;  
+}  
+
+.roll:last-child{  
+  border-bottom:0;  
+}  
+
+.roll-info{  
+  display:flex;  
+  align-items:flex-start;  
+  gap:13px;  
+  min-width:0;  
+}  
+
+
+
+
+
+
+
+
+
+/* ANIMAÇÕES DOS ROLOS */
+
+.roll.animar-entrada {
+  animation: roloEntrando .45s ease-out;
+}
+
+.roll.animar-saida {
+  animation: roloSaindo .45s ease-in forwards;
+}
+
+@keyframes roloEntrando {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes roloSaindo {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    max-height: 150px;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(35px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+.dot{  
+  width:18px;  
+  height:18px;  
+  border-radius:50%;  
+  border:2px solid rgba(15,23,42,.12);  
+  flex:none;  
+  margin-top:3px;  
+  box-shadow:0 1px 3px rgba(0,0,0,.15);  
+}  
+
+.name{  
+  font-weight:800;  
+  color:#1e293b;  
+  font-size:15px;  
+}  
+
+.meters{  
+  font-size:20px;  
+  font-weight:900;  
+  color:#0f172a;  
+  white-space:nowrap;  
+}  
+
+.roll-action{  
+  display:flex;  
+  align-items:center;  
+  gap:12px;  
+}  
+
+.delete{  
+  width:auto;  
+  min-height:40px;  
+  padding:9px 13px;  
+  background:#fee2e2;  
+  color:#b91c1c;  
+  box-shadow:none;  
+  font-size:13px;  
+}  
+
+.delete:hover{  
+  background:#fecaca;  
+  color:#991b1b;  
+}  
+
+.count{  
+  color:#64748b;  
+  font-size:13px;  
+  margin-top:6px;  
+}  
+
+.date{  
+  color:#64748b;  
+  font-size:12px;  
+  margin-top:5px;  
+}  
+
+.saida-date{  
+  color:#dc2626;  
+  font-size:12px;  
+  margin-top:5px;  
+}  
+
+.empty{  
+  text-align:center;  
+  color:#94a3b8;  
+  padding:38px 20px;  
+  font-size:14px;  
+}  
+
+/* RESUMO */  
+
+.resumo-tabela{  
+  width:100%;  
+  border-collapse:separate;  
+  border-spacing:0;  
+  margin-top:4px;  
+  overflow:hidden;  
+}  
+
+.resumo-tabela th,  
+.resumo-tabela td{  
+  padding:13px 10px;  
+  text-align:left;  
+  border-bottom:1px solid #edf2f7;  
+}  
+
+.resumo-tabela th{  
+  font-size:11px;  
+  color:#64748b;  
+  text-transform:uppercase;  
+  letter-spacing:.4px;  
+}  
+
+.resumo-tabela tr:last-child td{  
+  border-bottom:0;  
+}  
+
+.tipo-resumo{  
+  display:flex;  
+  align-items:center;  
+  gap:9px;  
+  font-weight:800;  
+}  
+
+.tipo-resumo .dot{  
+  width:14px;  
+  height:14px;  
+  margin:0;  
+}  
+
+.total-tipo{  
+  font-weight:900;  
+  white-space:nowrap;  
+  color:#0f172a;  
+}  
+
+/* STATUS */  
+
+.status{  
+  font-size:13px;  
+  margin-top:14px;  
+  padding:12px 14px;  
+  border-radius:11px;  
+  background:#f1f5f9;  
+  color:#475569;  
+  border:1px solid #e2e8f0;  
+}  
+
+.status.ok{  
+  background:#ecfdf5;  
+  color:#047857;  
+  border-color:#a7f3d0;  
+}  
+
+.status.erro{  
+  background:#fef2f2;  
+  color:#b91c1c;  
+  border-color:#fecaca;  
+}  
+
+.small{  
+  font-size:12px;  
+  color:#64748b;  
+  margin-top:10px;  
+  line-height:1.5;  
+}  
+
+/* RESPONSIVO */  
+
+@media(max-width:650px){  
+
+  .container{  
+    padding:14px 12px 35px;  
+  }  
+
+  .hero{  
+    padding:23px 20px;  
+    border-radius:18px;  
+  }  
+
+  .hero h1{  
+    font-size:25px;  
+  }  
+
+  .form,  
+  .filters{  
+    grid-template-columns:1fr;  
+  }  
+
+  .form button{  
+    min-height:50px;  
+  }  
+
+  .stats{  
+    gap:10px;  
+  }  
+
+  .stat{  
+    padding:16px 14px;  
+  }  
+
+  .stat strong{  
+    font-size:25px;  
+  }  
+
+  .card{  
+    padding:17px 15px;  
+    border-radius:16px;  
+  }  
+
+  .roll{  
+    align-items:flex-start;  
+    flex-direction:column;  
+    padding:16px 2px;  
+  }  
+
+  .roll-info{  
+    width:100%;  
+  }  
+
+  .roll-action{  
+    width:100%;  
+    justify-content:space-between;  
+  }  
+
+  .roll-action button{  
+    width:auto;  
+  }  
+
+  .meters{  
+    font-size:19px;  
+  }  
+
+  .resumo-tabela th,  
+  .resumo-tabela td{  
+    padding:11px 5px;  
+    font-size:13px;  
+  }  
+
+  .resumo-tabela th{  
+    font-size:10px;  
+  }  
+
+}  
+
+@media(max-width:380px){  
+
+  .stats{  
+    grid-template-columns:1fr;  
+  }  
+
+  .tabs{  
+    grid-template-columns:1fr;  
+  }  
+
+}  
+</style>  </head>  <body>  <div class="container">  <!-- CABEÇALHO -->  <div class="hero">  
+  <div class="hero-content">  
+    <h1>📦 Estoque de Rolos</h1>  
+    <p class="subtitle">  
+      Controle de metragens, cores, entradas e saídas.  
+    </p>  
+  </div>  
+</div>  <!-- ADICIONAR ROLO -->  <div class="card">    <h2>➕ Adicionar novo rolo</h2>    <div class="form">  <div>  
+  <label for="tipo">Tipo / Cor</label>  
+
+  <select id="tipo">  
+    <option>Preto liso</option>  
+    <option>Preto texturado</option>  
+    <option>Golden</option>  
+    <option>Nogueira</option>  
+    <option>Bronze</option>  
+    <option>Pirita</option>  
+    <option>Grafite</option>  
+  </select>  
+</div>  
+
+<div>  
+  <label for="metragem">Metragem (m)</label>  
+
+  <input  
+    id="metragem"  
+    type="number"  
+    min="0"  
+    step="0.01"  
+    placeholder="Ex.: 530"  
+  >  
+</div>  
+
+<div style="align-self:end">  
+  <button id="add">  
+    ➕ Adicionar rolo  
+  </button>  
+</div>
+
+  </div>  
+</div>  <!-- ESTATÍSTICAS -->  <div class="stats">    <div class="stat">  
+    📦 Rolos no estoque  
+    <strong id="totalRolos">0</strong>  
+  </div>    <div class="stat">  
+    📏 Metros no estoque  
+    <strong id="totalMetros">0 m</strong>  
+  </div>  </div>  <!-- ABAS -->  <div class="tabs">  <button
+id="btnEntrada"
+class="tab active"
+
+> 
+
+📥 Entrada
+
+  </button>  <button
+id="btnSaida"
+class="tab"
+
+> 
+
+📤 Saída
+
+  </button>  </div>  <!-- BUSCA -->  <div class="card">    <h2>🔎 Buscar no estoque</h2>    <div class="filters">  <input  
+  id="buscaMetragem"  
+  type="number"  
+  min="0"  
+  step="0.01"  
+  placeholder="🔎 Buscar por metragem..."  
+>  
+
+<select id="filtroTipo">  
+
+  <option value="">  
+    Todas as cores  
+  </option>  
+
+  <option>Preto liso</option>  
+  <option>Preto texturado</option>  
+  <option>Golden</option>  
+  <option>Nogueira</option>  
+  <option>Bronze</option>  
+  <option>Pirita</option>  
+  <option>Grafite</option>  
+
+</select>
+
+  </div>  </div>  <!-- LISTA -->  <div class="card">    <h2 id="tituloLista">  
+    📥 Rolos no estoque  
+  </h2>    <div id="lista"></div>    <div  
+    class="count"  
+    id="count">  
+  </div>  </div>  <!-- RESUMO -->  <div class="card">    <h2>📊 Resumo por tipo</h2>    <table class="resumo-tabela">  <thead>  
+  <tr>  
+    <th>Tipo</th>  
+    <th>Rolos</th>  
+    <th>Metragem total</th>  
+    <th>M²</th>
+  </tr>  
+</thead>  
+
+<tbody id="resumoTipos"></tbody>
+
+  </table>  </div>  <!-- SUPABASE -->  <div class="card">    <h2>☁️ Estoque compartilhado</h2>    <button id="recarregar">  
+    🔄 Recarregar do Supabase  
+  </button>    <div  
+    id="status"  
+    class="status">  
+    Conectando ao estoque...  
+  </div>    <div class="small">  
+    Os dados são salvos no banco de dados  
+    <strong>Supabase</strong>.  
+  </div>  </div>  </div>  <script>  
+
+/* =====================================================  
+   CONFIGURAÇÃO DO SUPABASE  
+   ===================================================== */  
+
+const SUPABASE_URL =  
+"https://pipnkvlicwfraisywrzl.supabase.co";  
+
+const SUPABASE_KEY =  
+"sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";  
+
+const SUPABASE_TABLE =  
+"rolos";  
+
+
+/* =====================================================  
+   TIPOS  
+   ===================================================== */  
+
+const tipos = [  
+
+"Preto liso",  
+"Preto texturado",  
+"Golden",  
+"Nogueira",  
+"Bronze",  
+"Pirita",  
+"Grafite"  
+
+];  
+
+
+/* =====================================================  
+   CORES  
+   ===================================================== */  
+
+const cores = {  
+
+"Preto liso":"#111111",  
+
+"Preto texturado":"#333333",  
+
+"Golden":"#d4af37",  
+
+"Nogueira":"#6b4226",  
+
+"Bronze":"#cd7f32",  
+
+"Pirita":"#8b8b83",  
+
+"Grafite":"#555555"  
+
+};  
+
+
+/* =====================================================  
+   VARIÁVEIS  
+   ===================================================== */  
+
+let rolos = [];  
+
+let abaAtual = "entrada";  
+
+let salvando = false;  
+
+let quantidadeVisivel = 5;
+
+
+/* =====================================================  
+   ELEMENTOS  
+   ===================================================== */  
+
+const tipo =  
+document.getElementById("tipo");  
+
+const metragem =  
+document.getElementById("metragem");  
+
+const buscaMetragem =  
+document.getElementById("buscaMetragem");  
+
+const filtroTipo =  
+document.getElementById("filtroTipo");  
 
-.container{
-  width:100%;
-  max-width:1100px;
-  margin:auto;
-  padding:24px 18px 50px;
-}
+const lista =  
+document.getElementById("lista");  
 
-/* CABEÇALHO */
-
-.hero{
-  background:linear-gradient(135deg,#0f172a,#1e3a8a);
-  color:white;
-  border-radius:22px;
-  padding:28px;
-  margin-bottom:18px;
-  box-shadow:0 12px 30px rgba(15,23,42,.18);
-  position:relative;
-  overflow:hidden;
-}
+const resumoTipos =  
+document.getElementById("resumoTipos");  
 
-.hero::after{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:rgba(255,255,255,.07);
-  right:-50px;
-  top:-70px;
-}
+const statusEl =  
+document.getElementById("status");  
 
-.hero-content{position:relative;z-index:1}
-.hero h1{margin:0;font-size:30px;letter-spacing:-.5px}
-.subtitle{margin:8px 0 0;color:#cbd5e1;font-size:14px}
-
-/* CARDS */
-
-.card{
-  background:var(--card);
-  border:1px solid rgba(226,232,240,.9);
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 5px 18px rgba(15,23,42,.06);
-}
+const addBtn =  
+document.getElementById("add");  
 
-.card h2{
-  margin:0 0 18px;
-  font-size:19px;
-  color:#0f172a;
-}
+const btnEntrada =  
+document.getElementById("btnEntrada");  
 
-/* FORMULÁRIO */
+const btnSaida =  
+document.getElementById("btnSaida");  
 
-.form{
-  display:grid;
-  grid-template-columns:1fr 1fr auto;
-  gap:12px;
-}
 
-label{
-  font-size:12px;
-  font-weight:800;
-  display:block;
-  margin-bottom:7px;
-  color:#475569;
-  text-transform:uppercase;
-  letter-spacing:.3px;
-}
+/* =====================================================  
+   STATUS  
+   ===================================================== */  
 
-input,select,button{
-  width:100%;
-  min-height:48px;
-  padding:12px 14px;
-  border:1px solid var(--border);
-  border-radius:11px;
-  font-size:15px;
-  font-family:inherit;
-  outline:none;
-  transition:.2s ease;
-}
+function setStatus(texto, classe = ""){  
 
-input,select{background:#f8fafc;color:var(--text)}
+statusEl.textContent = texto;  
 
-input:focus,select:focus{
-  border-color:#60a5fa;
-  background:white;
-  box-shadow:0 0 0 3px rgba(37,99,235,.12);
-}
+statusEl.className =  
+"status " + classe;  
 
-button{
-  border:0;
-  background:var(--primary);
-  color:#fff;
-  font-weight:800;
-  cursor:pointer;
-  box-shadow:0 3px 8px rgba(37,99,235,.2);
-}
+}  
 
-button:hover{background:var(--primary-dark);transform:translateY(-1px)}
-button:active{transform:translateY(0)}
-button:disabled{opacity:.6;cursor:wait;transform:none}
 
-/* ESTATÍSTICAS */
+/* =====================================================  
+   CABEÇALHOS DO SUPABASE  
+   ===================================================== */  
 
-.stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-  margin-bottom:18px;
-}
+function supabaseHeaders(){  
 
-.stat{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 5px 18px rgba(15,23,42,.05);
-  color:#64748b;
-  font-size:14px;
-  font-weight:700;
-}
+return {  
 
-.stat strong{
-  display:block;
-  font-size:31px;
-  line-height:1;
-  margin-top:10px;
-  color:#0f172a;
-}
+"apikey":  
+SUPABASE_KEY,  
 
-/* ABAS PRINCIPAIS */
-
-.tabs{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  background:#e2e8f0;
-  padding:5px;
-  border-radius:14px;
-  margin-bottom:18px;
-}
+"Authorization":  
+"Bearer " + SUPABASE_KEY,  
 
-.tab{
-  background:transparent;
-  color:#475569;
-  box-shadow:none;
-  min-height:45px;
-  padding:10px 5px;
-  font-size:14px;
-}
+"Content-Type":  
+"application/json",  
 
-.tab:hover{
-  background:#cbd5e1;
-  color:#0f172a;
-  transform:none;
-}
+"Accept":  
+"application/json"  
 
-.tab.active{
-  background:white;
-  color:var(--primary);
-  box-shadow:0 2px 8px rgba(15,23,42,.1);
-}
+};  
 
-/* FILTROS */
+}  
 
-.filters{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
 
-/* LISTA */
-
-.roll{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  padding:16px 4px;
-  border-bottom:1px solid #edf2f7;
-}
+/* =====================================================  
+   REQUISIÇÃO AO SUPABASE  
+   ===================================================== */  
 
-.roll:last-child{border-bottom:0}
+async function supabaseRequest(  
+url,  
+options = {}  
+){  
 
-.roll-info{
-  display:flex;
-  align-items:flex-start;
-  gap:13px;
-  min-width:0;
-}
+const response =  
+await fetch(  
+url,  
+{  
 
-.roll.animar-entrada{animation:roloEntrando .45s ease-out}
-.roll.animar-saida{animation:roloSaindo .45s ease-in forwards}
+...options,  
 
-@keyframes roloEntrando{
-  from{opacity:0;transform:translateY(-12px)}
-  to{opacity:1;transform:translateY(0)}
-}
+headers:{  
+...supabaseHeaders(),  
+...(options.headers || {})  
+}  
 
-@keyframes roloSaindo{
-  from{opacity:1;transform:translateX(0);max-height:150px}
-  to{opacity:0;transform:translateX(35px);max-height:0;padding-top:0;padding-bottom:0}
-}
+}  
+);  
 
-.dot{
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  border:2px solid rgba(15,23,42,.12);
-  flex:none;
-  margin-top:3px;
-  box-shadow:0 1px 3px rgba(0,0,0,.15);
-}
 
-.name{font-weight:800;color:#1e293b;font-size:15px}
-.meters{font-size:20px;font-weight:900;color:#0f172a;white-space:nowrap}
-
-.roll-action{display:flex;align-items:center;gap:12px}
-
-.delete{
-  width:auto;
-  min-height:40px;
-  padding:9px 13px;
-  background:#fee2e2;
-  color:#b91c1c;
-  box-shadow:none;
-  font-size:13px;
-}
+let data = null;  
 
-.delete:hover{background:#fecaca;color:#991b1b}
 
-.count{color:#64748b;font-size:13px;margin-top:6px}
-.date{color:#64748b;font-size:12px;margin-top:5px}
-.saida-date{color:#dc2626;font-size:12px;margin-top:5px}
-.empty{text-align:center;color:#94a3b8;padding:38px 20px;font-size:14px}
+try{  
 
-/* RESUMO */
+data =  
+await response.json();  
 
-.resumo-tabela{
-  width:100%;
-  border-collapse:separate;
-  border-spacing:0;
-  margin-top:4px;
-  overflow:hidden;
-}
+}  
+catch(error){  
 
-.resumo-tabela th,.resumo-tabela td{
-  padding:13px 10px;
-  text-align:left;
-  border-bottom:1px solid #edf2f7;
-}
+data = null;  
 
-.resumo-tabela th{
-  font-size:11px;
-  color:#64748b;
-  text-transform:uppercase;
-  letter-spacing:.4px;
-}
+}  
 
-.resumo-tabela tr:last-child td{border-bottom:0}
-
-.tipo-resumo{display:flex;align-items:center;gap:9px;font-weight:800}
-.tipo-resumo .dot{width:14px;height:14px;margin:0}
-.total-tipo{font-weight:900;white-space:nowrap;color:#0f172a}
-
-/* STATUS */
-
-.status{
-  font-size:13px;
-  margin-top:14px;
-  padding:12px 14px;
-  border-radius:11px;
-  background:#f1f5f9;
-  color:#475569;
-  border:1px solid #e2e8f0;
-}
 
-.status.ok{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
-.status.erro{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
-
-.small{font-size:12px;color:#64748b;margin-top:10px;line-height:1.5}
-
-[hidden]{display:none!important}
-
-/* =====================================================
-   GERENCIADOR DE PERFIS PVC
-   ESTILOS ISOLADOS DO ESTOQUE
-   ===================================================== */
-
-#perfisView{
-  --p-bg:#0b1120;
-  --p-panel:#111c2e;
-  --p-panel2:#17243a;
-  --p-line:#263650;
-  --p-text:#e8effb;
-  --p-muted:#91a2ba;
-  --p-blue:#2585ff;
-  --p-green:#20c997;
-  --p-red:#ff647c;
-
-  background:var(--p-bg);
-  color:var(--p-text);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:20px;
-  overflow:hidden;
-}
+if(!response.ok){  
 
-#perfisView *{box-sizing:border-box}
-
-#perfisView .p-header{
-  padding:20px;
-  background:linear-gradient(120deg,#101c31,#142e50);
-  border:1px solid var(--p-line);
-  border-radius:13px;
-  margin-bottom:16px;
-}
+throw new Error(  
 
-#perfisView .p-logo{
-  font-size:11px;
-  letter-spacing:3px;
-  color:#58a7ff;
-  font-weight:bold;
-}
+data?.message ||  
+data?.error_description ||  
+data?.hint ||  
+`Erro HTTP ${response.status}`  
 
-#perfisView .p-title{
-  margin:9px 0 5px;
-  font-size:24px;
-  color:white;
-}
+);  
 
-#perfisView .p-subtitle{
-  color:var(--p-muted);
-  font-size:13px;
-}
+}  
 
-#perfisView .p-stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-bottom:16px;
-}
 
-#perfisView .p-stat{
-  background:var(--p-panel);
-  padding:15px;
-  border:1px solid var(--p-line);
-  border-radius:11px;
-}
+return data;  
 
-#perfisView .p-stat strong{
-  display:block;
-  font-size:24px;
-  margin-bottom:5px;
-  color:white;
-}
+}  
 
-#perfisView .p-stat span{
-  font-size:11px;
-  color:var(--p-muted);
-}
 
-#perfisView .p-toolbar{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
+/* =====================================================  
+   URL DA TABELA  
+   ===================================================== */  
 
-#perfisView .p-search{
-  flex:1;
-  min-width:170px;
-  background:var(--p-panel);
-  color:white;
-  border:1px solid var(--p-line);
-  border-radius:8px;
-  padding:12px;
-  min-height:44px;
-}
+function tabelaUrl(){  
 
-#perfisView .p-search:focus{
-  border-color:var(--p-blue);
-  box-shadow:none;
-}
+return (  
 
-#perfisView .p-btn{
-  width:auto;
-  min-height:42px;
-  padding:10px 13px;
-  border-radius:8px;
-  font-size:12px;
-  box-shadow:none;
-}
+`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`  
 
-#perfisView .p-primary{background:var(--p-blue);color:white}
-#perfisView .p-secondary{background:var(--p-panel2);color:var(--p-text);border:1px solid var(--p-line)}
-#perfisView .p-danger{background:#46202d;color:#ff9cac}
-
-#perfisView .p-status{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  color:var(--p-muted);
-  font-size:11px;
-  margin:13px 0;
-  gap:10px;
-}
+);  
 
-#perfisView .p-table-wrap{
-  overflow-x:auto;
-  background:var(--p-panel);
-  border:1px solid var(--p-line);
-  border-radius:11px;
-  -webkit-overflow-scrolling:touch;
-}
+}  
 
-#perfisView table{
-  width:100%;
-  min-width:920px;
-  border-collapse:collapse;
-}
 
-#perfisView th{
-  background:#192941;
-  color:#a9c5e9;
-  font-size:10px;
-  letter-spacing:.4px;
-  text-align:left;
-  padding:13px 10px;
-  white-space:nowrap;
-}
+/* =====================================================  
+   CARREGAR ROLOS  
+   ===================================================== */  
 
-#perfisView td{
-  padding:8px 10px;
-  border-top:1px solid var(--p-line);
-  font-size:12px;
-}
+async function carregarRolos(){  
 
-#perfisView tr:hover td{background:#17253b}
+try{  
 
-#perfisView .p-profile{
-  font-weight:bold;
-  color:#fff;
-  min-width:110px;
-}
+setStatus(  
+"🔄 Carregando estoque do Supabase..."  
+);  
 
-#perfisView .p-category{
-  color:var(--p-muted);
-  font-size:9px;
-  display:block;
-  margin-top:4px;
-}
 
-#perfisView .p-measure{
-  width:83px;
-  min-height:37px;
-  background:#0d1829;
-  border:1px solid #30415c;
-  color:#fff;
-  padding:7px 5px;
-  border-radius:6px;
-  text-align:center;
-  font-size:12px;
-  box-shadow:none;
-}
+const dados =  
+await supabaseRequest(  
 
-#perfisView .p-measure:focus{
-  border-color:var(--p-blue);
-  background:#142b49;
-  box-shadow:none;
-}
+`${tabelaUrl()}?select=*`,  
 
-#perfisView .p-measure.changed{
-  border-color:#238e73;
-  color:#69e0b5;
-}
+{  
+method:"GET"  
+}  
 
-#perfisView .p-unit{
-  color:var(--p-muted);
-  margin-left:2px;
-  font-size:10px;
-}
+);  
 
-#perfisView .p-extra-cell{background:rgba(37,133,255,.045)}
-#perfisView .p-extra-cell .p-measure{border-color:#31598a}
-
-#perfisView .p-mode{
-  background:#0d1829;
-  color:#b8c8df;
-  border:1px solid var(--p-line);
-  border-radius:6px;
-  padding:7px 5px;
-  width:112px;
-  min-height:36px;
-  font-size:10px;
-  box-shadow:none;
-}
 
-#perfisView .p-note{
-  width:135px;
-  min-height:36px;
-  background:#0d1829;
-  border:1px solid #30415c;
-  color:#c7d4e8;
-  padding:7px;
-  border-radius:6px;
-  font-size:11px;
-  box-shadow:none;
-}
+rolos =  
+Array.isArray(dados)  
+? dados  
+: [];  
 
-#perfisView .p-actions{display:flex;gap:5px}
-
-#perfisView .p-icon-btn{
-  width:auto;
-  min-height:34px;
-  padding:6px 9px;
-  background:#20334d;
-  color:white;
-  font-size:13px;
-  box-shadow:none;
-}
 
-#perfisView .p-footer{
-  margin-top:16px;
-  color:var(--p-muted);
-  font-size:11px;
-  line-height:1.8;
-}
+setStatus(  
 
-#perfisView .p-bottom-actions{
-  margin-top:16px;
-  display:flex;
-  justify-content:flex-end;
-}
+`✅ Estoque atualizado. ${rolos.length} registro(s) carregado(s).`,  
 
-#perfisView .p-empty{
-  text-align:center;
-  padding:35px;
-  color:var(--p-muted);
-}
+"ok"  
 
-#perfisView .p-modal-bg{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:1000;
-  background:#000b;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-}
+);  
 
-#perfisView .p-modal{
-  background:var(--p-panel);
-  border:1px solid var(--p-line);
-  border-radius:14px;
-  padding:20px;
-  width:100%;
-  max-width:430px;
-  max-height:90vh;
-  overflow-y:auto;
-}
 
-#perfisView .p-modal h2{
-  margin:0 0 15px;
-  color:white;
-  font-size:20px;
-}
+render();  
 
-#perfisView .p-form-field{margin:12px 0}
-
-#perfisView .p-form-field label{
-  display:block;
-  font-size:11px;
-  color:var(--p-muted);
-  margin-bottom:6px;
-  text-transform:none;
-}
 
-#perfisView .p-form-field input,
-#perfisView .p-form-field select{
-  width:100%;
-  min-height:42px;
-  padding:10px;
-  background:#0b1525;
-  border:1px solid var(--p-line);
-  border-radius:7px;
-  color:white;
-  font-size:14px;
-  box-shadow:none;
-}
+}  
+catch(error){  
 
-#perfisView .p-modal-actions{
-  display:flex;
-  gap:10px;
-  margin-top:18px;
-}
+console.error(error);  
 
-#perfisView .p-modal-actions button{flex:1}
-
-#perfisToast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#173e36;
-  color:#8df0c9;
-  border:1px solid #28765e;
-  padding:12px 20px;
-  border-radius:9px;
-  display:none;
-  z-index:1100;
-  font-size:13px;
-  max-width:90%;
-  text-align:center;
-}
 
-@media(max-width:650px){
-  .container{padding:14px 12px 35px}
-  .hero{padding:23px 20px;border-radius:18px}
-  .hero h1{font-size:25px}
-  .form,.filters{grid-template-columns:1fr}
-  .form button{min-height:50px}
-  .stats{gap:10px}
-  .stat{padding:16px 14px}
-  .stat strong{font-size:25px}
-  .card{padding:17px 15px;border-radius:16px}
-  .roll{align-items:flex-start;flex-direction:column;padding:16px 2px}
-  .roll-info{width:100%}
-  .roll-action{width:100%;justify-content:space-between}
-  .roll-action button{width:auto}
-  .meters{font-size:19px}
-  .resumo-tabela th,.resumo-tabela td{padding:11px 5px;font-size:13px}
-  .resumo-tabela th{font-size:10px}
-  .tabs{gap:4px}
-  .tab{font-size:12px}
-  #perfisView{padding:11px;border-radius:14px}
-  #perfisView .p-header{padding:15px}
-  #perfisView .p-title{font-size:21px}
-  #perfisView .p-stats{gap:6px}
-  #perfisView .p-stat{padding:11px 8px}
-  #perfisView .p-stat strong{font-size:20px}
-  #perfisView .p-stat span{font-size:9px}
-  #perfisView .p-toolbar{gap:6px}
-  #perfisView .p-btn{font-size:10px;padding:9px}
-}
+setStatus(  
+
+"❌ Erro ao carregar: " +  
+error.message,  
+
+"erro"  
+
+);  
+
+}  
+
+}  
+
+
+/* =====================================================  
+   ADICIONAR ROLO  
+   ===================================================== */  
+
+async function adicionar(){  
+
+const valor =  
+Number(  
+metragem.value  
+);  
+
+
+if(  
+
+!Number.isFinite(valor) ||  
+valor <= 0  
+
+){  
+
+alert(  
+"Digite uma metragem válida."  
+);  
+
+metragem.focus();  
+
+return;  
+
+}  
+
+
+if(salvando)  
+return;  
+
+
+salvando = true;  
+
+addBtn.disabled = true;  
+
+
+try{  
+
+setStatus(  
+"🔄 Salvando entrada no Supabase..."  
+);  
+
+
+const novo = {  
+
+tipo:  
+tipo.value,  
+
+metragem:  
+valor,  
+
+entrada_em:  
+new Date().toISOString(),  
+
+saida_em:  
+null  
+
+};  
+
+
+const dados =  
+await supabaseRequest(  
+
+tabelaUrl(),  
+
+{  
+
+method:"POST",  
+
+headers:{  
+"Prefer":  
+"return=representation"  
+},  
+
+body:  
+JSON.stringify(novo)  
+
+}  
+
+);  
+
+
+if(  
+
+Array.isArray(dados) &&  
+dados.length > 0  
+
+){  
+
+rolos.unshift(  
+dados[0]  
+);  
+
+}  
+else{  
+
+await carregarRolos();  
+
+}  
+
+
+metragem.value = "";  
+
+metragem.focus();  
+
+
+ setStatus(
+  "✅ Rolo adicionado ao estoque.",
+  "ok"
+);
+
+render();
+
+setTimeout(() => {
+  const primeiroRolo = lista.querySelector(".roll");
+
+  if(primeiroRolo){
+    primeiroRolo.classList.add("animar-entrada");
+  }
+}, 50);
+
+
+}  
+catch(error){  
+
+console.error(error);  
+
+
+setStatus(  
+
+"❌ Erro ao adicionar: " +  
+error.message,  
+
+"erro"  
+
+);  
+
+
+alert(  
+
+"Não foi possível adicionar o rolo.\n\n" +  
+error.message  
+
+);  
+
+}  
+finally{  
+
+salvando = false;  
+
+addBtn.disabled = false;  
+
+}  
+
+}  
+
+
+/* =====================================================  
+   REGISTRAR SAÍDA  
+   ===================================================== */  
+
+async function registrarSaida(id){  
+
+const rolo =  
+rolos.find(  
+
+r =>  
+String(r.id) ===  
+String(id)  
+
+);  
+
+
+if(!rolo)  
+return;  
+
+
+const confirmar =  
+confirm(  
+
+`Registrar saída do rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`  
+
+);  
+
+
+if(!confirmar)  
+return;  
+
+
+if(salvando)  
+return;  
+
+
+salvando = true;  
+
+
+try{  
+
+setStatus(  
+"🔄 Registrando saída no Supabase..."  
+);  
+
+
+const saidaEm =  
+new Date().toISOString();  
+
+
+const resultado =  
+await supabaseRequest(  
+
+`${tabelaUrl()}?id=eq.${encodeURIComponent(id)}`,  
+
+{  
+
+method:"PATCH",  
+
+headers:{  
+
+"Prefer":  
+"return=representation"  
+
+},  
+
+body:  
+JSON.stringify({  
+
+saida_em:  
+saidaEm  
+
+})  
 
-@media(max-width:380px){
-  .stats{grid-template-columns:1fr}
-  .tabs{grid-template-columns:1fr}
+}  
+
+);  
+
+
+if(  
+
+!Array.isArray(resultado) ||  
+resultado.length === 0  
+
+){  
+
+throw new Error(  
+
+"O Supabase não encontrou esse rolo para atualizar."  
+
+);  
+
+}  
+
+
+const elemento = lista.querySelector(
+  `.roll button[onclick*="'${id}'"]`
+);
+
+const roloElemento = elemento
+  ? elemento.closest(".roll")
+  : null;
+
+if(roloElemento){
+  roloElemento.classList.add("animar-saida");
+
+  await new Promise(resolve =>
+    setTimeout(resolve, 450)
+  );
 }
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-  <!-- CABEÇALHO -->
-  <div class="hero">
-    <div class="hero-content">
-      <h1>📦 Estoque de Rolos</h1>
-      <p class="subtitle">
-        Controle de metragens, cores, entradas, saídas e medidas dos perfis PVC.
-      </p>
-    </div>
-  </div>
-
-  <!-- NAVEGAÇÃO PRINCIPAL -->
-  <div class="tabs">
-    <button id="btnEntrada" class="tab active">📥 Entrada</button>
-    <button id="btnSaida" class="tab">📤 Saída</button>
-    <button id="btnPerfis" class="tab">📐 Perfis PVC</button>
-  </div>
-
-  <!-- =================================================
-       ÁREA DO ESTOQUE
-       ================================================= -->
-  <div id="estoqueView">
-
-    <!-- ADICIONAR ROLO -->
-    <div class="card">
-      <h2>➕ Adicionar novo rolo</h2>
-
-      <div class="form">
-        <div>
-          <label for="tipo">Tipo / Cor</label>
-          <select id="tipo">
-            <option>Preto liso</option>
-            <option>Preto texturado</option>
-            <option>Golden</option>
-            <option>Nogueira</option>
-            <option>Bronze</option>
-            <option>Pirita</option>
-            <option>Grafite</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="metragem">Metragem (m)</label>
-          <input id="metragem" type="number" min="0" step="0.01" placeholder="Ex.: 530">
-        </div>
-
-        <div style="align-self:end">
-          <button id="add">➕ Adicionar rolo</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ESTATÍSTICAS -->
-    <div class="stats">
-      <div class="stat">
-        📦 Rolos no estoque
-        <strong id="totalRolos">0</strong>
-      </div>
-
-      <div class="stat">
-        📏 Metros no estoque
-        <strong id="totalMetros">0 m</strong>
-      </div>
-    </div>
-
-    <!-- BUSCA -->
-    <div class="card">
-      <h2>🔎 Buscar no estoque</h2>
-
-      <div class="filters">
-        <input id="buscaMetragem" type="number" min="0" step="0.01"
-          placeholder="🔎 Buscar por metragem...">
-
-        <select id="filtroTipo">
-          <option value="">Todas as cores</option>
-          <option>Preto liso</option>
-          <option>Preto texturado</option>
-          <option>Golden</option>
-          <option>Nogueira</option>
-          <option>Bronze</option>
-          <option>Pirita</option>
-          <option>Grafite</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- LISTA -->
-    <div class="card">
-      <h2 id="tituloLista">📥 Rolos no estoque</h2>
-      <div id="lista"></div>
-      <div class="count" id="count"></div>
-    </div>
-
-    <!-- RESUMO -->
-    <div class="card">
-      <h2>📊 Resumo por tipo</h2>
-
-      <table class="resumo-tabela">
-        <thead>
-          <tr>
-            <th>Tipo</th>
-            <th>Rolos</th>
-            <th>Metragem total</th>
-            <th>M²</th>
-          </tr>
-        </thead>
-        <tbody id="resumoTipos"></tbody>
-      </table>
-    </div>
-
-    <!-- SUPABASE -->
-    <div class="card">
-      <h2>☁️ Estoque compartilhado</h2>
-
-      <button id="recarregar">🔄 Recarregar do Supabase</button>
-
-      <div id="status" class="status">
-        Conectando ao estoque...
-      </div>
-
-      <div class="small">
-        Os dados dos rolos são salvos no banco de dados
-        <strong>Supabase</strong>.
-      </div>
-    </div>
-
-  </div>
-
-  <!-- =================================================
-       ÁREA DE PERFIS PVC
-       ================================================= -->
-  <div id="perfisView" hidden>
-
-    <div class="p-header">
-      <div class="p-logo">BAZZE • PVC SYSTEM</div>
-      <h2 class="p-title">Perfis PVC Manager</h2>
-      <div class="p-subtitle">
-        Cadastro, consulta e gerenciamento de medidas dos perfis.
-      </div>
-    </div>
-
-    <section class="p-stats">
-      <div class="p-stat">
-        <strong id="pTotal">0</strong>
-        <span>Perfis cadastrados</span>
-      </div>
-
-      <div class="p-stat">
-        <strong id="pCompleto">0</strong>
-        <span>Perfis com medidas</span>
-      </div>
-
-      <div class="p-stat">
-        <strong id="pExclusivos">0</strong>
-        <span>Com externa exclusiva</span>
-      </div>
-    </section>
-
-    <div class="p-toolbar">
-      <input class="p-search" id="pSearch"
-        placeholder="Pesquisar perfil... Ex: HF 88">
-
-      <button class="p-btn p-primary" id="pOpenModal">
-        + Novo perfil
-      </button>
-
-      <button class="p-btn p-secondary" id="pExportar">
-        ↓ Exportar
-      </button>
-
-      <button class="p-btn p-secondary" id="pImportarBtn">
-        ↑ Importar
-      </button>
-
-      <input type="file" id="pImportFile" accept=".json" style="display:none">
-    </div>
-
-    <div class="p-status">
-      <span id="pResultados">Carregando...</span>
-      <span id="pSaveStatus">● Dados locais</span>
-    </div>
-
-    <div class="p-table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>PERFIL</th>
-            <th>MEDIDA EXTERNA</th>
-            <th>MEDIDA INTERNA</th>
-            <th>MEDIDA CENTRAL</th>
-            <th>EXTERNA SOMENTE</th>
-            <th>TIPO DE MEDIÇÃO</th>
-            <th>OBSERVAÇÃO</th>
-            <th>AÇÕES</th>
-          </tr>
-        </thead>
-        <tbody id="pTbody"></tbody>
-      </table>
-    </div>
-
-    <div class="p-footer">
-      <b>Como utilizar:</b><br>
-      • Clique em qualquer medida para alterar o tamanho.<br>
-      • A coluna "Externa somente" é independente da medida externa padrão.<br>
-      • Selecione "Somente externa" quando o perfil utilizar exclusivamente essa medida.<br>
-      • Os dados são salvos automaticamente neste navegador.<br>
-      • Exporte um arquivo JSON para manter uma cópia de segurança.<br>
-      • As medidas são independentes dos registros de estoque de rolos.
-    </div>
-
-    <div class="p-bottom-actions">
-      <button class="p-btn p-danger" id="pResetar">
-        Restaurar tabela original
-      </button>
-    </div>
-
-    <!-- MODAL NOVO PERFIL -->
-    <div class="p-modal-bg" id="pModalBg">
-      <div class="p-modal">
-        <h2>Novo perfil</h2>
-
-        <div class="p-form-field">
-          <label for="pNewName">Nome do perfil</label>
-          <input id="pNewName" placeholder="Ex: SF 120">
-        </div>
-
-        <div class="p-form-field">
-          <label for="pNewExt">Medida externa (mm)</label>
-          <input id="pNewExt" type="number" step="0.1" placeholder="Ex: 100">
-        </div>
-
-        <div class="p-form-field">
-          <label for="pNewInt">Medida interna (mm)</label>
-          <input id="pNewInt" type="number" step="0.1" placeholder="Opcional">
-        </div>
-
-        <div class="p-form-field">
-          <label for="pNewCent">Medida central (mm)</label>
-          <input id="pNewCent" type="number" step="0.1" placeholder="Opcional">
-        </div>
-
-        <div class="p-form-field">
-          <label for="pNewOnly">Externa somente (mm)</label>
-          <input id="pNewOnly" type="number" step="0.1" placeholder="Opcional">
-        </div>
-
-        <div class="p-form-field">
-          <label for="pNewMode">Tipo de medição</label>
-          <select id="pNewMode">
-            <option value="completa">Medidas completas</option>
-            <option value="somente">Somente externa</option>
-          </select>
-        </div>
-
-        <div class="p-modal-actions">
-          <button class="p-btn p-secondary" id="pCloseModal">Cancelar</button>
-          <button class="p-btn p-primary" id="pCadastrar">Cadastrar</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="perfisToast">Salvo com sucesso!</div>
-
-  </div>
+
+await carregarRolos();
+
+mostrarEntrada();
+
+setStatus(
+  "✅ Saída registrada com sucesso.",
+  "ok"
+);
+
+
+}  
+catch(error){  
+
+console.error(error);  
+
+
+setStatus(  
+
+"❌ Erro ao registrar saída: " +  
+error.message,  
+
+"erro"  
+
+);  
+
+
+alert(  
+
+"Não foi possível registrar a saída.\n\n" +  
+error.message  
+
+);  
+
+}  
+finally{  
+
+salvando = false;  
+
+}  
+
+}  
+
+
+/* =====================================================  
+   FORMATAÇÃO DE NÚMEROS  
+   ===================================================== */  
+
+function formatarNumero(numero){  
+
+return Number.isInteger(  
+Number(numero)  
+)  
+
+? String(numero)  
+
+: Number(numero).toLocaleString(  
+
+"pt-BR",  
+
+{  
+maximumFractionDigits:2  
+}  
+
+);  
+
+}  
+
+
+/* =====================================================  
+   FORMATAÇÃO DE DATA  
+   ===================================================== */  
+
+function formatarData(data){  
+
+if(!data)  
+return "—";  
+
+
+const d =  
+new Date(data);  
+
+
+if(  
+isNaN(d.getTime())  
+)  
+return "—";  
+
+
+return d.toLocaleString(  
+
+"pt-BR",  
+
+{  
+
+day:"2-digit",  
+month:"2-digit",  
+year:"numeric",  
+hour:"2-digit",  
+minute:"2-digit"  
+
+}  
+
+);  
+
+}  
+
+
+/* =====================================================  
+   RESUMO POR TIPO  
+   ===================================================== */  
+
+function renderResumo(){  
+
+const estoque =  
+rolos.filter(  
+
+r =>  
+!r.saida_em  
+
+);  
+
+
+resumoTipos.innerHTML =  
+
+tipos.map(  
+
+tipoAtual => {  
+
+
+const rolosTipo =  
+estoque.filter(  
+
+r =>  
+r.tipo === tipoAtual  
+
+);  
+
+
+const quantidade =  
+rolosTipo.length;  
+
+
+const metragemTotal =  
+rolosTipo.reduce(  
+
+(s,r) =>  
+s + Number(r.metragem),  
+
+0  
+
+);  
+
+const metrosQuadrados = metragemTotal * 0.66;
+
+
+return `  
+  
+<tr>  
+  
+<td>  
+  
+<div class="tipo-resumo">  
+  
+<span  
+class="dot"  
+style="background:${cores[tipoAtual] || "#999"}">  
+</span>  
+  
+${tipoAtual}  
+  
+</div>  
+  
+</td>  
+  
+<td>  
+${quantidade}  
+</td>  
+  
+<td class="total-tipo">
+${formatarNumero(metragemTotal)} m
+</td>
+
+<td class="total-tipo">
+${formatarNumero(metrosQuadrados)} m²
+</td>
+  
+</tr>  
+  
+`;  
+
+}  
+
+).join("");  
+
+}  
+
+
+/* =====================================================  
+   RENDER  
+   ===================================================== */  
+
+function render(){  
+
+const busca =  
+buscaMetragem.value.trim();  
+
+
+const tipoFiltro =  
+filtroTipo.value;  
+
+
+let filtrados =  
+rolos.filter(  
+
+r => {  
+
+
+const pertenceAba =  
+
+abaAtual === "entrada"  
+
+? !r.saida_em  
+
+: !!r.saida_em;  
+
+
+if(!pertenceAba)  
+return false;  
+
+
+const bateMetragem =  
+
+!busca ||  
+
+String(r.metragem)  
+.startsWith(busca);  
+
+
+const bateTipo =  
+
+!tipoFiltro ||  
+
+r.tipo === tipoFiltro;  
+
+
+return (  
+
+bateMetragem &&  
+bateTipo  
+
+);  
+
+}  
+
+);  
+
+
+filtrados.sort(  
+
+(a,b) => {  
+
+
+const dataA =  
+
+abaAtual === "entrada"  
+
+? b.entrada_em  
+: b.saida_em;  
+
+
+const dataB =  
+
+abaAtual === "entrada"  
+
+? a.entrada_em  
+: a.saida_em;  
+
+
+return (  
+
+new Date(dataA) -  
+new Date(dataB)  
+
+);  
+
+}  
+
+);  
+
+
+const estoque =  
+rolos.filter(  
+
+r =>  
+!r.saida_em  
+
+);  
+
+
+document.getElementById(  
+"totalRolos"  
+).textContent =  
+estoque.length;  
+
+
+document.getElementById(  
+"totalMetros"  
+).textContent =  
+
+formatarNumero(  
+
+estoque.reduce(  
+
+(s,r) =>  
+s + Number(r.metragem),  
+
+0  
+
+)  
+
+) + " m";  
+
+
+document.getElementById(  
+"count"  
+).textContent =  
+
+abaAtual === "entrada"  
+
+? `${filtrados.length} rolo(s) no estoque`  
+
+: `${filtrados.length} rolo(s) com saída`;  
+
+const rolosVisiveis =
+filtrados.slice(0, quantidadeVisivel);
+
+
+if(!rolosVisiveis.length){
+
+lista.innerHTML =  
+
+abaAtual === "entrada"  
+
+? `  
+  
+<div class="empty">  
+  
+Nenhum rolo no estoque.  
+  
+</div>  
+  
+`  
+
+: `  
+  
+<div class="empty">  
+  
+Nenhum rolo com saída registrada.  
+  
+</div>  
+  
+`;  
+
+}  
+
+else{  
+
+lista.innerHTML =  
+
+rolosVisiveis.map(
+
+r => `  
+  
+<div class="roll">  
+  
+<div class="roll-info">  
+  
+<span  
+class="dot"  
+style="background:${cores[r.tipo] || "#999"}">  
+</span>  
+  
+<div>  
+  
+<div class="name">  
+${r.tipo}  
+</div>  
+  
+<div class="count">  
+Rolo individual  
+</div>  
+  
+<div class="date">  
+📥 Entrada:  
+${formatarData(r.entrada_em)}  
+</div>  
+  
+${  
+r.saida_em  
+  
+?  
+  
+`  
+  
+<div class="saida-date">  
+  
+📤 Saída:  
+${formatarData(r.saida_em)}  
+  
+</div>  
+  
+`  
+  
+:  
+  
+""  
+  
+}  
+  
+</div>  
+  
+</div>  
+  
+<div  
+class="roll-action"  
+>  
+  
+<span class="meters">  
+  
+${formatarNumero(r.metragem)} m  
+  
+</span>  
+  
+${  
+abaAtual === "entrada"  
+  
+?  
+  
+`  
+  
+<button  
+class="delete"  
+onclick="registrarSaida('${r.id}')"  
+>  
+  
+📤 Saída  
+  
+</button>  
+  
+`  
+  
+:  
+  
+""  
+  
+}  
+  
+</div>  
+  
+</div>  
+  
+`  
+
+).join("");  
+
+}  
+
+
+
+
+
+if(filtrados.length > quantidadeVisivel){
+
+lista.innerHTML += `
+
+<div style="text-align:center;margin-top:15px;">
+
+<button
+onclick="verMais()"
+style="width:auto;padding:10px 20px;"
+>
+
+⬇️ Ver mais
+
+</button>
 
 </div>
 
-<script>
-/* =====================================================
-   ESTOQUE DE ROLOS — SUPABASE
-   ===================================================== */
+`;
 
-const SUPABASE_URL = "https://pipnkvlicwfraisywrzl.supabase.co";
-const SUPABASE_KEY = "sb_publishable_7v_jngycgXi9ZEqLYhFl8Q_FWwhcc_v";
-const SUPABASE_TABLE = "rolos";
-
-const tipos = [
-  "Preto liso",
-  "Preto texturado",
-  "Golden",
-  "Nogueira",
-  "Bronze",
-  "Pirita",
-  "Grafite"
-];
-
-const cores = {
-  "Preto liso":"#111111",
-  "Preto texturado":"#333333",
-  "Golden":"#d4af37",
-  "Nogueira":"#6b4226",
-  "Bronze":"#cd7f32",
-  "Pirita":"#8b8b83",
-  "Grafite":"#555555"
-};
-
-let rolos = [];
-let abaAtual = "entrada";
-let salvando = false;
-let quantidadeVisivel = 5;
-
-/* ELEMENTOS DO ESTOQUE */
-
-const tipo = document.getElementById("tipo");
-const metragem = document.getElementById("metragem");
-const buscaMetragem = document.getElementById("buscaMetragem");
-const filtroTipo = document.getElementById("filtroTipo");
-const lista = document.getElementById("lista");
-const resumoTipos = document.getElementById("resumoTipos");
-const statusEl = document.getElementById("status");
-const addBtn = document.getElementById("add");
-
-const btnEntrada = document.getElementById("btnEntrada");
-const btnSaida = document.getElementById("btnSaida");
-const btnPerfis = document.getElementById("btnPerfis");
-
-const estoqueView = document.getElementById("estoqueView");
-const perfisView = document.getElementById("perfisView");
-
-/* NAVEGAÇÃO PRINCIPAL */
-
-function mostrarAbaEstoque(modo){
-  estoqueView.hidden = false;
-  perfisView.hidden = true;
-
-  abaAtual = modo;
-
-  btnEntrada.classList.toggle("active",modo === "entrada");
-  btnSaida.classList.toggle("active",modo === "saida");
-  btnPerfis.classList.remove("active");
-
-  if(modo === "entrada"){
-    document.getElementById("tituloLista").textContent = "📥 Rolos no estoque";
-  }else{
-    document.getElementById("tituloLista").textContent = "📤 Rolos que saíram";
-  }
-
-  render();
 }
 
-function mostrarAbaPerfis(){
-  estoqueView.hidden = true;
-  perfisView.hidden = false;
 
-  btnEntrada.classList.remove("active");
-  btnSaida.classList.remove("active");
-  btnPerfis.classList.add("active");
 
-  renderPerfis();
-}
 
-btnEntrada.addEventListener("click",()=>mostrarAbaEstoque("entrada"));
-btnSaida.addEventListener("click",()=>mostrarAbaEstoque("saida"));
-btnPerfis.addEventListener("click",mostrarAbaPerfis);
 
-/* STATUS */
 
-function setStatus(texto,classe=""){
-  statusEl.textContent = texto;
-  statusEl.className = "status " + classe;
-}
+renderResumo();  
 
-/* CABEÇALHOS SUPABASE */
+}  
 
-function supabaseHeaders(){
-  return {
-    "apikey":SUPABASE_KEY,
-    "Authorization":"Bearer " + SUPABASE_KEY,
-    "Content-Type":"application/json",
-    "Accept":"application/json"
-  };
-}
 
-/* REQUISIÇÃO SUPABASE */
-
-async function supabaseRequest(url,options={}){
-  const response = await fetch(url,{
-    ...options,
-    headers:{
-      ...supabaseHeaders(),
-      ...(options.headers || {})
-    }
-  });
-
-  let data = null;
-
-  try{
-    data = await response.json();
-  }catch(error){
-    data = null;
-  }
-
-  if(!response.ok){
-    throw new Error(
-      data?.message ||
-      data?.error_description ||
-      data?.hint ||
-      `Erro HTTP ${response.status}`
-    );
-  }
-
-  return data;
-}
-
-function tabelaUrl(){
-  return `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`;
-}
-
-/* CARREGAR ROLOS */
-
-async function carregarRolos(){
-  try{
-    setStatus("🔄 Carregando estoque do Supabase...");
-
-    const dados = await supabaseRequest(
-      `${tabelaUrl()}?select=*`,
-      {method:"GET"}
-    );
-
-    rolos = Array.isArray(dados) ? dados : [];
-
-    setStatus(
-      `✅ Estoque atualizado. ${rolos.length} registro(s) carregado(s).`,
-      "ok"
-    );
-
-    render();
-
-  }catch(error){
-    console.error(error);
-
-    setStatus(
-      "❌ Erro ao carregar: " + error.message,
-      "erro"
-    );
-  }
-}
-
-/* ADICIONAR ROLO */
-
-async function adicionarRolo(){
-  const valor = Number(metragem.value);
-
-  if(!Number.isFinite(valor) || valor <= 0){
-    alert("Digite uma metragem válida.");
-    metragem.focus();
-    return;
-  }
-
-  if(salvando)return;
-
-  salvando = true;
-  addBtn.disabled = true;
-
-  try{
-    setStatus("🔄 Salvando entrada no Supabase...");
-
-    const novo = {
-      tipo:tipo.value,
-      metragem:valor,
-      entrada_em:new Date().toISOString(),
-      saida_em:null
-    };
-
-    const dados = await supabaseRequest(
-      tabelaUrl(),
-      {
-        method:"POST",
-        headers:{"Prefer":"return=representation"},
-        body:JSON.stringify(novo)
-      }
-    );
-
-    if(Array.isArray(dados) && dados.length > 0){
-      rolos.unshift(dados[0]);
-    }else{
-      await carregarRolos();
-    }
-
-    metragem.value = "";
-    metragem.focus();
-
-    setStatus("✅ Rolo adicionado ao estoque.","ok");
-
-    render();
-
-    setTimeout(()=>{
-      const primeiroRolo = lista.querySelector(".roll");
-      if(primeiroRolo){
-        primeiroRolo.classList.add("animar-entrada");
-      }
-    },50);
-
-  }catch(error){
-    console.error(error);
-
-    setStatus("❌ Erro ao adicionar: " + error.message,"erro");
-
-    alert(
-      "Não foi possível adicionar o rolo.\n\n" +
-      error.message
-    );
-
-  }finally{
-    salvando = false;
-    addBtn.disabled = false;
-  }
-}
-
-/* REGISTRAR SAÍDA */
-
-async function registrarSaida(id){
-  const rolo = rolos.find(r=>String(r.id)===String(id));
-
-  if(!rolo)return;
-
-  const confirmar = confirm(
-    `Registrar saída do rolo de ${formatarNumero(rolo.metragem)} m — ${rolo.tipo}?`
-  );
-
-  if(!confirmar)return;
-  if(salvando)return;
-
-  salvando = true;
-
-  try{
-    setStatus("🔄 Registrando saída no Supabase...");
-
-    const saidaEm = new Date().toISOString();
-
-    const resultado = await supabaseRequest(
-      `${tabelaUrl()}?id=eq.${encodeURIComponent(id)}`,
-      {
-        method:"PATCH",
-        headers:{"Prefer":"return=representation"},
-        body:JSON.stringify({saida_em:saidaEm})
-      }
-    );
-
-    if(!Array.isArray(resultado) || resultado.length === 0){
-      throw new Error("O Supabase não encontrou esse rolo para atualizar.");
-    }
-
-    const elemento = lista.querySelector(
-      `.roll button[data-id="${CSS.escape(String(id))}"]`
-    );
-
-    const roloElemento = elemento ? elemento.closest(".roll") : null;
-
-    if(roloElemento){
-      roloElemento.classList.add("animar-saida");
-
-      await new Promise(resolve=>setTimeout(resolve,450));
-    }
-
-    await carregarRolos();
-    mostrarAbaEstoque("entrada");
-
-    setStatus("✅ Saída registrada com sucesso.","ok");
-
-  }catch(error){
-    console.error(error);
-
-    setStatus("❌ Erro ao registrar saída: " + error.message,"erro");
-
-    alert(
-      "Não foi possível registrar a saída.\n\n" +
-      error.message
-    );
-
-  }finally{
-    salvando = false;
-  }
-}
-
-/* FORMATAÇÃO */
-
-function formatarNumero(numero){
-  return Number.isInteger(Number(numero))
-    ? String(numero)
-    : Number(numero).toLocaleString("pt-BR",{maximumFractionDigits:2});
-}
-
-function formatarData(data){
-  if(!data)return "—";
-
-  const d = new Date(data);
-
-  if(isNaN(d.getTime()))return "—";
-
-  return d.toLocaleString("pt-BR",{
-    day:"2-digit",
-    month:"2-digit",
-    year:"numeric",
-    hour:"2-digit",
-    minute:"2-digit"
-  });
-}
-
-/* RESUMO POR TIPO */
-
-function renderResumo(){
-  const estoque = rolos.filter(r=>!r.saida_em);
-
-  resumoTipos.innerHTML = tipos.map(tipoAtual=>{
-    const rolosTipo = estoque.filter(r=>r.tipo===tipoAtual);
-    const quantidade = rolosTipo.length;
-
-    const metragemTotal = rolosTipo.reduce(
-      (s,r)=>s+Number(r.metragem),0
-    );
-
-    const metrosQuadrados = metragemTotal * 0.66;
-
-    return `
-      <tr>
-        <td>
-          <div class="tipo-resumo">
-            <span class="dot" style="background:${cores[tipoAtual] || "#999"}"></span>
-            ${tipoAtual}
-          </div>
-        </td>
-        <td>${quantidade}</td>
-        <td class="total-tipo">${formatarNumero(metragemTotal)} m</td>
-        <td class="total-tipo">${formatarNumero(metrosQuadrados)} m²</td>
-      </tr>
-    `;
-  }).join("");
-}
-
-/* RENDER DO ESTOQUE */
-
-function render(){
-  const busca = buscaMetragem.value.trim();
-  const tipoFiltro = filtroTipo.value;
-
-  let filtrados = rolos.filter(r=>{
-    const pertenceAba = abaAtual === "entrada"
-      ? !r.saida_em
-      : !!r.saida_em;
-
-    if(!pertenceAba)return false;
-
-    const bateMetragem = !busca ||
-      String(r.metragem).startsWith(busca);
-
-    const bateTipo = !tipoFiltro || r.tipo===tipoFiltro;
-
-    return bateMetragem && bateTipo;
-  });
-
-  filtrados.sort((a,b)=>{
-    const dataA = abaAtual === "entrada" ? b.entrada_em : b.saida_em;
-    const dataB = abaAtual === "entrada" ? a.entrada_em : a.saida_em;
-
-    return new Date(dataA)-new Date(dataB);
-  });
-
-  const estoque = rolos.filter(r=>!r.saida_em);
-
-  document.getElementById("totalRolos").textContent = estoque.length;
-
-  document.getElementById("totalMetros").textContent =
-    formatarNumero(
-      estoque.reduce((s,r)=>s+Number(r.metragem),0)
-    ) + " m";
-
-  document.getElementById("count").textContent =
-    abaAtual === "entrada"
-      ? `${filtrados.length} rolo(s) no estoque`
-      : `${filtrados.length} rolo(s) com saída`;
-
-  const rolosVisiveis = filtrados.slice(0,quantidadeVisivel);
-
-  if(!rolosVisiveis.length){
-    lista.innerHTML = `
-      <div class="empty">
-        ${abaAtual==="entrada"
-          ? "Nenhum rolo no estoque."
-          : "Nenhum rolo com saída registrada."}
-      </div>
-    `;
-  }else{
-    lista.innerHTML = rolosVisiveis.map(r=>`
-      <div class="roll">
-        <div class="roll-info">
-          <span class="dot" style="background:${cores[r.tipo] || "#999"}"></span>
-
-          <div>
-            <div class="name">${escapeTexto(r.tipo)}</div>
-
-            <div class="count">Rolo individual</div>
-
-            <div class="date">
-              📥 Entrada: ${formatarData(r.entrada_em)}
-            </div>
-
-            ${r.saida_em ? `
-              <div class="saida-date">
-                📤 Saída: ${formatarData(r.saida_em)}
-              </div>
-            ` : ""}
-          </div>
-        </div>
-
-        <div class="roll-action">
-          <span class="meters">${formatarNumero(r.metragem)} m</span>
-
-          ${abaAtual==="entrada" ? `
-            <button class="delete" data-id="${escapeTexto(r.id)}"
-              onclick="registrarSaida(this.dataset.id)">
-              📤 Saída
-            </button>
-          ` : ""}
-        </div>
-      </div>
-    `).join("");
-  }
-
-  if(filtrados.length > quantidadeVisivel){
-    lista.innerHTML += `
-      <div style="text-align:center;margin-top:15px">
-        <button onclick="verMais()" style="width:auto;padding:10px 20px">
-          ⬇️ Ver mais
-        </button>
-      </div>
-    `;
-  }
-
-  renderResumo();
-}
 
 function verMais(){
-  quantidadeVisivel += 5;
-  render();
+
+quantidadeVisivel += 5;
+
+render();
+
 }
 
-/* SEGURANÇA DE TEXTO DO ESTOQUE */
 
-function escapeTexto(valor){
-  return String(valor ?? "").replace(/[&<>"']/g,c=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  })[c]);
-}
+/* =====================================================  
+   MOSTRAR ENTRADA  
+   ===================================================== */  
 
-/* EVENTOS DO ESTOQUE */
+function mostrarEntrada(){  
 
-document.getElementById("add").addEventListener("click",adicionarRolo);
+abaAtual =  
+"entrada";  
 
-metragem.addEventListener("keydown",event=>{
-  if(event.key==="Enter")adicionarRolo();
-});
 
-buscaMetragem.addEventListener("input",render);
-filtroTipo.addEventListener("change",render);
+btnEntrada  
+.classList  
+.add("active");  
 
-document.getElementById("recarregar").addEventListener(
-  "click",carregarRolos
-);
 
-/* =====================================================
-   GERENCIADOR DE PERFIS PVC
-   CÓDIGO ISOLADO PARA NÃO CONFLITAR COM O ESTOQUE
-   ===================================================== */
+btnSaida  
+.classList  
+.remove("active");  
 
-(function(){
 
-  "use strict";
+document.getElementById(  
+"tituloLista"  
+).textContent =  
+"📥 Rolos no estoque";  
 
-  const STORAGE_KEY = "perfis_pvc_manager_v1";
 
-  /* TABELA ORIGINAL */
+render();  
 
-  const original = [
-    ["GB 8",32,"",""],
-    ["GB 12",35,"",""],
-    ["GB 15",38,"",""],
-    ["GB 19",42,"",""],
-    ["GB 22",44,"",""],
-    ["GB 25",46,"",""],
-    ["GB 28",49,"",""],
-    ["GB 31",50,"",""],
-    ["GB 34",53,"",""],
-    ["GB 38",56,"",""],
+}  
 
-    ["HF 88",93,90,122],
-    ["HF 112",93,93,140],
-    ["HF 166",105,105,180],
 
-    ["BR 60",85,55,""],
-    ["BR 88",75,65,""],
+/* =====================================================  
+   MOSTRAR SAÍDA  
+   ===================================================== */  
 
-    ["SF 66",90,70,""],
-    ["SF 92",116,95,""],
-    ["SF 111",145,114,""],
-    ["SF 106",133,77,""],
-    ["SF 78C",107,55,""],
+function mostrarSaida(){  
 
-    ["SE 76N",104,45,""],
+abaAtual =  
+"saida";  
 
-    ["FR 106",110,104,""],
-    ["FR 73",80,80,""],
-
-    ["SP 66",86,44,""],
-
-    ["GM 42",43,43,50],
-
-    ["KT 65",70,"",""],
-    ["KT 42",60,"",""],
 
-    ["IL 60",70,"",""],
-    ["IL 42",55,"",""],
+btnSaida  
+.classList  
+.add("active");  
 
-    ["JT 61",100,31,""],
 
-    ["BZ 3016 (pingadeira)",57,"",""],
-    ["BZ 1770 (guarnição)",110,"",""],
-    ["BZ 4556 (guia central)",94,100,""],
-    ["BZ 5563 (guia lateral)",95,70,""],
-    ["BZ 0010 (aplique)",50,"",""],
+btnEntrada  
+.classList  
+.remove("active");  
 
-    ["CA 6",25,"",""],
 
-    ["PP 150 N",175,175,""],
+document.getElementById(  
+"tituloLista"  
+).textContent =  
+"📤 Rolos que saíram";  
 
-    ["BZ 20010 (caixa)",210,"",""],
 
-    ["COL 50X50",70,40,""],
-    ["COL 100X50",70,"",""],
-    ["COL 100X100",120,90,""],
-    ["COL 150X50",70,80,""],
-    ["COL 125X125",145,115,""],
+render();  
 
-    ["VENEZ 42",60,60,""],
-    ["VENEZ 60",90,90,""],
-
-    ["PINAZIO",50,"",""]
-
-  ].map(item=>({
-    id:gerarId(),
-    nome:item[0],
-    externa:item[1],
-    interna:item[2],
-    central:item[3],
-    externaSomente:"",
-    modo:"completa",
-    observacao:""
-  }));
-
-  function gerarId(){
-    if(window.crypto && crypto.randomUUID){
-      return crypto.randomUUID();
-    }
-
-    return "perfil-" + Date.now() + "-" +
-      Math.random().toString(16).slice(2);
-  }
-
-  /* ELEMENTOS */
-
-  const el = id=>document.getElementById(id);
-
-  const tbody = el("pTbody");
-  const search = el("pSearch");
-  const modalBg = el("pModalBg");
-  const importFile = el("pImportFile");
-
-  let perfis = carregarPerfis();
-  let toastTimer = null;
-
-  /* CARREGAMENTO LOCAL */
-
-  function carregarPerfis(){
-    try{
-      const dados = localStorage.getItem(STORAGE_KEY);
-
-      if(dados){
-        const lista = JSON.parse(dados);
-
-        if(Array.isArray(lista)){
-          return lista.map(p=>({
-            id:p.id || gerarId(),
-            nome:p.nome || "",
-            externa:p.externa ?? "",
-            interna:p.interna ?? "",
-            central:p.central ?? "",
-            externaSomente:p.externaSomente ?? "",
-            modo:p.modo || "completa",
-            observacao:p.observacao || ""
-          }));
-        }
-      }
-    }catch(error){
-      console.error("Erro ao carregar perfis:",error);
-    }
-
-    return clonarOriginal();
-  }
-
-  function clonarOriginal(){
-    return original.map(p=>({
-      ...p,
-      id:gerarId()
-    }));
-  }
-
-  /* SALVAR */
-
-  function salvar(silencioso=false){
-    try{
-      localStorage.setItem(STORAGE_KEY,JSON.stringify(perfis));
-
-      atualizarStats();
-
-      el("pSaveStatus").textContent = "● Salvo automaticamente";
-
-      if(!silencioso){
-        toast("Alterações salvas!");
-      }
-
-    }catch(error){
-      console.error(error);
-      toast("Não foi possível salvar os dados neste navegador.");
-    }
-  }
-
-  /* ESTATÍSTICAS */
-
-  function atualizarStats(){
-    el("pTotal").textContent = perfis.length;
-
-    el("pCompleto").textContent =
-      perfis.filter(p=>p.externa!=="" && p.externa!=null).length;
-
-    el("pExclusivos").textContent =
-      perfis.filter(p=>p.externaSomente!=="" && p.externaSomente!=null).length;
-  }
-
-  /* SEGURANÇA */
-
-  function escapeHTML(valor){
-    return String(valor ?? "").replace(/[&<>"']/g,c=>({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    })[c]);
-  }
-
-  /* RENDERIZAÇÃO */
-
-  function renderPerfis(){
-    const busca = search.value.toLowerCase().trim();
-
-    const filtrados = perfis.filter(p=>
-      p.nome.toLowerCase().includes(busca)
-    );
-
-    el("pResultados").textContent =
-      filtrados.length + " perfil(is) encontrado(s)";
-
-    if(!filtrados.length){
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="8" class="p-empty">
-            Nenhum perfil encontrado.
-          </td>
-        </tr>
-      `;
-
-      atualizarStats();
-      return;
-    }
-
-    tbody.innerHTML = filtrados.map(p=>`
-      <tr>
-        <td>
-          <span class="p-profile">${escapeHTML(p.nome)}</span>
-
-          <span class="p-category">
-            ${p.modo==="somente" ? "EXTERNA EXCLUSIVA" : "MEDIDAS PADRÃO"}
-          </span>
-        </td>
-
-        ${campo(p,"externa")}
-        ${campo(p,"interna")}
-        ${campo(p,"central")}
-        ${campo(p,"externaSomente",true)}
-
-        <td>
-          <select class="p-mode"
-            data-id="${escapeHTML(p.id)}"
-            onchange="window.alterarModoPerfil(this.dataset.id,this.value)">
-            <option value="completa" ${p.modo==="completa"?"selected":""}>
-              Completa
-            </option>
-
-            <option value="somente" ${p.modo==="somente"?"selected":""}>
-              Somente externa
-            </option>
-          </select>
-        </td>
-
-        <td>
-          <input class="p-note"
-            value="${escapeHTML(p.observacao || "")}"
-            placeholder="Observação..."
-            data-id="${escapeHTML(p.id)}"
-            onchange="window.alterarObservacaoPerfil(this.dataset.id,this.value)">
-        </td>
-
-        <td>
-          <div class="p-actions">
-            <button class="p-icon-btn"
-              title="Editar nome"
-              data-id="${escapeHTML(p.id)}"
-              onclick="window.editarNomePerfil(this.dataset.id)">✎</button>
-
-            <button class="p-icon-btn"
-              title="Excluir"
-              data-id="${escapeHTML(p.id)}"
-              onclick="window.excluirPerfil(this.dataset.id)">×</button>
-          </div>
-        </td>
-      </tr>
-    `).join("");
-
-    atualizarStats();
-  }
-
-  /* CAMPOS EDITÁVEIS */
-
-  function campo(p,chave,extra=false){
-    const valor = p[chave] ?? "";
-
-    return `
-      <td class="${extra ? "p-extra-cell" : ""}">
-        <input
-          class="p-measure"
-          type="number"
-          step="0.1"
-          inputmode="decimal"
-          value="${escapeHTML(valor)}"
-          placeholder="—"
-          title="Editar medida em milímetros"
-          data-id="${escapeHTML(p.id)}"
-          data-chave="${chave}"
-          onchange="window.alterarMedidaPerfil(this.dataset.id,this.dataset.chave,this.value)"
-        >
-        <span class="p-unit">mm</span>
-      </td>
-    `;
-  }
-
-  function alterarMedida(id,chave,valor){
-    const p = perfis.find(x=>x.id===id);
-
-    if(!p)return;
-
-    if(!["externa","interna","central","externaSomente"].includes(chave)){
-      return;
-    }
-
-    if(valor===""){
-      p[chave]="";
-    }else{
-      const numero = Number(valor);
-
-      if(!Number.isFinite(numero) || numero<0){
-        toast("Digite uma medida válida.");
-        renderPerfis();
-        return;
-      }
-
-      p[chave]=numero;
-    }
-
-    salvar();
-  }
-
-  function alterarModo(id,valor){
-    const p = perfis.find(x=>x.id===id);
-
-    if(!p)return;
-
-    p.modo = valor;
-
-    salvar(true);
-    renderPerfis();
-    toast("Tipo de medição atualizado!");
-  }
-
-  function alterarObservacao(id,valor){
-    const p = perfis.find(x=>x.id===id);
-
-    if(!p)return;
-
-    p.observacao = valor;
-    salvar();
-  }
-
-  /* MODAL */
-
-  function openModal(){
-    modalBg.style.display = "flex";
-    el("pNewName").focus();
-  }
-
-  function closeModal(){
-    modalBg.style.display = "none";
-  }
-
-  function numeroDoCampo(id){
-    const valor = el(id).value;
-
-    if(valor==="")return "";
-
-    const numero = Number(valor);
-
-    if(!Number.isFinite(numero) || numero<0){
-      throw new Error("Confira os valores das medidas.");
-    }
-
-    return numero;
-  }
-
-  function adicionarPerfil(){
-    const nome = el("pNewName").value.trim();
-
-    if(!nome){
-      toast("Informe o nome do perfil.");
-      el("pNewName").focus();
-      return;
-    }
-
-    if(perfis.some(p=>p.nome.toLowerCase()===nome.toLowerCase())){
-      toast("Esse perfil já está cadastrado.");
-      return;
-    }
-
-    let externa,interna,central,externaSomente;
-
-    try{
-      externa = numeroDoCampo("pNewExt");
-      interna = numeroDoCampo("pNewInt");
-      central = numeroDoCampo("pNewCent");
-      externaSomente = numeroDoCampo("pNewOnly");
-    }catch(error){
-      toast(error.message);
-      return;
-    }
-
-    perfis.push({
-      id:gerarId(),
-      nome,
-      externa,
-      interna,
-      central,
-      externaSomente,
-      modo:el("pNewMode").value,
-      observacao:""
-    });
-
-    [
-      "pNewName",
-      "pNewExt",
-      "pNewInt",
-      "pNewCent",
-      "pNewOnly"
-    ].forEach(id=>el(id).value="");
-
-    el("pNewMode").value = "completa";
-
-    closeModal();
-    salvar(true);
-    renderPerfis();
-
-    toast("Novo perfil cadastrado!");
-  }
-
-  /* EDITAR NOME */
-
-  function editarNome(id){
-    const p = perfis.find(x=>x.id===id);
-
-    if(!p)return;
-
-    const nome = prompt("Novo nome do perfil:",p.nome);
-
-    if(nome===null || !nome.trim())return;
-
-    const nomeFinal = nome.trim();
-
-    if(perfis.some(x=>
-      x.id!==id &&
-      x.nome.toLowerCase()===nomeFinal.toLowerCase()
-    )){
-      toast("Já existe um perfil com esse nome.");
-      return;
-    }
-
-    p.nome = nomeFinal;
-
-    salvar(true);
-    renderPerfis();
-
-    toast("Nome atualizado!");
-  }
-
-  /* EXCLUIR */
-
-  function excluir(id){
-    const p = perfis.find(x=>x.id===id);
-
-    if(!p)return;
-
-    if(!confirm("Deseja excluir o perfil " + p.nome + "?")){
-      return;
-    }
-
-    perfis = perfis.filter(x=>x.id!==id);
-
-    salvar(true);
-    renderPerfis();
-
-    toast("Perfil excluído.");
-  }
-
-  /* EXPORTAR */
-
-  function exportar(){
-    const conteudo = JSON.stringify(perfis,null,2);
-
-    const blob = new Blob([conteudo],{
-      type:"application/json"
-    });
-
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-
-    a.href = url;
-    a.download = "perfis-pvc-backup.json";
-
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-
-    URL.revokeObjectURL(url);
-
-    toast("Backup exportado!");
-  }
-
-  /* IMPORTAR */
-
-  function importar(event){
-    const arquivo = event.target.files[0];
-
-    if(!arquivo)return;
-
-    const reader = new FileReader();
-
-    reader.onload = e=>{
-      try{
-        const dados = JSON.parse(e.target.result);
-
-        if(!Array.isArray(dados)){
-          throw new Error("Arquivo inválido");
-        }
-
-        const valido = dados.every(p=>
-          p &&
-          typeof p.nome==="string" &&
-          ["externa","interna","central","externaSomente"].every(k=>
-            p[k]==="" ||
-            p[k]==null ||
-            (
-              typeof p[k]==="number" &&
-              Number.isFinite(p[k]) &&
-              p[k]>=0
-            )
-          )
-        );
-
-        if(!valido){
-          throw new Error("Estrutura inválida");
-        }
-
-        if(!confirm(
-          "Importar " + dados.length +
-          " perfis? Os dados atuais serão substituídos."
-        )){
-          return;
-        }
-
-        perfis = dados.map(p=>({
-          id:p.id || gerarId(),
-          nome:p.nome,
-          externa:p.externa ?? "",
-          interna:p.interna ?? "",
-          central:p.central ?? "",
-          externaSomente:p.externaSomente ?? "",
-          modo:p.modo || "completa",
-          observacao:p.observacao || ""
-        }));
-
-        salvar(true);
-        renderPerfis();
-
-        toast("Dados importados!");
-
-      }catch(error){
-        console.error(error);
-        toast("Erro: arquivo de backup inválido.");
-      }finally{
-        event.target.value = "";
-      }
-    };
-
-    reader.readAsText(arquivo);
-  }
-
-  /* RESTAURAR ORIGINAL */
-
-  function resetar(){
-    if(!confirm(
-      "ATENÇÃO!\n\nIsso apagará todas as alterações e novos perfis.\n\nDeseja restaurar a tabela original?"
-    )){
-      return;
-    }
-
-    perfis = clonarOriginal();
-
-    salvar(true);
-    renderPerfis();
-
-    toast("Tabela original restaurada!");
-  }
-
-  /* NOTIFICAÇÃO */
-
-  function toast(mensagem){
-    const elemento = el("perfisToast");
-
-    elemento.textContent = mensagem;
-    elemento.style.display = "block";
-
-    clearTimeout(toastTimer);
-
-    toastTimer = setTimeout(()=>{
-      elemento.style.display = "none";
-    },2300);
-  }
-
-  /* EVENTOS DO GERENCIADOR */
-
-  search.addEventListener("input",renderPerfis);
-
-  el("pOpenModal").addEventListener("click",openModal);
-  el("pCloseModal").addEventListener("click",closeModal);
-  el("pCadastrar").addEventListener("click",adicionarPerfil);
-
-  el("pExportar").addEventListener("click",exportar);
-  el("pImportarBtn").addEventListener("click",()=>importFile.click());
-  importFile.addEventListener("change",importar);
-
-  el("pResetar").addEventListener("click",resetar);
-
-  modalBg.addEventListener("click",event=>{
-    if(event.target===modalBg){
-      closeModal();
-    }
-  });
-
-  el("pNewName").addEventListener("keydown",event=>{
-    if(event.key==="Enter"){
-      adicionarPerfil();
-    }
-  });
-
-  /* FUNÇÕES USADAS PELOS EVENTOS HTML */
-
-  window.alterarMedidaPerfil = alterarMedida;
-  window.alterarModoPerfil = alterarModo;
-  window.alterarObservacaoPerfil = alterarObservacao;
-  window.editarNomePerfil = editarNome;
-  window.excluirPerfil = excluir;
-
-  /* INICIALIZAÇÃO */
-
-  renderPerfis();
-  atualizarStats();
-
-})();
-
-/* =====================================================
-   INICIALIZAÇÃO DO ESTOQUE
-   ===================================================== */
-
-carregarRolos();
-
-</script>
-
-</body>
+}  
+
+
+/* =====================================================  
+   EVENTOS  
+   ===================================================== */  
+
+document.getElementById(  
+"add"  
+).addEventListener(  
+
+"click",  
+
+adicionar  
+
+);  
+
+
+metragem.addEventListener(  
+
+"keydown",  
+
+event => {  
+
+if(  
+event.key === "Enter"  
+){  
+
+adicionar();  
+
+}  
+
+}  
+
+);  
+
+
+buscaMetragem.addEventListener(  
+
+"input",  
+
+render  
+
+);  
+
+
+filtroTipo.addEventListener(  
+
+"change",  
+
+render  
+
+);  
+
+
+btnEntrada.addEventListener(  
+
+"click",  
+
+mostrarEntrada  
+
+);  
+
+
+btnSaida.addEventListener(  
+
+"click",  
+
+mostrarSaida  
+
+);  
+
+
+document.getElementById(  
+"recarregar"  
+).addEventListener(  
+
+"click",  
+
+carregarRolos  
+
+);  
+
+
+/* =====================================================  
+   INÍCIO  
+   ===================================================== */  
+
+carregarRolos();  
+
+</script>  
+
+<script src="perfis-pvc.js"></script>
+
+</body>  
 </html>
